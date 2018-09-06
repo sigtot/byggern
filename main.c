@@ -4,9 +4,12 @@
 
 #include <util/delay.h>
 #include "led.h"
+#include "driver.h"
 
 int main(){
 	led_init();
+
+	UART_Init ();
 
 	while(1){
 		led_turn_on();
