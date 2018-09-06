@@ -1,5 +1,5 @@
 #ifndef F_CPU
-#define F_CPU 1000000
+#define F_CPU 4915200
 #endif
 
 #include <util/delay.h>
@@ -7,15 +7,11 @@
 #include "driver.h"
 
 int main(){
-	led_init();
-
 	UART_Init ();
 
 	while(1){
-		led_turn_on();
-		_delay_ms(1000);
-
-		led_turn_off();
+		//printf("%s", UART_Receive())
+		UART_Transmit('d');
 		_delay_ms(1000);
 	}
 

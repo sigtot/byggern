@@ -1,5 +1,5 @@
-#include "/usr/lib/avr/include/avr/io.h"
-#define FOSC 1843200 // Clock Speed
+#include <avr/io.h>
+#define FOSC 4915200 // Clock Speed
 #define BAUD 9600
 #define MYUBRR FOSC/16/BAUD-1
 
