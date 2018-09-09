@@ -6,15 +6,30 @@
 #define MYUBRR FOSC/16/BAUD-1
 
 #include <util/delay.h>
+#include <avr/io.h>
 #include "led.h"
 #include "driver.h"
+#include "sram.h"
 
 
 int main(){
 	UART_Init(MYUBRR);
 	fdevopen(*UART_Transmit, *UART_Receive);
+
+	DDRA |= (1 << PA0);
+	PORTA |= (1 << PA0);
+
+	MCUCR |= (1 << SRE);// Enable externam memory interface
+
+	SRAM_test();
 	while(1){
 		printf("Hello %s\n\r", "world");
+
+			PORTA &= ~(1 << PA0);
+
+		_delay_ms(200);
+
+			PORTA |= (1 << PA0);
 		_delay_ms(200);
 	}
 
