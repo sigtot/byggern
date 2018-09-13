@@ -22,6 +22,12 @@ int main(){
 	MCUCR |= (1 << SRE);// Enable externam memory interface
 
 	SRAM_test();
+	//print_hello_infinitely();
+
+	return 0;
+}
+
+void print_hello_infinitely(){
 	while(1){
 		printf("Hello %s\n\r", "world");
 
@@ -32,8 +38,6 @@ int main(){
 			PORTA |= (1 << PA0);
 		_delay_ms(200);
 	}
-
-	return 0;
 }
 
 /*
