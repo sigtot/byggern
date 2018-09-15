@@ -20,12 +20,9 @@ int main(){
 	DDRA |= (1 << PA0);
 	PORTA |= (1 << PA0);
 
-	DDRC |= (1 << PC2) | (1 << PC3);
-
 	GAL_test();
 	MCUCR |= (1 << SRE);// Enable externam memory interface
-
-	//SRAM_test();
+	SRAM_test();
 
 	//print_hello_infinitely();
 
