@@ -17,6 +17,7 @@
   (byte & 0x01 ? '1' : '0')
 
 #include <avr/io.h>
+#include <util/delay.h>
 
 void SRAM_test(void)
 {
@@ -34,7 +35,7 @@ void SRAM_test(void)
     uint8_t some_value = rand();
     ext_ram[i] = some_value;
     uint8_t retreived_value = ext_ram[i];
-
+  //  _delay_ms(100);
     if (retreived_value != some_value) {
       //printf("Write phase error: ext_ram[%4d] = %02X/%02X\n\r", i, retreived_value, some_value);
       write_errors++;
@@ -56,6 +57,7 @@ void SRAM_test(void)
  for (uint16_t i = ext_ram_size; i < 2 * ext_ram_size; i++) {
    uint8_t some_value = rand();
    uint8_t retreived_value = ext_ram[i];
+
    if (retreived_value != some_value) {
      //printf("Retrieval phase error: ext_ram[%4d] = %02X (should be %02X)\n\r",
     //i, retreived_value, some_value);
