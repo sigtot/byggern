@@ -32,10 +32,10 @@ int main(){
 	MCUCR &= ~(1 << ISC01);
 	DDRD &= ~(1 << PD2);
 */
-		//SRAM_test();
-		MCUCR |= (1 << SRE); // Enable external memory interface
+MCUCR |= (1 << SRE); // Enable external memory interface
+		SRAM_test();
 	while(1) {
-		//_delay_ms(1000);
+		_delay_ms(500);
 		adc_test();
 	}
 	//print_hello_infinitely();
