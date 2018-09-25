@@ -13,10 +13,15 @@
   (byte & 0x02 ? '1' : '0'), \
   (byte & 0x01 ? '1' : '0')
 
+#ifndef F_CPU
+#define F_CPU 4915200
+#endif
 #include <util/delay.h>
 #include <avr/io.h>
 #include <stdint.h>
 #include <stdlib.h>
+
+#define ADC 0x1400
 
 #define JOY_Y 4
 #define JOY_X 5
@@ -37,6 +42,20 @@ void chip_deselect() {
   PORTC &= ~(1 << PC3);
 }
 
+void adc_test() {
+  volatile char *memory = (char *) 0x0000;
+
+  memory[ADC] = (1 << 2); // CH1
+  _delay_ms(1); // Delay to wait for
+  uint8_t x = memory[ADC];
+
+  memory[ADC] = 1 | (1 << 2); // CH2
+  _delay_ms(1); // Delay to wait for
+  uint8_t y = memory[ADC];
+  printf("(%d,%d)\n\r", x, y);
+}
+
+/*
 void adc_test() {
 
     //printf("adc test: \n\r");
@@ -87,7 +106,7 @@ void adc_test() {
     chip_deselect();
     _delay_ms(200);
 }
-
+*/
 
 //interrupt handler
 //IRQ0 Handler: EXT_INT0

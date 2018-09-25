@@ -33,6 +33,7 @@ int main(){
 	DDRD &= ~(1 << PD2);
 */
 		//SRAM_test();
+		MCUCR |= (1 << SRE); // Enable external memory interface
 	while(1) {
 		//_delay_ms(1000);
 		adc_test();
