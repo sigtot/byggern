@@ -12,29 +12,54 @@
 #define PI 3.14159265
 #define NEUTRAL_TRESH 20
 
+void set_channels(int chan) {
+  MCUCR |= (1 << SRE); // Enable external memory interface
+  volatile char *memory = (char *) 0x0000;
+  //memory[ADC] = 0;
+  //_delay_ms(1); // Delay to wait for
+  switch(chan) {
+    case 1 :
+      memory[ADC] = 4;//(1 << 2); // CH1
+      break;
+    case 2 :
+      memory[ADC] = 5;//1 | (1 << 2); // CH2
+      break;
+    case 3 :
+      memory[ADC] =  6;//(1 << 1) | (1 << 2);
+      break;
+    case 4 :
+      memory[ADC] = 7;//1 | (1 << 1) | (1 << 2);
+  }
+  _delay_ms(1);
+}
+
 int to_percent(uint8_t i) {
   return (int) i * ((float)200)/((float)256) - 100;
 }
 
 void joy_print_state() {
   Joy_state state = joy_get_state();
-  printf("(%2d%c, %02d%c)\n\r", state.x, '%', state.y, '%');
+  printf("(%2d%c, %02d%c, %d)\n\r", state.x, '%', state.y, '%', state.dir);
 }
 
 Joy_state joy_get_state() {
-  MCUCR |= (1 << SRE); // Enable external memory interface
   volatile char *memory = (char *) 0x0000;
-  memory[ADC] = (1 << 2); // CH1
-  _delay_ms(1); // Delay to wait for
+  set_channels(1);
   uint8_t x = memory[ADC];
-  memory[ADC] = 1 | (1 << 2); // CH2
-  _delay_ms(1); // Delay to wait for
+  set_channels(2);
   uint8_t y = memory[ADC];
 
   int x_percent = to_percent(x);
   int y_percent = to_percent(y);
 
-  double ang = atan2(((double) y_percent)/((double) x_percent)));
+  int dir = joy_get_dir(x_percent, y_percent);
+
+  Joy_state state = {x_percent, y_percent, dir};
+  return state;
+}
+
+int joy_get_dir(int x, int y) {
+  double ang = atan2(((double) y),((double) x));
   Dir dir;
   if(ang < - PI / 2 || ang > PI / 2) {
     dir = LEFT;
@@ -43,15 +68,31 @@ Joy_state joy_get_state() {
     dir = RIGHT;
   }
   if(ang < 3 * PI / 4 && ang > PI / 4) {
-    dir = UP:
+    dir = UP;
   }
   if(ang < - PI / 4 && ang > - 3 * PI / 4) {
     dir = DOWN;
   }
-  if(sqrt(x_percent * x_percent + y_percent * y_percent) <= NEUTRAL_TRESH) {
+  if(sqrt(x * x + y * y) <= NEUTRAL_TRESH) {
     dir = NEUTRAL;
   }
+  return dir;
+}
 
-  Joy_state state = {x_percent, y_percent, dir};
-  return state;
+
+void slider_print_state() {
+  Slider slider = slider_get_state();
+  printf("Left slider: %d    Right slider: %d\n\r", slider.left, slider.right);
+}
+
+Slider slider_get_state() {
+  volatile char *memory = (char *) 0x0000;
+  set_channels(3);
+  uint8_t right = memory[ADC];
+  set_channels(4);
+  uint8_t left = memory[ADC];
+  Slider slider = {left, right};
+  return slider;
+  //printf("Left slider: %d    Right slider: %d\n\r", left, right);
+
 }

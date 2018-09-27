@@ -24,7 +24,9 @@
 #include "P_driver.h"
 
 void adc_test() {
-    joy_print_state();
+    //joy_print_state();
+    slider_print_state();
+    _delay_ms(100);
 }
 
 /*
