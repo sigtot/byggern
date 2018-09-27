@@ -21,38 +21,10 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#define ADC 0x1400
-
-#define JOY_Y 4
-#define JOY_X 5
-#define SLIDER_R 6
-#define SLIDER_L 7
-#define TIMESCALE 1
-
-void chip_select() {
-  PORTC |= (1 << PC2);
-  PORTC &= ~(1 << PC3);
-}
-
-/**
- * Deselects the adc (and selects the OLED as a side effect)
- */
-void chip_deselect() {
-  PORTC &= ~(1 << PC2);
-  PORTC &= ~(1 << PC3);
-}
+#include "P_driver.h"
 
 void adc_test() {
-  volatile char *memory = (char *) 0x0000;
-
-  memory[ADC] = (1 << 2); // CH1
-  _delay_ms(1); // Delay to wait for
-  uint8_t x = memory[ADC];
-
-  memory[ADC] = 1 | (1 << 2); // CH2
-  _delay_ms(1); // Delay to wait for
-  uint8_t y = memory[ADC];
-  printf("(%d,%d)\n\r", x, y);
+    joy_print_state();
 }
 
 /*

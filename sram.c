@@ -21,7 +21,7 @@
 
 void SRAM_test(void)
 {
-  // TODO: Flip bit for SRAM in GAL code
+  MCUCR |= (1 << SRE); // Enable external memory interface
   volatile char *memory = (char *) 0; // Start address for the SRAM
   uint16_t SRAM = 0x1800;
   uint16_t memory_size = 0x800;

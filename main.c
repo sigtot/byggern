@@ -13,6 +13,8 @@
 #include "sram.h"
 #include "gal_test.h"
 #include "adc.h"
+#include <limits.h>
+
 
 int main(){
 	UART_Init(MYUBRR);
@@ -32,11 +34,15 @@ int main(){
 	MCUCR &= ~(1 << ISC01);
 	DDRD &= ~(1 << PD2);
 */
-MCUCR |= (1 << SRE); // Enable external memory interface
-		SRAM_test();
+	SRAM_test();
+
 	while(1) {
-		_delay_ms(500);
+		_delay_ms(50);
 		adc_test();
+		DDRB &= ~(1 << PB0);
+		DDRB &= ~(1 << PB1);
+
+		//printf("Button PB0: %d. Button: PB1: %d\n\r", !!(PINB & (1 << PB0)), !!(PINB & (1 << PB1)));
 	}
 	//print_hello_infinitely();
 
