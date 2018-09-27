@@ -33,5 +33,5 @@ architecture behave of address_decoder is begin
  -- implement the functionality here
 	oled_cs <= NOT ((NOT a10) AND (NOT a11)); -- Active low
 	adc_cs <= NOT (NOT a11 AND a10);
-	ram_cs <= a11;
+	ram_cs <= NOT a11;
 end behave;
