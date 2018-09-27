@@ -15,8 +15,6 @@
 void set_channels(int chan) {
   MCUCR |= (1 << SRE); // Enable external memory interface
   volatile char *memory = (char *) 0x0000;
-  //memory[ADC] = 0;
-  //_delay_ms(1); // Delay to wait for
   switch(chan) {
     case 1 :
       memory[ADC] = 4;//(1 << 2); // CH1
@@ -93,6 +91,30 @@ Slider slider_get_state() {
   uint8_t left = memory[ADC];
   Slider slider = {left, right};
   return slider;
-  //printf("Left slider: %d    Right slider: %d\n\r", left, right);
+}
 
+void buttons_print_state() {
+  Button button = buttons_get_state();
+  //printf("left button: %d     right button: %d\n\r", button.left, button.right);
+}
+
+Button buttons_get_state() {
+  MCUCR &= ~(1 << SRE); // disable external memory interface
+  DDRA &= ~(1 << PA0);
+  DDRA &= ~(1 << PA2);
+  int right = 0;
+  int left = 0;
+  if (PINA & (1 << PA2)){
+    printf(" left true\n\r");
+    left = 1;
+  }
+  if (PINA & (1 << PA1)){
+    right = 1;
+    printf(" right true\n\r");
+  }
+
+  Button button = {right, left};
+  //printf("left button: %d     right button: %d\n\r", left, right);
+
+  return button;
 }

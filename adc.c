@@ -25,7 +25,9 @@
 
 void adc_test() {
     //joy_print_state();
-    slider_print_state();
+    //slider_print_state();
+    buttons_print_state();
+
     _delay_ms(100);
 }
 
