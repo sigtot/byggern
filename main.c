@@ -14,6 +14,7 @@
 #include "gal_test.h"
 #include "adc.h"
 #include <limits.h>
+#include "oled.h"
 
 
 int main(){
@@ -34,13 +35,14 @@ int main(){
 	MCUCR &= ~(1 << ISC01);
 	DDRD &= ~(1 << PD2);
 */
-	SRAM_test();
+	//SRAM_test();
 
+	oled_init();
 	while(1) {
-		_delay_ms(50);
-		adc_test();
-		DDRB &= ~(1 << PB0);
-		DDRB &= ~(1 << PB1);
+		_delay_ms(100);
+		oled_print_trash();
+		oled_print_dollar();
+		//adc_test();
 
 		//printf("Button PB0: %d. Button: PB1: %d\n\r", !!(PINB & (1 << PB0)), !!(PINB & (1 << PB1)));
 	}
