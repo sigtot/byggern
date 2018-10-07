@@ -36,47 +36,12 @@ int main(){
 	DDRD &= ~(1 << PD2);
 */
 	//SRAM_test();
-
 	oled_init();
-	while(1) {
-		_delay_ms(100);
-		oled_print_trash();
-		oled_print_dollar();
-		//adc_test();
-
-		//printf("Button PB0: %d. Button: PB1: %d\n\r", !!(PINB & (1 << PB0)), !!(PINB & (1 << PB1)));
-	}
-	//print_hello_infinitely();
-
-
-	return 0;
-}
-
-void print_hello_infinitely(){
-	while(1){
-		printf("Hello %s\n\r", "world");
-
-			PORTA &= ~(1 << PA0);
-
-		_delay_ms(200);
-
-			PORTA |= (1 << PA0);
-		_delay_ms(200);
-	}
-}
-
-/*
-int main(){
-	led_init();
-
-	while(1){
-		//printf("%s", UART_Receive())
-		led_turn_on();
-		_delay_ms(20);
-		led_turn_off();
-		_delay_ms(20);
+	OLED_clear();
+	for(int i = 0; i < 8; i++) {
+		OLED_pos(i, 0);
+		OLED_print("Hello world");
 	}
 
 	return 0;
 }
-*/

@@ -53,22 +53,71 @@ void oled_init() {
     memory[OLED_cmd] = 0xad; // master configuration
     memory[OLED_cmd] = 0x00;
     memory[OLED_cmd] = 0xa4; // out follows RAM content
-    memory[OLED_cmd] = 0xa6; // set normal display
+    memory[OLED_cmd] = 0x06; // set normal display
     memory[OLED_cmd] = 0xaf; // display on
 }
 
-void oled_print_trash() {
+void OLED_clear_page(int page) {
+    MCUCR |= (1 << SRE); // Enable external memory interface
     volatile char *memory = (char *) 0;
-    for (uint16_t i = 0; i < 8 * 128; i++) {
-        memory[OLED_data] = 0xff;
+    OLED_pos(page,0);
+    for (int i = 0; i < 128; i++) {
+        memory[OLED_data] = 0x00;
     }
 }
 
-void oled_print_dollar() {
-    printf(BYTE_TO_BINARY_PATTERN"\n\r", BYTE_TO_BINARY(pgm_read_byte(&font8[3][0])));
+void OLED_clear() {
+    MCUCR |= (1 << SRE); // Enable external memory interface
+    volatile char *memory = (char *) 0;
+    OLED_pos(0,0);
+    for (int i = 0; i < 8 * 8 * 128; i++) {
+        memory[OLED_data] = 0x00;
+    }
 }
 
 void OLED_write_data(char c) {
     int char_pos = c + 32;
 
+}
+
+void OLED_reset() {
+    oled_init();
+}
+
+void OLED_home() {
+
+}
+
+void OLED_pos(uint8_t page, uint8_t column) {
+    MCUCR |= (1 << SRE); // Enable external meOLED_pos(6,0);mory interface
+    volatile char *memory = (char *) 0;
+
+    memory[OLED_cmd] = 0x21;
+    memory[OLED_cmd] = column;
+    memory[OLED_cmd] = 0x7f;
+
+    memory[OLED_cmd] = 0x22;
+    memory[OLED_cmd] = page;
+    memory[OLED_cmd] = 0x07;
+}
+
+void OLED_print_char(char c) {
+    MCUCR |= (1 << SRE); // Enable external memory interface
+    volatile char *memory = (char *) 0;
+
+    for (int i = 0; i < 8; i++) {
+        memory[OLED_data] = pgm_read_byte(&font8[c - ' '][i]);
+    }
+}
+
+void OLED_print(char* word) {
+    MCUCR |= (1 << SRE); // Enable external memory interface
+    volatile char *memory = (char *) 0;
+
+    int i = 0;
+    while (word[i] != '\0') {
+        printf("%c", word[i]);
+        OLED_print_char(word[i]);
+        i++;
+    }
 }
