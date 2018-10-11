@@ -6,10 +6,13 @@
 
 Nodeptr init_menu() {
     Nodeptr headptr = malloc(sizeof(Node));
-    headptr->text = strdup("hei");
+    headptr->text = strdup("Top 1");
 
-    headptr->next = init_node(headptr, NULL, "text");
-    headptr->next->next = init_node(headptr->next, NULL, "other");
+    headptr->next = init_node(headptr, NULL, "Top 2");
+    headptr->next->next = init_node(headptr->next, NULL, "Top 3");
+
+    headptr->child = init_node(NULL, headptr, "Sub 1");
+    headptr->child->next = init_node(headptr->child, headptr, "Sub 2");
 
     return headptr;
 }
@@ -23,6 +26,7 @@ Nodeptr init_node(Nodeptr prev, Nodeptr parent, char *text) {
 }
 
 void print_menu(Nodeptr headptr, Nodeptr selectedptr) {
+    OLED_clear();
     int i = 0;
     while (headptr != NULL) {
         OLED_pos(i, 0);
@@ -33,6 +37,9 @@ void print_menu(Nodeptr headptr, Nodeptr selectedptr) {
             OLED_print_char(' ');
         }
         OLED_print(headptr->text);
+        if (headptr->child != NULL) {
+            OLED_print_char('>');
+        }
         headptr = headptr->next;
         i++;
     }

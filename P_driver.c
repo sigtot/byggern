@@ -120,17 +120,22 @@ Button buttons_get_state() {
     MCUCR &= ~(1 << SRE); // disable external memory interface
     DDRB &= ~(1 << PB1);
     DDRB &= ~(1 << PB2);
+    DDRB &= ~(1 << PB3);
 
     int left = PINB & (1 << PB1);
     int right = PINB & (1 << PB2);
-    if (left){
+    int joy = !(PINB & (1 << PB3));
+    if (left) {
         printf(" left true\n\r");
     }
-    if (right){
+    if (right) {
         printf(" right true\n\r");
     }
+    if (joy) {
+        printf(" joy true\n\r");
+    }
 
-    Button button = {right, left};
+    Button button = {right, left, joy};
     //printf("left button: %d     right button: %d\n\r", left, right);
 
     return button;

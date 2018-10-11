@@ -13,7 +13,7 @@ typedef struct node {
     Nodeptr next;
     Nodeptr prev;
     Nodeptr parent;
-    Nodeptr head_child;
+    Nodeptr child;
 } Node;
 
 Nodeptr init_menu();

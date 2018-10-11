@@ -18,6 +18,7 @@ typedef struct Sliders {
 typedef struct Buttons {
   int right;
   int left;
+  int joy;
 } Button;
 
 void set_channels(int chan1);
