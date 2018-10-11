@@ -116,7 +116,6 @@ void OLED_print(char* word) {
 
     int i = 0;
     while (word[i] != '\0') {
-        printf("%c", word[i]);
         OLED_print_char(word[i]);
         i++;
     }

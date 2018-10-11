@@ -1,6 +1,8 @@
 #ifndef OLED_H
 #define OLED_H
 
+#include <stdint.h>
+
 void oled_init();
 void OLED_clear_page(int page);
 void OLED_clear();
