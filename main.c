@@ -38,6 +38,8 @@
 #include <stdlib.h>
 #include "P_driver.h"
 #include "SPI.h"
+#include "CAN_driver.h"
+
 
 int main(){
 	UART_Init(MYUBRR);
@@ -64,20 +66,16 @@ int main(){
 		OLED_pos(i, 0);
 		OLED_print("Hello world");
 	}*/
-	SPI_MasterInit();
-	unsigned char data;
+    CAN_LoopBack_Init();
+    Message message;
+    message.data[0] = 'h';
+    message.data[1] = 'e';
+    message.ID = 1;
+    message.length = 5;
+    CAN_Message_Send(&message);
 
-	PORTB &= ~(1 << PB4); //SS CAN
-	PORTB |= (1 << PB5);
-	PORTB &= ~(1 << PB6);
 
-	
-	SPI_MasterTransmit('a');
-	PORTB |= (1 << PB4);
-	_delay_ms(10);
-	PORTB &= ~(1 << PB4);
 
-	SPI_MasterTransmit("b");
 
 
 
