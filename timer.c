@@ -2,6 +2,8 @@
 #define PERIOD_14ms 0x02
 #define PERIOD_19ms 0x03
 
+
+/* Copied from https://www.embedded.com/design/programming-languages-and-tools/4397803/Interrupts-short-and-simple--Part-1---Good-programming-practices */
 void Timer_ISR(void)
 { 
    static char State = PERIOD_10ms;
