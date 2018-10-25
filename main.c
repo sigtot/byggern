@@ -68,13 +68,6 @@ int main(){
 		OLED_print("Hello world");
 	}*/
 
-    SPI_Init();
-    for(int i = 0; i < 3; i++) {
-        MCP2515_Write(MCP_TXB0D0, 0xa5);
-        MCP2515_Read(MCP_TXB0D0);
-        printf("result: %x\n\r", MCP2515_Read(MCP_TXB0D0));
-    }
-
     CAN_LoopBack_Init();
     Message message;
     message.data[0] = 'h';
@@ -87,10 +80,10 @@ int main(){
     message.data[7] = 'd';
     message.ID = 1;
     message.length = 8;
-    //for(int i = 0; i < 4; i++) {
-        CAN_Message_Send(&message);
-        CAN_Data_Receive();
-    //}
+    CAN_Message_Send(&message);
+    char msg[9];
+    CAN_Data_Receive(&msg);
+    printf("Message received: %s\n\r", msg);
 
 
 
