@@ -40,6 +40,7 @@
 #include "SPI.h"
 #include "CAN_driver.h"
 
+#include "MCP2515.h"
 
 int main(){
 	UART_Init(MYUBRR);
@@ -66,11 +67,24 @@ int main(){
 		OLED_pos(i, 0);
 		OLED_print("Hello world");
 	}*/
-    printf("hello");
+
+    SPI_Init();
+    for(int i = 0; i < 3; i++) {
+        MCP2515_Write(MCP_TXB0D0, 0xa5);
+        MCP2515_Read(MCP_TXB0D0);
+        printf("result: %x\n\r", MCP2515_Read(MCP_TXB0D0));
+    }
+
     CAN_LoopBack_Init();
     Message message;
-    message.data[0] = ']';
-    message.data[1] = '[';
+    message.data[0] = 'h';
+    message.data[1] = 'e';
+    message.data[2] = 'l';
+    message.data[3] = 'l';
+    message.data[4] = 'o';
+    message.data[5] = 'w';
+    message.data[6] = 'l';
+    message.data[7] = 'd';
     message.ID = 1;
     message.length = 8;
     //for(int i = 0; i < 4; i++) {
