@@ -66,13 +66,18 @@ int main(){
 		OLED_pos(i, 0);
 		OLED_print("Hello world");
 	}*/
+    printf("hello");
     CAN_LoopBack_Init();
     Message message;
-    message.data[0] = 'h';
-    message.data[1] = 'e';
+    message.data[0] = ']';
+    message.data[1] = '[';
     message.ID = 1;
-    message.length = 5;
-    CAN_Message_Send(&message);
+    message.length = 8;
+    //for(int i = 0; i < 4; i++) {
+        CAN_Message_Send(&message);
+        CAN_Data_Receive();
+    //}
+
 
 
 

@@ -157,14 +157,16 @@ Copyright 2003 Kimberly Otten Software Consulting
 //Egendefinerte
 #define MCP_TXB0SIDH    0x31
 #define MCP_TXB0SIDL    0x32
+#define MCP_TXB0DLC     0x35
 #define MCP_TXB0D0      0x36
 
+#define MCP_RXB0DLC     0x65
 
 char MCP2515_Read(char address);
 
 void MCP2515_Write(char address, char data);
 
-void MCP2515_Requst_To_Send_All();
+void MCP2515_Requst_To_Send();
 
 char MCP2515_Read_Status();
 

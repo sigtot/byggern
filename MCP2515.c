@@ -1,6 +1,9 @@
 #include "MCP2515.h"
 #include <avr/io.h>
 
+char transceive(char cData) {
+    return SPI_Transceive(cData);
+}
 
 char MCP2515_Read(char address) {
     PORTB &= ~(1 << PB4);
@@ -23,11 +26,11 @@ void MCP2515_Write(char address, char data) {
     PORTB |= (1 << PB4);
 }
 
-void MCP2515_Requst_To_Send_All() {
+void MCP2515_Requst_To_Send() {
     PORTB &= ~(1 << PB4);
 
     //Denne kan kalles for 3 individuelle registre eller alle
-    SPI_Transceive(MCP_RTS_ALL);
+    SPI_Transceive(MCP_RTS_TX0);
     PORTB |= (1 << PB4);
 }
 

@@ -3,6 +3,6 @@
 
 void SPI_Init(void);
 
-void SPI_Transceive(char cData);
+char SPI_Transceive(char cData);
 
 #endif

@@ -15,3 +15,5 @@ void CAN_Transmit_Complete();
 void CAN_Data_Receive();
 
 void CAN_Int_Vect();
+
+void CAN_INT_Enable();
