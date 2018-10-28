@@ -16,13 +16,11 @@
     (byte & 0x01 ? '1' : '0')
 
 #define DDR_SPI DDRB
-#define DD_SS DDB4
-#define DD_MOSI DDB5
-#define DD_MISO DDB6
-#define DD_SCK DDB7
-#define SS PB4
-#define SEND PB5
-#define RECEIVE PB6
+#define DD_SS DDB0
+#define DD_SCK DDB1
+#define DD_MOSI DDB2
+#define DD_MISO DDB3
+#define SS PB0
 
 void SPI_Init(void) {
     /* Set MOSI and SCK output, all others input */
@@ -44,11 +42,12 @@ uint8_t SPI_Transceive(uint8_t cData) {
     SPDR = cData;
         /* Wait for transmission complete */
     //printf("cData before: %c\n\r", cData);
-
     while(!(SPSR & (1<<SPIF)));
     //PORTB |= (1 << PB4);
     cData = SPDR;
     cData &= 0xff;
 //    printf("cData after: "BYTE_TO_BINARY_PATTERN"\n\r", BYTE_TO_BINARY(cData));
+
+    printf("Read byte %x (%c)\n\r", cData, cData);
     return cData;
 }

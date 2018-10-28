@@ -7,9 +7,33 @@
 
 #include <avr/io.h>
 #include "uart.h"
+#include "CAN_driver.h"
+#include "MCP2515.h"
 
 int main() {
 	UART_Init(MYUBRR);
 	fdevopen(*UART_Transmit, *UART_Receive);
-	printf("Hello world!\n\r");
+	printf("Node 2 ready\n\r");
+
+	MCP2515_Write(0x00,'b');
+	printf("Wrote char\n\r");
+	printf("Received char %c\n\r",MCP2515_Read(0x00));
+
+	CAN_LoopBack_Init();
+	printf("CAN initiated in loopback mode\n\r");
+	Message message;
+    message.data[0] = 'N';
+    message.data[1] = 'o';
+    message.data[2] = 'd';
+    message.data[3] = 'e';
+    message.data[4] = ' ';
+    message.data[5] = '2';
+    message.data[6] = '!';
+    message.ID = 1;
+    message.length = 7;
+    CAN_Message_Send(&message);
+	printf("Message sent\n\r");
+    char msg[9];
+    CAN_Data_Receive(&msg);
+    printf("Message received: %s\n\r", msg);
 }
