@@ -1,7 +1,7 @@
 #include "gal_test.h"
 #include <util/delay.h>
 #include <avr/io.h>
-#include "driver.h"
+#include "uart.h"
 #define TIMESCALE 10000
 
 void GAL_test() {

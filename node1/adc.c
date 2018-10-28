@@ -21,7 +21,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#include "P_driver.h"
+#include "multifunction.h"
 
 void adc_test() {
     joy_print_state();

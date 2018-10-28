@@ -1,5 +1,5 @@
-#ifndef DRIVER_H
-#define DRIVER_H
+#ifndef UART_H
+#define UART_H
 
 void UART_Init(unsigned int);
 

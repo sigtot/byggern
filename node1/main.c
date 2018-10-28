@@ -27,7 +27,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "led.h"
-#include "driver.h"
+#include "uart.h"
 #include "sram.h"
 #include "gal_test.h"
 #include "adc.h"
@@ -36,7 +36,7 @@
 #include "menu.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "P_driver.h"
+#include "multifunction.h"
 #include "SPI.h"
 #include "CAN_driver.h"
 

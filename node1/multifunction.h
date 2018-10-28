@@ -1,5 +1,5 @@
-#ifndef P_DRIVER_H
-#define P_DRIVER_H
+#ifndef MULTIFUNCTION_H
+#define MULTIFUNCTION_H
 
 typedef enum {LEFT, RIGHT, UP, DOWN, NEUTRAL,
 } Dir;
