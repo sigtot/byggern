@@ -9,5 +9,7 @@
 #include "uart.h"
 
 int main() {
-    // Main
+	UART_Init(MYUBRR);
+	fdevopen(*UART_Transmit, *UART_Receive);
+	printf("Hello world!\n\r");
 }
