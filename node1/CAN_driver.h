@@ -8,6 +8,8 @@ typedef struct message {
 
 void CAN_LoopBack_Init();
 
+void CAN_Normal_Init();
+
 void CAN_Message_Send(Message *message);
 
 void CAN_Transmit_Complete();

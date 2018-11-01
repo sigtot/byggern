@@ -10,12 +10,13 @@
 #include "CAN_driver.h"
 #include "MCP2515.h"
 #include "SPI.h"
+#include "MCP2515.h"
 
 int main() {
 	UART_Init(MYUBRR);
 	fdevopen(*UART_Transmit, *UART_Receive);
 	printf("Node 2 ready\n\r");
-
+/*
 	CAN_LoopBack_Init();
 	MCP2515_Write(0x00,'b');
 	printf("Wrote char\n\r");
@@ -37,6 +38,13 @@ int main() {
 	printf("Message sent\n\r");
     char msg[9];
     CAN_Data_Receive(&msg);
+    printf("Message received: %s\n\r", msg);*/
+
+	CAN_Normal_Init();
+	char msg[9];
+	while(!(MCP_CANINTF & (1 << MCP_RX1IF)));
+	CAN_Data_Receive(&msg);
     printf("Message received: %s\n\r", msg);
 	while(1);
+	return 0;
 }

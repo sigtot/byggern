@@ -68,7 +68,7 @@ int main(){
 		OLED_print("Hello world");
 	}*/
 
-    CAN_LoopBack_Init();
+    CAN_Normal_Init();
     Message message;
     message.data[0] = 'h';
     message.data[1] = 'e';
@@ -79,12 +79,9 @@ int main(){
     message.data[6] = 'l';
     message.data[7] = 'd';
     message.ID = 1;
-    message.length = 4;
+    message.length = 8;
     CAN_Message_Send(&message);
-    char msg[9];
-    CAN_Data_Receive(&msg);
-    printf("Message received: %s\n\r", msg);
-
+    printf("Finished\n\r");
 
 
 
