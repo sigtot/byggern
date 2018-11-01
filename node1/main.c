@@ -79,7 +79,7 @@ int main(){
     message.data[6] = 'l';
     message.data[7] = 'd';
     message.ID = 1;
-    message.length = 8;
+    message.length = 4;
     CAN_Message_Send(&message);
     char msg[9];
     CAN_Data_Receive(&msg);

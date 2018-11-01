@@ -12,13 +12,13 @@ void CAN_LoopBack_Init() {
     //CAN_INT_Enable();
     // Self-test
     //printf("(Read config)\n\r");
+    _delay_ms(1);
     char value = MCP2515_Read(MCP_CANSTAT);
     if((value & MODE_MASK)  != MODE_CONFIG) {
         printf("MCP2515 is NOT in configuration mode after reset! %x %x %x \n\r", value, MODE_MASK, MODE_CONFIG);
     }
 
     MCP2515_Write(MCP_CANCTRL, MODE_LOOPBACK);
-    value = MCP2515_Read(MCP_CANSTAT);
 }
 
 void CAN_Message_Send(Message *message) {
@@ -40,7 +40,7 @@ void CAN_Data_Receive(char *strarr) {
     _delay_ms(1);
     int length = MCP2515_Read(MCP_RXB0DLC);
     for (int i = 0; i < length; i++) {
-        char data = MCP2515_Read(MCP_TXB0D0+i);
+        char data = MCP2515_Read(MCP_RXB0D0+i);
         strarr[i] = data;
     }
     strarr[length] = '\0';

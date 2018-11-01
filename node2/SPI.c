@@ -16,15 +16,17 @@
     (byte & 0x01 ? '1' : '0')
 
 #define DDR_SPI DDRB
-#define DD_SS DDB0
+#define DD_SS DDB7
 #define DD_SCK DDB1
 #define DD_MOSI DDB2
 #define DD_MISO DDB3
-#define SS PB0
+#define SS PB7
+#define SEND PB2
+#define RECEIVE PB3
 
 void SPI_Init(void) {
     /* Set MOSI and SCK output, all others input */
-    DDR_SPI = (1<<DD_MOSI)|(1<<DD_SCK) | (1 << DD_SS);
+    DDR_SPI = (1<<DD_MOSI)|(1<<DD_SCK) | (1 << DD_SS)|(1 << DDB0);
     /* Enable SPI, Master, set clock rate fck/16 */
     SPCR = (1<<SPE)|(1<<MSTR)|(1<<SPR0);
 }
@@ -48,6 +50,5 @@ uint8_t SPI_Transceive(uint8_t cData) {
     cData &= 0xff;
 //    printf("cData after: "BYTE_TO_BINARY_PATTERN"\n\r", BYTE_TO_BINARY(cData));
 
-    printf("Read byte %x (%c)\n\r", cData, cData);
     return cData;
 }

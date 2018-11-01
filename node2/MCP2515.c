@@ -8,9 +8,7 @@ char transceive(char cData) {
 
 char MCP2515_Read(char address) {
     SPI_chip_select();
-    printf("Chip selected\n\r");
     SPI_Transceive(MCP_READ);
-    printf("Sent MCP_READ command over SPI\n\r");
     SPI_Transceive(address);
     char data = SPI_Transceive(address);
 
@@ -20,16 +18,11 @@ char MCP2515_Read(char address) {
 
 void MCP2515_Write(char address, char data) {
     SPI_chip_select();
-    printf("Chip selected in MCP2515\n\r");
     SPI_Transceive(MCP_WRITE);
-    printf("Sent command\n\r");
     SPI_Transceive(address);
-    printf("Sent address\n\r");
     SPI_Transceive(data);
-    printf("Sent data\n\r");
 
     SPI_chip_deselect();
-    printf("Deselected chip\n\r");
 }
 
 void MCP2515_Requst_To_Send() {
