@@ -28,15 +28,13 @@ void CAN_Message_Send(Message *message) {
     for (int i=0; i < message->length; i++) {
         MCP2515_Write(MCP_TXB0D0+i, message->data[i]);
     }
-    MCP2515_Bit_Modify(MCP_TXB0SIDL, (0x111 << 5), (1 << 5));
+    MCP2515_Bit_Modify(MCP_TXB0SIDL, (0x111 << 5), (1 << 5)); // This is stupid
     MCP2515_Requst_To_Send();
 }
 
 void CAN_Transmit_Complete();
 
 void CAN_Data_Receive(char *strarr) {
-    DDRD &= ~(1 << PD2);
-    while((PORTD & (1 << PD2))); // Wait for interrupt signal
     _delay_ms(1);
     int length = MCP2515_Read(MCP_RXB0DLC);
     for (int i = 0; i < length; i++) {

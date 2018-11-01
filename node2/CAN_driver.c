@@ -38,13 +38,10 @@ void CAN_Message_Send(Message *message) {
 void CAN_Transmit_Complete();
 
 void CAN_Data_Receive(char *strarr) {
-    DDRD &= ~(1 << PD2);
-    while((PORTD & (1 << PD2))); // Wait for interrupt signal
     _delay_ms(1);
-    int length = MCP2515_Read(MCP_RXB0DLC); // TODO: Always 69, why?
-    printf("Length: %02x (%d)\n\r", length, length);
+    int length = MCP2515_Read(MCP_RXB1DLC);
     for (int i = 0; i < length; i++) {
-        char data = MCP2515_Read(MCP_RXB0D0+i);
+        char data = MCP2515_Read(MCP_RXB1D0+i);
         strarr[i] = data;
     }
     strarr[length] = '\0';
