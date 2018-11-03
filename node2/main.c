@@ -11,40 +11,36 @@
 #include "MCP2515.h"
 #include "SPI.h"
 #include "MCP2515.h"
+#include <avr/interrupt.h>
+#include <avr/sleep.h>
+
+volatile uint8_t CAN_MSG_RECEIVED = 0;
+
+ISR(INT0_vect) {
+	CAN_MSG_RECEIVED = 1;
+}
 
 int main() {
 	UART_Init(MYUBRR);
 	fdevopen(*UART_Transmit, *UART_Receive);
 	printf("Node 2 ready\n\r");
-/*
-	CAN_LoopBack_Init();
-	MCP2515_Write(0x00,'b');
-	printf("Wrote char\n\r");
-	char c = MCP2515_Read(0x00);
-	printf("Received char %c\n\r", c);
-
-	printf("CAN initiated in loopback mode\n\r");
-	Message message;
-    message.data[0] = 'N';
-    message.data[1] = 'o';
-    message.data[2] = 'd';
-    message.data[3] = 'e';
-    message.data[4] = ' ';
-    message.data[5] = '2';
-    message.data[6] = '!';
-    message.ID = 1;
-    message.length = 0x4;
-    CAN_Message_Send(&message);
-	printf("Message sent\n\r");
-    char msg[9];
-    CAN_Data_Receive(&msg);
-    printf("Message received: %s\n\r", msg);*/
 
 	CAN_Normal_Init();
-	char msg[9];
-	while(!(MCP_CANINTF & (1 << MCP_RX1IF)));
-	CAN_Data_Receive(&msg);
-    printf("Message received: %s\n\r", msg);
-	while(1);
+
+	cli();
+	EIMSK |= (1 << INT0); // Enable interrupt on INT0
+	EICRA &= ~(1 << ISC00); // Interrupt on falling edge
+	EICRA |= (1 << ISC01); // Interrupt on falling edge
+	sei();
+	set_sleep_mode(SLEEP_MODE_PWR_SAVE);
+
+	while(1) {
+		if (CAN_MSG_RECEIVED) {
+			CAN_MSG_RECEIVED = 0;
+			joy_pos_receive();
+		}
+		sleep_enable();
+	}
+
 	return 0;
 }

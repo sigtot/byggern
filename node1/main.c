@@ -39,6 +39,7 @@
 #include "multifunction.h"
 #include "SPI.h"
 #include "CAN_driver.h"
+#include "joy_pos_sender.h"
 
 #include "MCP2515.h"
 
@@ -63,25 +64,11 @@ int main(){
 	SRAM_test();
 	oled_init();
 	OLED_clear();
-	/*for(int i = 0; i < 8; i++) {
-		OLED_pos(i, 0);
-		OLED_print("Hello world");
-	}*/
-
     CAN_Normal_Init();
-    Message message;
-    message.data[0] = 'h';
-    message.data[1] = 'e';
-    message.data[2] = 'l';
-    message.data[3] = 'l';
-    message.data[4] = 'o';
-    message.data[5] = 'w';
-    message.data[6] = 'l';
-    message.data[7] = 'd';
-    message.ID = 1;
-    message.length = 8;
-    CAN_Message_Send(&message);
-    printf("Finished\n\r");
+
+    joy_print_state();
+    joy_pos_send(joy_get_state());
+
 
 
 
@@ -93,7 +80,7 @@ int main(){
 
 
 
-	/*Nodeptr headptr = init_menu();
+	Nodeptr headptr = init_menu();
 	Nodeptr selectedptr = headptr;
 
 	int should_update_menu = 1;
@@ -140,7 +127,7 @@ int main(){
 			_delay_ms(300);
 			should_update_menu = 0;
 		}
-	}*/
+	}
 
 
 

@@ -1,14 +1,7 @@
 #ifndef MULTIFUNCTION_H
 #define MULTIFUNCTION_H
 
-typedef enum {LEFT, RIGHT, UP, DOWN, NEUTRAL,
-} Dir;
-
-typedef struct Joy_state {
-  int x; // -100 -> 100
-  int y; // -100 > 100
-  Dir dir;
-} Joy_state;
+#include "joy_pos_sender.h"
 
 typedef struct Sliders {
   int left;
