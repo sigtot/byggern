@@ -11,6 +11,7 @@
 #include "MCP2515.h"
 #include "SPI.h"
 #include "MCP2515.h"
+#include "PWM.h"
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
 
@@ -34,13 +35,17 @@ int main() {
 	sei();
 	set_sleep_mode(SLEEP_MODE_PWR_SAVE);
 
-	while(1) {
+	/*while(1) {
 		if (CAN_MSG_RECEIVED) {
 			CAN_MSG_RECEIVED = 0;
 			joy_pos_receive();
 		}
 		sleep_enable();
-	}
+	}*/
+
+	PWM_init();
+
+	while(1);
 
 	return 0;
 }
