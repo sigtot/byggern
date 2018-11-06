@@ -1,9 +1,11 @@
 #include "parameters.h"
 #include <avr/io.h>
+#include <stdio.h>
 #include "uart.h"
 #include "PWM.h"
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
+#include <avr/delay.h>
 
 #include "../common/CAN_driver.h"
 #include "../common/MCP2515.h"
@@ -19,6 +21,14 @@ int main() {
 	UART_Init(MYUBRR);
 	fdevopen(*UART_Transmit, *UART_Receive);
 	printf("Node 2 ready\n\r");
+
+	char buf[100];
+	while(1) {
+		gets(&buf);
+		printf("Read string %s\n\r", buf);
+
+//		_delay_ms(50);
+	}
 
 	CAN_Normal_Init();
 

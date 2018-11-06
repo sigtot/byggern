@@ -1,44 +1,59 @@
 package main
 
 import (
-    "log"
+    "errors"
     "github.com/tarm/serial"
+    "log"
 )
 
 func main() {
-    c := &serial.Config{Name: "/dev/serial/by-id/usb-Arduino__www.arduino.cc__0042_95334323430351A00182-if00", Baud: 9600}
-    s, err := serial.OpenPort(c)
+    c := &serial.Config{Name: "/dev/serial/by-id/usb-Arduino__www.arduino.cc__0042_95334323430351A00182-if00", Baud: 9600, StopBits: 2}
+    port, err := serial.OpenPort(c)
+    defer port.Close()
     if err != nil {
         log.Fatal(err)
     }
 
-    n, err := s.Write([]byte("test\n"))
+    _, err = port.Write([]byte("The quick brown fox jumped over the lazy dog.\n The quick brown fox jumped over the lazy dog.\n"))
     if err != nil {
         log.Fatal(err)
     }
 
-    n, err = readLine(&buf)
+    line, err := readLine(port)
     if err != nil {
         log.Fatal(err)
     }
 
-    log.Printf("%q", buf[:n])
+    log.Printf("Read string: %s\n", line)
+     line, err = readLine(port)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    log.Printf("Read string: %s\n", line)
 }
 
-func readLine(buf []byte) (int, error) {
-    n := 0;
-    l := 1;
+func readLine(port * serial.Port) (line string, err error) {
+    n := 0
+    l := 1
+    var bytes []byte
     for l != 0 && n < 2048 {
-        l, err := s.Read(buf)
+        buf := make([]byte, 128)
+        l, err = port.Read(buf)
+
         if err != nil {
-            return 0, err
+            return "", err
         }
-        for i := n; i < n + l; i++ {
+        for i := 0; i < n + l; i++ {
             if buf[i] == byte('\n') {
-                return n + i, nil
+                return string(bytes[:n+i]), nil
+            } else if buf[i] == byte(0) {
+                break
+            } else {
+                bytes = append(bytes, buf[i])
             }
         }
         n += l
     }
-    return n, errors.New("buffer overflow")
+    return "", errors.New("buffer overflow")
 }
