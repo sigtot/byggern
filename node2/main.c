@@ -1,19 +1,13 @@
-#ifndef F_CPU
-#define F_CPU 16000000
-#endif
-#define FOSC 16000000 // Clock Speed
-#define BAUD 9600
-#define MYUBRR FOSC/16/BAUD-1
-
+#include "parameters.h"
 #include <avr/io.h>
 #include "uart.h"
-#include "CAN_driver.h"
-#include "MCP2515.h"
-#include "SPI.h"
-#include "MCP2515.h"
 #include "PWM.h"
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
+
+#include "../common/CAN_driver.h"
+#include "../common/MCP2515.h"
+#include "../common/SPI.h"
 
 volatile uint8_t CAN_MSG_RECEIVED = 0;
 
@@ -35,13 +29,13 @@ int main() {
 	sei();
 	set_sleep_mode(SLEEP_MODE_PWR_SAVE);
 
-	/*while(1) {
+	while(1) {
 		if (CAN_MSG_RECEIVED) {
 			CAN_MSG_RECEIVED = 0;
 			joy_pos_receive();
 		}
 		sleep_enable();
-	}*/
+	}
 
 	PWM_init();
 

@@ -1,4 +1,4 @@
-#include "CAN_driver.h"
+#include "../common/CAN_driver.h"
 #include <avr/io.h>
 #include "joy_pos_sender.h"
 

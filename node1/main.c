@@ -1,12 +1,4 @@
-#ifndef F_CPU
-#define F_CPU 4915200
-#endif
-#define FOSC 4915200// Clock Speed
-#define BAUD 9600
-#define MYUBRR FOSC/16/BAUD-1
-
 #define ACK 0x7E
-
 
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte)  \
@@ -23,6 +15,7 @@
     (byte & 0x02 ? '1' : '0'), \
     (byte & 0x01 ? '1' : '0')
 
+#include "parameters.h"
 #include <util/delay.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -37,11 +30,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "multifunction.h"
-#include "SPI.h"
-#include "CAN_driver.h"
 #include "joy_pos_sender.h"
 
-#include "MCP2515.h"
+#include "../common/SPI.h"
+#include "../common/MCP2515.h"
+#include "../common/CAN_driver.h"
 
 int main(){
 	UART_Init(MYUBRR);

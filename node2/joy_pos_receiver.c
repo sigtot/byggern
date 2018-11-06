@@ -1,5 +1,5 @@
 #include "joy_pos_receiver.h"
-#include "CAN_driver.h"
+#include "../common/MCP2515.h"
 
 /*
 This logic should be added to the common Joystick.h file when it's made
