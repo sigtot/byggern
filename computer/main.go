@@ -14,46 +14,46 @@ func main() {
         log.Fatal(err)
     }
 
-    _, err = port.Write([]byte("The quick brown fox jumped over the lazy dog.\n The quick brown fox jumped over the lazy dog.\n"))
+    byteChan := make(chan byte)
+    go receiveBytes(port, byteChan)
+
+    _, err = port.Write([]byte("Node 2 loves go\n\r"))
     if err != nil {
         log.Fatal(err)
     }
 
-    line, err := readLine(port)
-    if err != nil {
-        log.Fatal(err)
-    }
+    for {
+        line, err := readLine(byteChan)
+        if err != nil {
+            log.Fatal(err)
+        }
 
-    log.Printf("Read string: %s\n", line)
-     line, err = readLine(port)
-    if err != nil {
-        log.Fatal(err)
+        log.Printf("Read line: %s", line)
     }
-
-    log.Printf("Read string: %s\n", line)
 }
 
-func readLine(port * serial.Port) (line string, err error) {
-    n := 0
-    l := 1
-    var bytes []byte
-    for l != 0 && n < 2048 {
+func receiveBytes(port * serial.Port, byteChan chan <- byte) {
+    for {
         buf := make([]byte, 128)
-        l, err = port.Read(buf)
-
+        n, err := port.Read(buf)
         if err != nil {
-            return "", err
+            log.Fatal(err)
         }
-        for i := 0; i < n + l; i++ {
-            if buf[i] == byte('\n') {
-                return string(bytes[:n+i]), nil
-            } else if buf[i] == byte(0) {
-                break
-            } else {
-                bytes = append(bytes, buf[i])
-            }
+        for i := 0; i < n; i++ {
+            byteChan <- buf[i]
         }
-        n += l
     }
-    return "", errors.New("buffer overflow")
+}
+
+func readLine(byteChan <- chan byte) (line string, err error) {
+    var bytes []byte
+    for i := 0; i < 2048; i++ {
+        b := <- byteChan
+        if b == byte(13) {
+            return string(bytes[:i]), nil
+        } else {
+            bytes = append(bytes, b)
+        }
+    }
+    return "", errors.New("max line length reached")
 }

@@ -21,13 +21,12 @@ int main() {
 	UART_Init(MYUBRR);
 	fdevopen(*UART_Transmit, *UART_Receive);
 	printf("Node 2 ready\n\r");
+	printf("Node 2 loves being ready\n\r");
 
 	char buf[100];
 	while(1) {
 		gets(&buf);
 		printf("Read string %s\n\r", buf);
-
-//		_delay_ms(50);
 	}
 
 	CAN_Normal_Init();
