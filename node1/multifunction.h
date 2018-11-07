@@ -1,7 +1,7 @@
 #ifndef MULTIFUNCTION_H
 #define MULTIFUNCTION_H
 
-#include "joy_pos_sender.h"
+#include "Joy_state.h"
 
 typedef struct Sliders {
   int left;

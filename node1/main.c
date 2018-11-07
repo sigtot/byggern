@@ -30,7 +30,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "multifunction.h"
-#include "joy_pos_sender.h"
+#include "Joy_state.h"
 #include "motorbox.h"
 #include "../common/can_ids.h"
 
