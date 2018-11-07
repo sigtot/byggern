@@ -12,33 +12,17 @@
 #include "../common/SPI.h"
 
 #include "uart_api.h"
+#include "can_api.h"
 #include "reference_state.h"
-
-volatile uint8_t CAN_MSG_RECEIVED = 0;
-
-ISR(INT0_vect) {
-	CAN_MSG_RECEIVED = 1;
-}
 
 int main() {
 	UART_Init(MYUBRR);
 	UART_INT_Enable();
-	fdevopen(*UART_Transmit,NULL);
-	printf("Node 2 ready\n\r");
+	fdevopen(*UART_Transmit,NULL); // Transmit handled sequentially, receive with interrupt
 	printf("Node 2 loves being ready\n\r");
 
 	cli();
 	sei();
-	printf("Sei alright\n\r");
-	while(1) {
-		_delay_ms(1000);
-		printf("Servo pos: %d, Motor pos: %d\n\r", Get_servo_pos(), Get_motor_pos());
-	}
-	char buf[100];
-	while(1) {
-		gets(&buf);
-		printf("Read string %s\n\r", buf);
-	}
 
 	CAN_Normal_Init();
 
@@ -50,11 +34,11 @@ int main() {
 	set_sleep_mode(SLEEP_MODE_PWR_SAVE);
 
 	while(1) {
-		if (CAN_MSG_RECEIVED) {
-			CAN_MSG_RECEIVED = 0;
-			joy_pos_receive();
-		}
-		sleep_enable();
+		_delay_ms(1000); // Using delay until we can set up a gameloop with timer.h
+		printf("Servo pos: %d, Motor pos: %d\n\r", Get_servo_pos(), Get_motor_pos());
+
+		// We can now sleep if we want;
+		//sleep_enable();
 	}
 
 	PWM_init();

@@ -10,7 +10,21 @@
 
 char buf[BUF_SIZE];
 int cursor = 0;
-int RECEIVING_BYTE;
+volatile int RECEIVING_BYTE = 0;
+
+static inline void handle_and_mutate() {
+    char servo_str[10] = "servo";
+    char motor_str[10] = "motor";
+    char * servo_substr = strstr(buf, servo_str);
+    char * motor_substr = strstr(buf, motor_str);
+
+    if (servo_substr != NULL) {
+        Set_servo_pos(get_value_from_substr(servo_substr, strlen(servo_str)));
+    }
+    if (motor_substr != NULL) {
+        Set_motor_pos(get_value_from_substr(motor_substr, strlen(motor_str)));
+    }
+}
 
 ISR(USART0_RX_vect)
 {
@@ -40,20 +54,6 @@ ISR(USART0_RX_vect)
         }
 	}
 	RECEIVING_BYTE = 0;
-}
-
-void handle_and_mutate() {
-    char servo_str[10] = "servo";
-    char motor_str[10] = "motor";
-    char * servo_substr = strstr(buf, servo_str);
-    char * motor_substr = strstr(buf, motor_str);
-
-    if (servo_substr != NULL) {
-        Set_servo_pos(get_value_from_substr(servo_substr, strlen(servo_str)));
-    }
-    if (motor_substr != NULL) {
-        Set_motor_pos(get_value_from_substr(motor_substr, strlen(motor_str)));
-    }
 }
 
 int get_value_from_substr(char * substr, int key_length) {

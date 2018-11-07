@@ -31,6 +31,8 @@
 #include <stdlib.h>
 #include "multifunction.h"
 #include "joy_pos_sender.h"
+#include "motorbox.h"
+#include "../common/can_ids.h"
 
 #include "../common/SPI.h"
 #include "../common/MCP2515.h"
@@ -60,8 +62,8 @@ int main(){
     CAN_Normal_Init();
 
     joy_print_state();
-    joy_pos_send(joy_get_state());
-
+    //joy_pos_send(joy_get_state());
+    node2_send_servo(77);
 
 
 

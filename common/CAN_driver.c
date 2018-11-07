@@ -33,11 +33,10 @@ void CAN_Message_Send(Message *message) {
     //while(!(MCP_TXB0CTRL & (1 << 3))); // Wait for send to complete
     MCP2515_Write(MCP_TXB0DLC, message->length);
     printf("Sent length: %d\n\r", message->length);
-    MCP2515_Write(MCP_TXB0SIDH, 0);
+    MCP2515_Write(MCP_TXB0SIDH, message->ID);
     for (int i=0; i < message->length; i++) {
         MCP2515_Write(MCP_TXB0D0+i, message->data[i]);
     }
-    MCP2515_Bit_Modify(MCP_TXB0SIDL, (1 << 7)|(1 << 6)|(1 << 5), (1 << 5));
     MCP2515_Requst_To_Send();
 }
 
@@ -57,6 +56,20 @@ void CAN_Data_Receive(char *strarr) {
 	MCP2515_Bit_Modify(MCP_CANINTF, (1 << 1), 0);
 }
 
+void CAN_Message_Receive(Message *message) {
+	while(!(MCP_CANINTF & (1 << MCP_RX1IF)));
+    _delay_ms(1);
+    message->length = MCP2515_Read(MCP_RXB1DLC);
+    message->ID = MCP2515_Read(MCP_RXB1SIDH);
+    for (int i = 0; i < message->length; i++) {
+        char data = MCP2515_Read(MCP_RXB1D0+i);
+        message->data[i] = data;
+    }
+    message->data[message->length] = '\0';
+
+	// Reset the interrupt flags
+	MCP2515_Bit_Modify(MCP_CANINTF, (1 << 1), 0);
+}
 void CAN_INT_Enable() {
     // Set both receive buffers some reason
     MCP2515_Bit_Modify(MCP_CANINTE, (1 << 0), 0xff);
