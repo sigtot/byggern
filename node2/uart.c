@@ -2,6 +2,7 @@
 #define FOSC 4915200 // Clock Speed
 #define BAUD 9600
 
+
 void UART_Init(unsigned int ubrr)
 {
     /* Set baud rate */
@@ -13,6 +14,11 @@ void UART_Init(unsigned int ubrr)
 
     /* Set frame format: 8data, 2stop bit */
     UCSR0C = (1<<USBS0)|(3<<UCSZ00);
+}
+
+void UART_INT_Enable()
+{
+    UCSR0B |= (1 << RXCIE0);
 }
 
 void UART_Transmit( unsigned char data )

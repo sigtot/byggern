@@ -2,6 +2,7 @@ package main
 
 import (
     "errors"
+    "fmt"
     "github.com/tarm/serial"
     "log"
 )
@@ -17,7 +18,8 @@ func main() {
     byteChan := make(chan byte)
     go receiveBytes(port, byteChan)
 
-    _, err = port.Write([]byte("Node 2 loves go\n\r"))
+//    _, err = port.Write([]byte("Node 2 loves go\n\r"))
+    _, err = port.Write([]byte("{servo=7&motor=9}"))
     if err != nil {
         log.Fatal(err)
     }
@@ -40,6 +42,7 @@ func receiveBytes(port * serial.Port, byteChan chan <- byte) {
             log.Fatal(err)
         }
         for i := 0; i < n; i++ {
+            fmt.Printf("%c", buf[i])
             byteChan <- buf[i]
         }
     }

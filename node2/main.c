@@ -11,6 +11,9 @@
 #include "../common/MCP2515.h"
 #include "../common/SPI.h"
 
+#include "uart_api.h"
+#include "reference_state.h"
+
 volatile uint8_t CAN_MSG_RECEIVED = 0;
 
 ISR(INT0_vect) {
@@ -19,10 +22,18 @@ ISR(INT0_vect) {
 
 int main() {
 	UART_Init(MYUBRR);
-	fdevopen(*UART_Transmit, *UART_Receive);
+	UART_INT_Enable();
+	fdevopen(*UART_Transmit,NULL);
 	printf("Node 2 ready\n\r");
 	printf("Node 2 loves being ready\n\r");
 
+	cli();
+	sei();
+	printf("Sei alright\n\r");
+	while(1) {
+		_delay_ms(1000);
+		printf("Servo pos: %d, Motor pos: %d\n\r", Get_servo_pos(), Get_motor_pos());
+	}
 	char buf[100];
 	while(1) {
 		gets(&buf);
