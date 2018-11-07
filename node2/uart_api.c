@@ -10,9 +10,12 @@
 
 char buf[BUF_SIZE];
 int cursor = 0;
+int RECEIVING_BYTE;
 
 ISR(USART0_RX_vect)
 {
+	while(RECEIVING_BYTE); // Wait for any previous receive to finish
+	RECEIVING_BYTE = 1;
 	// Read UDR register to reset flag
 	unsigned char data = UDR0;
 	// Check for error
@@ -36,6 +39,7 @@ ISR(USART0_RX_vect)
             cursor = 0; // Wrap around on buffer overflow
         }
 	}
+	RECEIVING_BYTE = 0;
 }
 
 void handle_and_mutate() {

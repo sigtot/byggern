@@ -19,7 +19,7 @@ func main() {
     go receiveBytes(port, byteChan)
 
 //    _, err = port.Write([]byte("Node 2 loves go\n\r"))
-    _, err = port.Write([]byte("{servo=7&motor=9}"))
+    _, err = port.Write([]byte("{servo=18&motor=43}{servo=7&motor=9}"))
     if err != nil {
         log.Fatal(err)
     }
