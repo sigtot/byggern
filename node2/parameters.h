@@ -2,6 +2,7 @@
 #define PARAMETERS_H
 #include <avr/io.h>
 
+// Clock frequencies
 #ifndef F_CPU
 #define F_CPU 16000000
 #endif
@@ -9,6 +10,7 @@
 #define BAUD 9600
 #define MYUBRR FOSC/16/BAUD-1
 
+// SPI ports
 #define DDR_SPI DDRB
 #define DD_SS DDB0
 #define DD_SCK DDB1
@@ -18,5 +20,12 @@
 #define CS PB7
 #define SEND PB2
 #define RECEIVE PB3
+
+// PWM frequency (Hz)
+#define PWM_FREQ 50
+
+// Servo
+#define SERVO_DUTY_MIN 0.001
+#define SERVO_DUTY_MAX 0.002
 
 #endif

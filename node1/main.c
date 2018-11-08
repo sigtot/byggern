@@ -78,7 +78,7 @@ int main(){
 
 	int should_update_menu = 1;
 	while(1){
-        _delay_ms(100);
+        _delay_ms(10);
 		Joy_state joy_state = joy_get_state();
         motorbox_send_servo(Joy_state_get_servo_value(joy_state));
 		switch(joy_state.dir) {

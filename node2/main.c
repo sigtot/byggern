@@ -33,15 +33,17 @@ int main() {
 	sei();
 	set_sleep_mode(SLEEP_MODE_PWR_SAVE);
 
+	PWM_init();
+
 	while(1) {
-		_delay_ms(200); // Using delay until we can set up a gameloop with timer.h
-		printf("Servo pos: %d, Motor pos: %d\n\r", Get_servo_pos(), Get_motor_pos());
+		_delay_ms(10); // Using delay until we can set up a gameloop with timer.h
+		servo_set_pos(Get_servo_pos());
+		//printf("Servo pos: %d, Motor pos: %d\n\r", Get_servo_pos(), Get_motor_pos());
 
 		// We can now sleep if we want;
 		//sleep_enable();
 	}
 
-	PWM_init();
 
 	while(1);
 
