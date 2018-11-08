@@ -10,4 +10,6 @@ typedef struct Joy_state {
     Dir dir;
 } Joy_state;
 
+int Joy_state_get_servo_value(Joy_state joy_state);
+
 #endif

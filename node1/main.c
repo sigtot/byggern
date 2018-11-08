@@ -62,8 +62,6 @@ int main(){
     CAN_Normal_Init();
 
     joy_print_state();
-    //joy_pos_send(joy_get_state());
-    node2_send_servo(77);
 
 
 
@@ -80,7 +78,9 @@ int main(){
 
 	int should_update_menu = 1;
 	while(1){
+        _delay_ms(100);
 		Joy_state joy_state = joy_get_state();
+        motorbox_send_servo(Joy_state_get_servo_value(joy_state));
 		switch(joy_state.dir) {
 		case DOWN:
 			if (selectedptr->next != NULL) {
@@ -119,7 +119,7 @@ int main(){
 
 		if (should_update_menu) {
 			print_menu(headptr, selectedptr);
-			_delay_ms(300);
+			_delay_ms(300); // Wait a little after each interraction with GUI
 			should_update_menu = 0;
 		}
 	}

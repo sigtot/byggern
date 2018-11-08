@@ -32,7 +32,6 @@ void CAN_Normal_Init() {
 void CAN_Message_Send(Message *message) {
     //while(!(MCP_TXB0CTRL & (1 << 3))); // Wait for send to complete
     MCP2515_Write(MCP_TXB0DLC, message->length);
-    printf("Sent length: %d\n\r", message->length);
     MCP2515_Write(MCP_TXB0SIDH, message->ID);
     for (int i=0; i < message->length; i++) {
         MCP2515_Write(MCP_TXB0D0+i, message->data[i]);
