@@ -23,9 +23,6 @@ int main() {
 	fdevopen(*UART_Transmit,NULL); // Transmit handled sequentially, receive with interrupt
 	printf("Node 2 loves being ready\n\r");
 
-	cli();
-	sei();
-
 	CAN_Normal_Init();
 
 	cli();

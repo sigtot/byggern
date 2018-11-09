@@ -119,7 +119,7 @@ int main(){
 
 		if (should_update_menu) {
 			print_menu(headptr, selectedptr);
-			_delay_ms(300); // Wait a little after each interraction with GUI
+			//_delay_ms(300); // Wait a little after each interraction with GUI
 			should_update_menu = 0;
 		}
 	}

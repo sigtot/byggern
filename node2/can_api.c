@@ -4,6 +4,7 @@
 #include "../common/CAN_driver.h"
 #include <avr/io.h>
 #include "../common/can_ids.h"
+#include "servo.h"
 
 volatile int CAN_MSG_RECEIVED = 0;
 
@@ -13,6 +14,7 @@ static inline void handle_and_mutate() {
     switch (message.ID) {
     case CAN_ID_SERVO:
         Set_servo_pos(message.data[0]);
+        servo_set_pos(message.data[0]);
         break;
     case CAN_ID_MOTOR:
         Set_motor_pos(message.data[0]);
