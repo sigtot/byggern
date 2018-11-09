@@ -14,6 +14,7 @@
 #include "uart_api.h"
 #include "can_api.h"
 #include "reference_state.h"
+#include "ir.h"
 
 int main() {
 	UART_Init(MYUBRR);
@@ -35,10 +36,16 @@ int main() {
 
 	PWM_init();
 
+	ir_init();
+
 	while(1) {
 		_delay_ms(10); // Using delay until we can set up a gameloop with timer.h
 		servo_set_pos(Get_servo_pos());
+		if (Ir_is_blocked()) {
+			printf("IR is blocked!\n\r");
+		}
 		//printf("Servo pos: %d, Motor pos: %d\n\r", Get_servo_pos(), Get_motor_pos());
+
 
 		// We can now sleep if we want;
 		//sleep_enable();

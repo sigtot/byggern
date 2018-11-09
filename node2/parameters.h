@@ -28,4 +28,8 @@
 #define SERVO_DUTY_MIN 0.001
 #define SERVO_DUTY_MAX 0.002
 
+// IR
+#define IR_BLOCK_THRESH 50
+#define IR_FILTER_QUALITY 4
+
 #endif

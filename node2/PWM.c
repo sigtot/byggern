@@ -43,16 +43,12 @@ void PWM_init() {
     //ICR1H = ((TOP & 0xFF00) >> 2);
     ICR1H = 0x01;
     ICR1L = 0x37; // (TOP & 0xFF);
-    printf("Top:  %04x\n\r", TOP);
-    printf("Toph: %04x\n\r", ((TOP & 0xFF00) >> 2)); // This outputs 0x40, but should be 0x01, why?
-    printf("Topl: %04x\n\r", (TOP & 0xFF));
 }
 
 void PWM_set_duty_cycle(double duty) {
     uint16_t BOTTOM = (uint16_t) (duty * PWM_FREQ * (TOP + 1));
     OCR1AH = 0x00;
     OCR1AL = (BOTTOM & 0xFF);
-    printf("Bottom: %04x\n\r", BOTTOM);
 }
 
 //COM1A =
