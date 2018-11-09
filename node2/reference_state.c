@@ -1,7 +1,7 @@
 #include "reference_state.h"
 #include "parameters.h"
 
-Reference_State reference_state = {0, 0, 0}; // TODO: Make static
+Reference_State reference_state = {0, 0, 100}; // TODO: Make static
 
 int Get_servo_pos() {
     return reference_state.servo_pos;
