@@ -6,13 +6,14 @@
 
 Nodeptr init_menu() {
     Nodeptr headptr = malloc(sizeof(Node));
-    headptr->text = strdup("Top 1");
+    headptr->text = strdup("Play Pinball");
+    headptr->function_pointer = init_game();
 
-    headptr->next = init_node(headptr, NULL, "Top 2");
+    headptr->next = init_node(headptr, NULL, "Highscores");
     headptr->next->next = init_node(headptr->next, NULL, "Top 3");
 
-    headptr->child = init_node(NULL, headptr, "Sub 1");
-    headptr->child->next = init_node(headptr->child, headptr, "Sub 2");
+    headptr->next->child = init_node(NULL, headptr, "Name:");
+    headptr->next->child->next = init_node(headptr->child, headptr, "Sub 2");
 
     return headptr;
 }
@@ -42,5 +43,63 @@ void print_menu(Nodeptr headptr, Nodeptr selectedptr) {
         }
         headptr = headptr->next;
         i++;
+    }
+}
+
+void init_game() {
+
+}
+
+function_pointer run_menu() {
+    Nodeptr headptr = init_menu();
+    Nodeptr selectedptr = headptr;
+    while(1) {
+        _delay_ms(10);
+        Joy_state joy_state = joy_get_state();
+        motorbox_send_servo(Joy_state_get_servo_value(joy_state));
+        switch(joy_state.dir) {
+        case DOWN:
+            if (selectedptr->next != NULL) {
+                selectedptr = selectedptr->next;
+                should_update_menu = 1;
+            }
+            break;
+        case UP:
+            if (selectedptr->prev != NULL) {
+                selectedptr = selectedptr->prev;
+                should_update_menu = 1;
+            }
+            break;
+        case RIGHT:
+            if (selectedptr->child != NULL) {
+                headptr = selectedptr->child;
+                selectedptr = selectedptr->child;
+                should_update_menu = 1;
+            }
+            break;
+        case LEFT:
+            if (selectedptr->parent != NULL) {
+                headptr = selectedptr->parent;
+                selectedptr = selectedptr->parent;
+                should_update_menu = 1;
+            }
+            break;
+        }
+        Button button_state = buttons_get_state();
+        if (button_state.joy && (selectedptr->child != NULL)) {
+            headptr = selectedptr->child;
+            selectedptr = selectedptr->child;
+            should_update_menu = 1;
+        }
+
+        if (should_update_menu) {
+            print_menu(headptr, selectedptr);
+            //_delay_ms(300); // Wait a little after each interraction with GUI
+            should_update_menu = 0;
+        }
+
+        if (button_state.right && (selectedptr->func != NULL)) {
+            return selectedptr->func;
+        }
     }
 }
