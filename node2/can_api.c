@@ -22,7 +22,7 @@ static inline void handle_and_mutate() {
     }
 }
 
-ISR(INT0_vect) {
+ISR(INT3_vect) {
     while(CAN_MSG_RECEIVED); // Wait for any other messages to finish receiving
 	CAN_MSG_RECEIVED = 1;
     handle_and_mutate();

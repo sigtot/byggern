@@ -15,15 +15,16 @@ func main() {
         log.Fatal(err)
     }
 
-    byteChan := make(chan byte)
-    go receiveBytes(port, byteChan)
+    //byteChan := make(chan byte)
+   // go receiveBytes(port, byteChan)
 
 //    _, err = port.Write([]byte("Node 2 loves go\n\r"))
-    _, err = port.Write([]byte("{servo=18&motor=43}{servo=7&motor=9}"))
+    _, err = port.Write([]byte("{servo=30&motor=43}"))
     if err != nil {
         log.Fatal(err)
     }
 
+    /*
     for {
         line, err := readLine(byteChan)
         if err != nil {
@@ -32,6 +33,7 @@ func main() {
 
         log.Printf("Read line: %s", line)
     }
+    */
 }
 
 func receiveBytes(port * serial.Port, byteChan chan <- byte) {
