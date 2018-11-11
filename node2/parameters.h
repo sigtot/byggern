@@ -34,5 +34,6 @@
 
 // Motor
 #define MIN_VAL 110
+#define MAX_VAL 250
 
 #endif
