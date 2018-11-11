@@ -32,4 +32,7 @@
 #define IR_BLOCK_THRESH 50
 #define IR_FILTER_QUALITY 4
 
+// Motor
+#define MIN_VAL 110
+
 #endif
