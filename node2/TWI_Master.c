@@ -16,7 +16,7 @@
 * AppNote           : AVR315 - TWI Master Implementation
 *
 * Description       : This is a sample driver for the TWI hardware modules.
-*                     It is interrupt driven. All functionality is controlled through
+*                     It is interrupt driveren. All functionality is controlled through
 *                     passing information to and from functions. Se main.c for samples
 *                     of how to use the driver.
 *
@@ -53,7 +53,6 @@ Call this function to test if the TWI_ISR is busy transmitting.
 ****************************************************************************/
 unsigned char TWI_Transceiver_Busy( void )
 {
-    //printf("TWSR: %02x\n\r", TWI_state);
   return ( TWCR & (1<<TWIE) );                  // IF TWI Interrupt is enabled then the Transceiver is busy
 }
 
@@ -78,13 +77,7 @@ then initialize the next operation and return.
 void TWI_Start_Transceiver_With_Data( unsigned char *msg, unsigned char msgSize )
 {
   unsigned char temp;
-
-  printf("TWEIE: %d\n\r", TWCR & (1 << TWIE));
-  printf("Starting tranceive...\n\r");
   while ( TWI_Transceiver_Busy() );             // Wait until TWI is ready for next transmission.
-
-  printf("Tranciever no longer busy\n\r");
-
   TWI_msgSize = msgSize;                        // Number of data to transmit.
   TWI_buf[0]  = msg[0];                         // Store slave address with R/W setting.
   if (!( msg[0] & (TRUE<<TWI_READ_BIT) ))       // If it is a write operation, then also copy data.
@@ -94,13 +87,10 @@ void TWI_Start_Transceiver_With_Data( unsigned char *msg, unsigned char msgSize 
   }
   TWI_statusReg.all = 0;
   TWI_state         = TWI_NO_STATE ;
-  printf("TWI_state2 set: %02x\n\r", TWI_state);
   TWCR = (1<<TWEN)|                             // TWI Interface enabled.
          (1<<TWIE)|(1<<TWINT)|                  // Enable TWI Interupt and clear the flag.
          (0<<TWEA)|(1<<TWSTA)|(0<<TWSTO)|       // Initiate a START condition.
          (0<<TWWC);                             //
-
-    printf("TWSR: %02x\n\r", TWI_state);
 }
 
 /****************************************************************************
@@ -113,7 +103,6 @@ void TWI_Start_Transceiver( void )
   while ( TWI_Transceiver_Busy() );             // Wait until TWI is ready for next transmission.
   TWI_statusReg.all = 0;
   TWI_state         = TWI_NO_STATE ;
-  printf("TWI_state3 set: %02x\n\r", TWI_state);
   TWCR = (1<<TWEN)|                             // TWI Interface enabled.
          (1<<TWIE)|(1<<TWINT)|                  // Enable TWI Interupt and clear the flag.
          (0<<TWEA)|(1<<TWSTA)|(0<<TWSTO)|       // Initiate a START condition.
@@ -152,21 +141,17 @@ application.
 ****************************************************************************/
 ISR(TWI_vect)
 {
-printf("interrupted (TWSR: %02x)\n\r", TWI_state);
   static unsigned char TWI_bufPtr;
 
   switch (TWSR)
   {
     case TWI_START:             // START has been transmitted
-        printf("Start!\n\r");
     case TWI_REP_START:         // Repeated START has been transmitted
       TWI_bufPtr = 0;                                     // Set buffer pointer to the TWI Address location
     case TWI_MTX_ADR_ACK:       // SLA+W has been tramsmitted and ACK received
-        printf("SLA+W ACK\n\r");
     case TWI_MTX_DATA_ACK:      // Data byte has been tramsmitted and ACK received
       if (TWI_bufPtr < TWI_msgSize)
       {
-          printf("bufptr: %d   msgsize: %d\n\r", TWI_bufPtr, TWI_msgSize);
         TWDR = TWI_buf[TWI_bufPtr++];
         TWCR = (1<<TWEN)|                                 // TWI Interface enabled
                (1<<TWIE)|(1<<TWINT)|                      // Enable TWI Interupt and clear the flag to send byte
@@ -174,7 +159,6 @@ printf("interrupted (TWSR: %02x)\n\r", TWI_state);
                (0<<TWWC);                                 //
       }else                    // Send STOP after last byte
       {
-          printf("stopping\n\r");
         TWI_statusReg.lastTransOK = TRUE;                 // Set status bits to completed successfully.
         TWCR = (1<<TWEN)|                                 // TWI Interface enabled
                (0<<TWIE)|(1<<TWINT)|                      // Disable TWI Interrupt and clear the flag
@@ -184,9 +168,7 @@ printf("interrupted (TWSR: %02x)\n\r", TWI_state);
       break;
     case TWI_MRX_DATA_ACK:      // Data byte has been received and ACK tramsmitted
       TWI_buf[TWI_bufPtr++] = TWDR;
-      printf("ACK received\n\r");
     case TWI_MRX_ADR_ACK:       // SLA+R has been tramsmitted and ACK received
-      printf("ACK received\n\r");
       if (TWI_bufPtr < (TWI_msgSize-1) )                  // Detect the last byte to NACK it.
       {
         TWCR = (1<<TWEN)|                                 // TWI Interface enabled
@@ -202,7 +184,6 @@ printf("interrupted (TWSR: %02x)\n\r", TWI_state);
       }
       break;
     case TWI_MRX_DATA_NACK:     // Data byte has been received and NACK tramsmitted
-      printf("NACK received\n\r");
       TWI_buf[TWI_bufPtr] = TWDR;
       TWI_statusReg.lastTransOK = TRUE;                 // Set status bits to completed successfully.
       TWCR = (1<<TWEN)|                                 // TWI Interface enabled
@@ -211,7 +192,6 @@ printf("interrupted (TWSR: %02x)\n\r", TWI_state);
              (0<<TWWC);                                 //
       break;
     case TWI_ARB_LOST:          // Arbitration lost
-        printf("ARB LOST");
       TWCR = (1<<TWEN)|                                 // TWI Interface enabled
              (1<<TWIE)|(1<<TWINT)|                      // Enable TWI Interupt and clear the flag
              (0<<TWEA)|(1<<TWSTA)|(0<<TWSTO)|           // Initiate a (RE)START condition.
@@ -223,9 +203,7 @@ printf("interrupted (TWSR: %02x)\n\r", TWI_state);
 //    case TWI_NO_STATE              // No relevant state information available; TWINT = �0�
     case TWI_BUS_ERROR:         // Bus error due to an illegal START or STOP condition
     default:
-      printf("Default!\n\r");
       TWI_state = TWSR;                                 // Store TWSR and automatically sets clears noErrors bit.
-      printf("TWI_state4 set: %02x\n\r", TWI_state);
                                                         // Reset TWI Interface
       TWCR = (1<<TWEN)|                                 // Enable TWI-interface and release TWI pins
              (0<<TWIE)|(0<<TWINT)|                      // Disable Interupt

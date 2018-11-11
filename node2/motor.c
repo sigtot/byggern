@@ -9,7 +9,7 @@ void MOTOR_Send_Voltage(unsigned char voltage) {
     unsigned char * msg = malloc(3 * sizeof(char));
     unsigned char addr = 0x50;
     msg[0] = addr;
-    msg[1] = 0x00;
+    msg[1] = 0;
     msg[2] = voltage;
 
     _delay_us(50);
@@ -18,7 +18,5 @@ void MOTOR_Send_Voltage(unsigned char voltage) {
 }
 
 void MOTOR_Init() {
-
     TWI_Master_Initialise();
-    DDRD |= (1 << PD0)|(1 << PD1); // Set data direction out for SDA and SLC
 }

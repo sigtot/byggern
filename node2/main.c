@@ -28,10 +28,10 @@ int main() {
 	CAN_Normal_Init();
 
 	cli();
-	EIMSK |= (1 << INT0); // Enable interrupt on INT0
-	EICRA &= ~(1 << ISC00); // Interrupt on falling edge
-	EICRA |= (1 << ISC01); // Interrupt on falling edge
-	//sei();
+	EICRA &= ~(1 << ISC30); // Interrupt on falling edge
+	EICRA |= (1 << ISC31); // Interrupt on falling edge
+	EIMSK |= (1 << INT3); // Enable interrupt on INT3
+	sei();
 	set_sleep_mode(SLEEP_MODE_PWR_SAVE);
 
 	PWM_init();
@@ -39,8 +39,8 @@ int main() {
 	MOTOR_Init();
 	sei();
 	while(1) {
-		_delay_ms(300);
-		MOTOR_Send_Voltage(0x20);
+		servo_set_pos(Get_servo_pos());
+		MOTOR_Send_Voltage(Get_servo_pos());
 	}
 	ir_init();
 	game_play_round();
