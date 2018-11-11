@@ -4,9 +4,9 @@
 
 // Clock frequencies
 #ifndef F_CPU
-#define F_CPU 20000000
+#define F_CPU 16000000
 #endif
-#define FOSC 20000000
+#define FOSC 16000000
 #define BAUD 9600
 #define MYUBRR FOSC/16/BAUD-1
 

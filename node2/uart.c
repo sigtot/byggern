@@ -1,5 +1,5 @@
 #include <avr/io.h>
-#define FOSC 20000000 // Clock Speed
+#define FOSC 16000000 // Clock Speed
 #define BAUD 9600
 
 
