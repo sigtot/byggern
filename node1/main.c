@@ -75,7 +75,7 @@ int main(){
 
 	int should_update_menu = 1;
 	while(1){
-        action = run_menu();
+        function_pointer action = run_menu();
         if (action != NULL) {
             action();
         }

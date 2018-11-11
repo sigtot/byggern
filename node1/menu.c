@@ -3,11 +3,12 @@
 #include "oled.h"
 #include <stdlib.h>
 #include <string.h>
+#include <avr/delay.h>
 
 Nodeptr init_menu() {
     Nodeptr headptr = malloc(sizeof(Node));
     headptr->text = strdup("Play Pinball");
-    headptr->function_pointer = init_game();
+    headptr->func = init_game;
 
     headptr->next = init_node(headptr, NULL, "Highscores");
     headptr->next->next = init_node(headptr->next, NULL, "Top 3");
@@ -51,6 +52,7 @@ void init_game() {
 }
 
 function_pointer run_menu() {
+    int should_update_menu = 1;
     Nodeptr headptr = init_menu();
     Nodeptr selectedptr = headptr;
     while(1) {

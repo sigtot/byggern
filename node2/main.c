@@ -18,6 +18,7 @@
 #include "game.h"
 #include "TWI_Master.h"
 #include "motor.h"
+#include "control.h"
 
 int main() {
 	UART_Init(MYUBRR);
