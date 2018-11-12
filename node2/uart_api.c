@@ -45,7 +45,10 @@ ISR(USART0_RX_vect)
         // Frame finished, mutate state
         if(data == '}') {
             buf[cursor + 1] = '\0'; // End the string so string functions work
+            printf("Received: %s\n\r", buf);
             handle_and_mutate();
+            printf("New servo val: %d\n\r", Get_servo_pos());
+            printf("New motor val: %d\n\r", Get_motor_pos());
             cursor = 0;
         } else if (cursor < BUF_SIZE - 2) {
             cursor++;

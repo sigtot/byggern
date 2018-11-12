@@ -48,7 +48,7 @@ void print_menu(Nodeptr headptr, Nodeptr selectedptr) {
 }
 
 void init_game() {
-
+    printf("Init game\n\r");
 }
 
 function_pointer run_menu() {
@@ -78,6 +78,10 @@ function_pointer run_menu() {
                 selectedptr = selectedptr->child;
                 should_update_menu = 1;
             }
+            if (selectedptr->func != NULL) {
+                selectedptr->func();
+                should_update_menu = 1;
+            }
             break;
         case LEFT:
             if (selectedptr->parent != NULL) {
@@ -96,7 +100,7 @@ function_pointer run_menu() {
 
         if (should_update_menu) {
             print_menu(headptr, selectedptr);
-            //_delay_ms(300); // Wait a little after each interraction with GUI
+            _delay_ms(300); // Wait a little after each interraction with GUI
             should_update_menu = 0;
         }
 

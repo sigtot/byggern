@@ -12,7 +12,6 @@ static struct Queue* measurements;
 static int get_filtered_value();
 
 ISR(ADC_vect) {
-    printf("Interrupted (IR)");
     // Truncate value to 8 least significant bits
     int ir_val = ADCL;
 

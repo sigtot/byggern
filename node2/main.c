@@ -36,12 +36,14 @@ int main() {
 	set_sleep_mode(SLEEP_MODE_PWR_SAVE);
 
 	PWM_init();
+	servo_set_pos(Get_servo_pos());
 
 	MOTOR_Init();
 	sei();
+	control_init();
 	while(1) {
 		servo_set_pos(Get_servo_pos());
-		MOTOR_Send_Voltage(Get_servo_pos());
+		MOTOR_Send_Voltage(Get_motor_pos());
 	}
 	ir_init();
 	game_play_round();
