@@ -1,0 +1,35 @@
+#include "state.h"
+#include "parameters.h"
+
+static State state = {0, 0, 50, 100};
+int Get_servo_pos() {
+    return state.servo_pos;
+}
+
+void Set_servo_pos(int servo_pos) {
+    state.servo_pos = servo_pos;
+}
+
+int Get_motor_pos() {
+    return state.motor_pos;
+}
+
+void Set_motor_pos(int motor_pos) {
+    state.motor_pos = motor_pos;
+}
+
+int Get_motor_reference() {
+    return state.motor_reference;
+}
+
+void Set_motor_reference(int motor_pos) {
+    state.motor_reference = motor_pos;
+}
+
+void Set_ir_value(int ir_value) {
+    state.ir_value = ir_value;
+}
+
+int Ir_is_blocked() {
+    return state.ir_value <= IR_BLOCK_THRESH;
+}
