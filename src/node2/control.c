@@ -27,12 +27,6 @@ void control_init_timer() {
     TIMSK3 |= (1 << OCIE3A); // Enable interrupts for TIMER3A
 }
 
-void encoder_reset() {
-    PORTH &= ~(1 << RST);
-    _delay_us(100);
-    PORTH |= (1 << RST);
-}
-
 void control_init() {
     printf("PORTH before: %02x", PORTH);
     control_init_timer();
@@ -47,7 +41,6 @@ void control_init() {
             (1 << DIR); // motor direction pin
 
     // Set counter to 0
-    //encoder_reset();
     PORTH &= ~(1 << RST);
     printf("PORTH after: %02x", PORTH);
 
@@ -68,29 +61,26 @@ void control_set_motor_direction(MotorDir dir) {
     }
 }
 
-uint16_t read_encoder_value() {
-    _delay_ms(10);
-    volatile uint16_t value = 0;
+int16_t read_encoder_value() {
+    volatile int16_t value = 0;
     // Enable output
     PORTH &= ~(1 << OE);
 
     // Select MSB
     PORTH &= ~(1 << SEL);
 
-    _delay_us(150);
+    _delay_us(250);
 
     // Read MSB
-    value |= (PORTK << 8);
-    printf("PORTK MSB: %02x", PORTK);
+    value |= (PINK << 8);
 
     // Select LSB
-    PORTH |=  (1 << SEL);
+    PORTH |= (1 << SEL);
 
-    _delay_us(150);
+    _delay_us(250);
 
     // Read LSB
-    value |= PORTK;
-    printf("PORTK LSB: %02x", PORTK);
+    value |= PINK;
 
     // Toggle reset
     if (PORTH & (1 << RST)) {
@@ -101,23 +91,19 @@ uint16_t read_encoder_value() {
 
     // Disable output
     PORTH |= (1 << OE);
-    _delay_us(100);
 
-    return value;
+    return (-1) * value; // Return negative since direction is flipped
 }
 
 ISR(TIMER3_COMPA_vect)
 {
     counter++;
     if (!(counter % 100)) {
-        Set_motor_reference(30);
-        if (!(counter % 400)) {
-            control_set_motor_direction(LEFT);
-		    Set_motor_reference(130);
-            if (!(counter % 800)) {
-                control_set_motor_direction(RIGHT);
-    		    Set_motor_reference(130);
-            }
-        }
+        int16_t motor_val = read_encoder_value();
+        Set_motor_pos(Get_motor_pos() + motor_val);
+    }
+
+    if (!(counter % FREQ)) {
+        printf("Motor pos: %d\n\r", Get_motor_pos());
     }
 }

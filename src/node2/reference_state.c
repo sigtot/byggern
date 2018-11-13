@@ -1,7 +1,7 @@
 #include "reference_state.h"
 #include "parameters.h"
 
-Reference_State reference_state = {0, 0, 100}; // TODO: Make static
+Reference_State reference_state = {0, 0, 0, 100}; // TODO: Make static
 
 int Get_servo_reference() {
     return reference_state.servo_reference;
@@ -17,6 +17,14 @@ int Get_motor_reference() {
 
 void Set_motor_reference(int val) {
     reference_state.motor_reference = val;
+}
+
+void Set_motor_pos(int val) {
+    reference_state.motor_pos = val;
+}
+
+int Get_motor_pos() {
+    return reference_state.motor_pos;
 }
 
 void Set_ir_value(int ir_value) {

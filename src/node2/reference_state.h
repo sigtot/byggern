@@ -4,6 +4,7 @@
 typedef struct Reference_State {
     int servo_reference;
     int motor_reference;
+    int motor_pos;
     int ir_value;
 } Reference_State;
 
@@ -14,6 +15,10 @@ void Set_servo_reference(int servo_pos);
 int Get_motor_reference(void);
 
 void Set_motor_reference(int servo_pos);
+
+int Get_motor_pos();
+
+void Set_motor_pos(int val);
 
 void Set_ir_value(int ir_value);
 
