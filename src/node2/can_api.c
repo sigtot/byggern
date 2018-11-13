@@ -13,11 +13,11 @@ static inline void handle_and_mutate() {
     CAN_Message_Receive(&message);
     switch (message.ID) {
     case CAN_ID_SERVO:
-        Set_servo_pos(message.data[0]);
+        Set_servo_reference(message.data[0]);
         servo_set_pos(message.data[0]);
         break;
     case CAN_ID_MOTOR:
-        Set_motor_pos(message.data[0]);
+        Set_motor_reference(message.data[0]);
         break;
     }
 }

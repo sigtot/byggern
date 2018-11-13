@@ -110,14 +110,13 @@ ISR(TIMER3_COMPA_vect)
 {
     counter++;
     if (!(counter % 100)) {
-        printf("Encoder value: %d\n\r", read_encoder_value());
-        Set_motor_pos(30);
+        Set_motor_reference(30);
         if (!(counter % 400)) {
             control_set_motor_direction(LEFT);
-		    Set_motor_pos(130);
+		    Set_motor_reference(130);
             if (!(counter % 800)) {
                 control_set_motor_direction(RIGHT);
-    		    Set_motor_pos(130);
+    		    Set_motor_reference(130);
             }
         }
     }

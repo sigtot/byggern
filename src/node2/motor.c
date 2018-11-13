@@ -1,5 +1,5 @@
 #include "motor.h"
-#include "TWI_Master.h"
+#include "../../lib/TWI_Master.h"
 #include <stdlib.h>
 #include <avr/io.h>
 #include <avr/delay.h>

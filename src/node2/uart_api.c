@@ -8,26 +8,46 @@
 
 #define BUF_SIZE 100
 
+// TODO: Make static
 char buf[BUF_SIZE];
 int cursor = 0;
 volatile int RECEIVING_BYTE = 0;
+static volatile int API_ENABLED = 0;
 
+void uart_api_enable() {
+	UART_INT_Enable();
+    API_ENABLED = 1;
+}
+
+void respond_with_state() {
+    printf("{\"servoPos\": %d, \"motorReference\": %d}\n\r", Get_servo_reference(), Get_motor_reference());
+}
+
+// TODO: Make not inline
 static inline void handle_and_mutate() {
     char servo_str[10] = "servo";
     char motor_str[10] = "motor";
+	char get_str[10] = "GET";
     char * servo_substr = strstr(buf, servo_str);
     char * motor_substr = strstr(buf, motor_str);
+	char * get_substr = strstr(buf, get_str);
 
     if (servo_substr != NULL) {
-        Set_servo_pos(get_value_from_substr(servo_substr, strlen(servo_str)));
+        Set_servo_reference(get_value_from_substr(servo_substr, strlen(servo_str)));
     }
+
     if (motor_substr != NULL) {
-        Set_motor_pos(get_value_from_substr(motor_substr, strlen(motor_str)));
+        Set_motor_reference(get_value_from_substr(motor_substr, strlen(motor_str)));
     }
+
+	if (get_substr != NULL) {
+		respond_with_state();
+	}
 }
 
 ISR(USART0_RX_vect)
 {
+    if (!API_ENABLED) { return; }
 	while(RECEIVING_BYTE); // Wait for any previous receive to finish
 	RECEIVING_BYTE = 1;
 	// Read UDR register to reset flag
@@ -45,10 +65,7 @@ ISR(USART0_RX_vect)
         // Frame finished, mutate state
         if(data == '}') {
             buf[cursor + 1] = '\0'; // End the string so string functions work
-            printf("Received: %s\n\r", buf);
             handle_and_mutate();
-            printf("New servo val: %d\n\r", Get_servo_pos());
-            printf("New motor val: %d\n\r", Get_motor_pos());
             cursor = 0;
         } else if (cursor < BUF_SIZE - 2) {
             cursor++;

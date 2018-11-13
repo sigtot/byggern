@@ -4,6 +4,10 @@ SOURCE_FILES = $(wildcard *.c)
 COMMON_DIR = ../common
 COMMON_BUILD_DIR = common
 COMMON_FILES = $(wildcard $(COMMON_DIR)/*.c)
+
+LIB_DIR = ../../lib
+LIB_BUILD_DIR = lib
+LIB_FILES = $(wildcard $(LIB_DIR)/*.c)
 # Set this flag to "yes" (no quotes) to use JTAG; otherwise ISP (SPI) is used
 PROGRAM_WITH_JTAG := yes
 
@@ -20,7 +24,7 @@ TARGET_DEVICE := m2560
 CC := avr-gcc
 CFLAGS := -O -std=c11 -mmcu=$(TARGET_CPU)
 
-OBJECT_FILES = $(SOURCE_FILES:%.c=$(BUILD_DIR)/%.o) $(COMMON_FILES:$(COMMON_DIR)/%.c=$(BUILD_DIR)/$(COMMON_BUILD_DIR)/%.o)
+OBJECT_FILES = $(SOURCE_FILES:%.c=$(BUILD_DIR)/%.o) $(COMMON_FILES:$(COMMON_DIR)/%.c=$(BUILD_DIR)/$(COMMON_BUILD_DIR)/%.o) $(LIB_FILES:$(LIB_DIR)/%.c=$(BUILD_DIR)/$(LIB_BUILD_DIR)/%.o)
 
 .DEFAULT_GOAL := $(BUILD_DIR)/main.hex
 
@@ -30,11 +34,17 @@ $(BUILD_DIR):
 $(BUILD_DIR)/$(COMMON_BUILD_DIR):
 	mkdir $(BUILD_DIR)/$(COMMON_BUILD_DIR)
 
-$(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
+$(BUILD_DIR)/$(LIB_BUILD_DIR):
+	mkdir $(BUILD_DIR)/$(LIB_BUILD_DIR)
+
+$(BUILD_DIR)/$(LIB_BUILD_DIR)/%.o: $(LIB_DIR)/%.c | $(BUILD_DIR)/$(LIB_BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@ -I../../lib -Wall
+
 $(BUILD_DIR)/$(COMMON_BUILD_DIR)/%.o: $(COMMON_DIR)/%.c | $(BUILD_DIR)/$(COMMON_BUILD_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@ -I../node2 -Wall
+	$(CC) $(CFLAGS) -c $< -o $@ -I../node2 -I../../lib -Wall
 
 $(BUILD_DIR)/main.hex: $(OBJECT_FILES) | $(BUILD_DIR)
 	$(CC) $(CFLAGS) $(OBJECT_FILES) -o $(BUILD_DIR)/a.out

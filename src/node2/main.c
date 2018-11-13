@@ -16,13 +16,13 @@
 #include "reference_state.h"
 #include "ir.h"
 #include "game.h"
-#include "TWI_Master.h"
+#include "../../lib/TWI_Master.h"
 #include "motor.h"
 #include "control.h"
 
 int main() {
 	UART_Init(MYUBRR);
-	UART_INT_Enable();
+	//uart_api_enable();
 	fdevopen(*UART_Transmit,NULL); // Transmit handled sequentially, receive with interrupt
 	printf("Node 2 loves being ready -------------------\n\r");
 
@@ -36,14 +36,14 @@ int main() {
 	set_sleep_mode(SLEEP_MODE_PWR_SAVE);
 
 	PWM_init();
-	servo_set_pos(Get_servo_pos());
+	servo_set_pos(Get_servo_reference());
 
 	MOTOR_Init();
 	sei();
 	control_init();
 	while(1) {
-		servo_set_pos(Get_servo_pos());
-		MOTOR_Send_Voltage(Get_motor_pos());
+		servo_set_pos(Get_servo_reference());
+		MOTOR_Send_Voltage(Get_motor_reference());
 	}
 	ir_init();
 	game_play_round();
