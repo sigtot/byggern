@@ -1,6 +1,6 @@
 #include "uart_api.h"
 #include "uart.h"
-#include "reference_state.h"
+#include "state.h"
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <string.h>
@@ -22,7 +22,7 @@ static inline void handle_and_mutate() {
         Set_servo_pos(get_value_from_substr(servo_substr, strlen(servo_str)));
     }
     if (motor_substr != NULL) {
-        Set_motor_pos(get_value_from_substr(motor_substr, strlen(motor_str)));
+        Set_motor_reference(get_value_from_substr(motor_substr, strlen(motor_str)));
     }
 }
 
@@ -48,7 +48,7 @@ ISR(USART0_RX_vect)
             printf("Received: %s\n\r", buf);
             handle_and_mutate();
             printf("New servo val: %d\n\r", Get_servo_pos());
-            printf("New motor val: %d\n\r", Get_motor_pos());
+            printf("New motor reference: %d\n\r", Get_motor_reference());
             cursor = 0;
         } else if (cursor < BUF_SIZE - 2) {
             cursor++;

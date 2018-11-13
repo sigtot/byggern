@@ -3,7 +3,7 @@
 #include <avr/sfr_defs.h>
 #include <avr/interrupt.h>
 #include "../common/Queue.h"
-#include "reference_state.h"
+#include "state.h"
 #include "parameters.h"
 
 #define ADC0 PF0

@@ -1,5 +1,5 @@
 #include "can_api.h"
-#include "reference_state.h"
+#include "state.h"
 #include <avr/interrupt.h>
 #include "../common/CAN_driver.h"
 #include <avr/io.h>
@@ -17,7 +17,7 @@ static inline void handle_and_mutate() {
         servo_set_pos(message.data[0]);
         break;
     case CAN_ID_MOTOR:
-        Set_motor_pos(message.data[0]);
+        Set_motor_reference(message.data[0]);
         break;
     }
 }

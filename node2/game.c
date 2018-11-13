@@ -1,7 +1,7 @@
 #include "game.h"
 #include "parameters.h"
 #include <avr/delay.h>
-#include "reference_state.h"
+#include "state.h"
 
 void game_play_round() {
     int points = 0;

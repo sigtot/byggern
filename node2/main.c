@@ -13,7 +13,7 @@
 
 #include "uart_api.h"
 #include "can_api.h"
-#include "reference_state.h"
+#include "state.h"
 #include "ir.h"
 #include "game.h"
 #include "TWI_Master.h"
@@ -43,7 +43,9 @@ int main() {
 	control_init();
 	while(1) {
 		servo_set_pos(Get_servo_pos());
-		MOTOR_Send_Voltage(Get_motor_pos());
+		MOTOR_Send_Voltage(1.5 * Get_servo_pos());
+		printf("r = %d, x = %d\n\r", Get_motor_reference(), Get_motor_pos());
+		_delay_ms(50);
 	}
 	ir_init();
 	game_play_round();
