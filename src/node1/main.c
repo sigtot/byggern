@@ -69,16 +69,11 @@ int main(){
 
 
 	//char c = SPI_SlaveReceive();
-	//printf("Recieved: %c ("BYTE_TO_BINARY_PATTERN")\n\r", c, BYTE_TO_BINARY(c));
+    //printf("Recieved: %c ("BYTE_TO_BINARY_PATTERN")\n\r", c, BYTE_TO_BINARY(c));
 
 
-
-	int should_update_menu = 1;
 	while(1){
-        function_pointer action = run_menu();
-        if (action != NULL) {
-            action();
-        }
+        run_menu();
 	}
 
 
