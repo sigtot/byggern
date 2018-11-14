@@ -10,16 +10,8 @@
 
 #define MAX_INT_VAL 65536
 
-#define ENCODER_SCALE 10
 #define SUM_SCALER 1
 #define DOWNSCALER 100
-
-// Motorbox pins
-#define DIR PH1
-#define SEL PH3
-#define EN PH4
-#define OE PH5 // Active low
-#define RST PH6 // Active low
 
 #define abs(x) ((x)<0 ? -(x) : (x))
 
@@ -42,39 +34,7 @@ void control_init_timer() {
 }
 
 void control_init() {
-    // Set K port (MJ2) as input
-    DDRK = 0x0;
-
-    // Set pins in H port (MJ1) as output
-    DDRH |= (1 << RST)| // reset pin
-            (1 << OE) | // output enable pin
-            (1 << EN) | // enable pin
-            (1 << SEL)| // select high or low register pin
-            (1 << DIR); // motor direction pin
-
-    // Set counter to 0
-    PORTH &= ~(1 << RST);
-    printf("PORTH after: %02x", PORTH);
-
-    // Enable motor
-    PORTH |= (1 << EN);
-
-    // Enable encoder output
-    PORTH &= ~(1 << OE);
-
-    calibrate_motor();
     control_init_timer();
-}
-
-void control_set_motor_direction(MotorDir dir) {
-    switch (dir) {
-    case LEFT:
-        PORTH &= ~(1 << DIR);
-        break;
-    case RIGHT:
-        PORTH |= (1 << DIR);
-    }
-    _delay_us(100);
 }
 
 // Returns values between -MOTOR_MIN_VAL and MOTOR_MIN_VAL
@@ -93,66 +53,11 @@ int16_t get_control_input(int16_t reference, int16_t position, int16_t prev_posi
     }
 
     // Compensate for motor's deadband of -MOTOR_MIN_VAL -> +MOTOR_MIN_VAL
-    double mul = 1;
+    int shift = 0;
     if (abs(control_input) < MOTOR_MIN_VAL) {
-        mul = (double)MOTOR_MIN_VAL / (double)control_input;
+        shift = (control_input < 0) ? -MOTOR_MIN_VAL : MOTOR_MIN_VAL;
     }
-    return abs(mul) * control_input;
-}
-
-void calibrate_motor() {
-    control_set_motor_direction(LEFT);
-    MOTOR_Send_Voltage(120);
-    _delay_ms(500);
-    control_set_motor_direction(RIGHT);
-    MOTOR_Send_Voltage(120);
-    _delay_ms(200);
-    MOTOR_Send_Voltage(0);
-    _delay_ms(500);
-}
-
-void actuate_motor(int16_t input) {
-    if (input < 0) {
-        control_set_motor_direction(LEFT);
-        MOTOR_Send_Voltage(input);
-    } else {
-        control_set_motor_direction(RIGHT);
-        MOTOR_Send_Voltage(input);
-    }
-}
-
-int16_t read_encoder_value() {
-    volatile int16_t value = 0;
-    // Enable output
-    PORTH &= ~(1 << OE);
-
-    // Select MSB
-    PORTH &= ~(1 << SEL);
-
-    _delay_us(250);
-
-    // Read MSB
-    value |= (PINK << 8);
-
-    // Select LSB
-    PORTH |= (1 << SEL);
-
-    _delay_us(250);
-
-    // Read LSB
-    value |= PINK;
-
-    // Toggle reset
-    if (PORTH & (1 << RST)) {
-        PORTH &= ~(1 << RST);
-    } else {
-        PORTH |= (1 << RST);
-    }
-
-    // Disable output
-    PORTH |= (1 << OE);
-
-    return (-1) * value / ENCODER_SCALE; // Return negative since direction is flipped
+    return control_input + shift;
 }
 
 ISR(TIMER3_COMPA_vect)
@@ -160,10 +65,10 @@ ISR(TIMER3_COMPA_vect)
     counter++;
     if (!(counter % 2)) {
         int16_t prev_position = Get_motor_pos();
-        int16_t motor_val = read_encoder_value();
+        int16_t motor_val = MOTOR_Read_Encoder();
         Set_motor_pos(prev_position + motor_val);
-        actuate_motor(get_control_input(Get_motor_reference(), Get_motor_pos(), prev_position));
-        if (!(counter % 200)) {
+        MOTOR_Actuate(get_control_input(Get_motor_reference(), Get_motor_pos(), prev_position));
+        if (!(counter % 50)) {
             printf("input=%d, sumerror=%d\n\r", get_control_input(Get_motor_reference(), Get_motor_pos(), prev_position), error_sum);
         }
     }

@@ -58,6 +58,7 @@ int main() {
 	servo_set_pos(Get_servo_reference());
 
 	MOTOR_Init();
+    MOTOR_Calibrate();
 	sei();
 	control_init();
 	while(1) {
