@@ -61,6 +61,7 @@ int main() {
 	sei();
 	control_init();
 	while(1) {
+    _delay_ms(40);
 		servo_set_pos(Get_servo_reference());
 		Set_motor_reference((Get_servo_reference() - 50) * 6);
 	}

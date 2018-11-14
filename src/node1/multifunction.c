@@ -126,13 +126,13 @@ Button buttons_get_state() {
     int right = PINB & (1 << PB2);
     int joy = !(PINB & (1 << PB3));
     if (left) {
-        printf(" left true\n\r");
+        //printf(" left true\n\r");
     }
     if (right) {
-        printf(" right true\n\r");
+        //printf(" right true\n\r");
     }
     if (joy) {
-        printf(" joy true\n\r");
+        //printf(" joy true\n\r");
     }
 
     Button button = {right, left, joy};

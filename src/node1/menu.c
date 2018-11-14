@@ -137,7 +137,7 @@ void run_menu() {
     while(1) {
         _delay_ms(10);
         Joy_state joy_state = joy_get_state();
-        motorbox_send_servo(Joy_state_get_servo_value(joy_state));
+        motorbox_send_servo_if_updated(Joy_state_get_servo_value(joy_state));
         switch(joy_state.dir) {
         case DOWN:
             if (selectedptr->next != NULL) {
@@ -179,7 +179,7 @@ void run_menu() {
 
         if (should_update_menu) {
             print_menu(headptr, selectedptr);
-            _delay_ms(300); // Wait a little after each interraction with GUI
+            //_delay_ms(300); // Wait a little after each interraction with GUI
             should_update_menu = 0;
         }
     }
