@@ -14,7 +14,7 @@ Nodeptr init_menu() {
     headptr->next->func = show_highscores;
 
     headptr->next->next = init_node(headptr->next, NULL, "Select Player");
-    headptr->next->next->func = select_player;
+    headptr->next->next->func = print_players;
 
     headptr->next->next->next = init_node(headptr->next->next, NULL, "Settings");
     headptr->next->next->next->child = init_node(
@@ -73,10 +73,25 @@ void print_menu(Nodeptr headptr, Nodeptr selectedptr) {
     }
 }
 
-void select_player() {
-    printf("Select player");
+void print_players(Playerptr headptr, Playerptr selectedptr) {
+    OLED_clear();
+    int i = 0;
+    while (headptr != NULL) {
+        OLED_pos(i, 0);
+        if (headptr == selectedptr) {
+            OLED_print_char('>');
+        }
+        else {
+            OLED_print_char(' ');
+        }
+        OLED_print(headptr->name);
+        if (headptr->child != NULL) {
+            OLED_print_char('>');
+        }
+        headptr = headptr->next;
+        i++;
+    }
 }
-
 
 void init_game() {
     uint8_t score = 0;

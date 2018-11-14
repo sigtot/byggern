@@ -33,6 +33,8 @@ Playerptr init_players();
 
 void print_menu();
 void init_game();
+void print_players(Playerptr headptr, Playerptr selectedptr);
+void show_highscores();
 
 void run_menu();
 
