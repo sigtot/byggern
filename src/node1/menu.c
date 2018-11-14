@@ -34,7 +34,7 @@ Playerptr init_players() {
     playerptr->next = init_player(playerptr, NULL, "Edmond");
     playerptr->next->next = init_player(playerptr->next, NULL, "Sigurd");
     playerptr->next->next->next = init_player(playerptr->next->next, NULL, "Ola");
-    return playerptr
+    return playerptr;
 }
 
 Nodeptr init_node(Nodeptr prev, Nodeptr parent, char *text) {
@@ -50,7 +50,7 @@ Playerptr init_player(Playerptr prev, Playerptr next, char *name) {
     playerptr->name = strdup(name);
     playerptr->prev = prev;
     playerptr->next = next;
-    return playerptr
+    return playerptr;
 }
 
 void print_menu(Nodeptr headptr, Nodeptr selectedptr) {
@@ -85,9 +85,6 @@ void print_players(Playerptr headptr, Playerptr selectedptr) {
             OLED_print_char(' ');
         }
         OLED_print(headptr->name);
-        if (headptr->child != NULL) {
-            OLED_print_char('>');
-        }
         headptr = headptr->next;
         i++;
     }
@@ -100,13 +97,13 @@ void init_game() {
     char *temp;
     //the following ifs print according to numbers in score
     if (score < 10) {
-        OLED_print(sprintf(a, "|  Score: %d    |", score));
+        OLED_print(sprintf(temp, "|  Score: %d    |", score));
     }
     else if (score > 10 && score < 100) {
-        OLED_print(sprintf(a, "|  Score: %d   |", score));
+        OLED_print(sprintf(temp, "|  Score: %d   |", score));
     }
     else {
-        OLED_print(sprintf(a, "|  Score: %d  |", score));
+        OLED_print(sprintf(temp, "|  Score: %d  |", score));
     }
     OLED_print(strdup("|              |"));
     OLED_print(strdup("|              |"));
