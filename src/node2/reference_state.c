@@ -11,19 +11,19 @@ void Set_servo_reference(int val) {
     reference_state.servo_reference = val;
 }
 
-int Get_motor_reference() {
+int16_t Get_motor_reference() {
     return reference_state.motor_reference;
 }
 
-void Set_motor_reference(int val) {
+void Set_motor_reference(int16_t val) {
     reference_state.motor_reference = val;
 }
 
-void Set_motor_pos(int val) {
+void Set_motor_pos(int16_t val) {
     reference_state.motor_pos = val;
 }
 
-int Get_motor_pos() {
+int16_t Get_motor_pos() {
     return reference_state.motor_pos;
 }
 

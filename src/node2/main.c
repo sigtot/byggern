@@ -62,7 +62,7 @@ int main() {
 	control_init();
 	while(1) {
 		servo_set_pos(Get_servo_reference());
-		MOTOR_Send_Voltage(Get_motor_reference());
+		Set_motor_reference((Get_servo_reference() - 50) * 6);
 	}
 	ir_init();
 	game_play_round();
