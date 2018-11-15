@@ -7,7 +7,12 @@ typedef struct Reference_State {
     int motor_reference;
     int motor_pos;
     int ir_value;
+    int solenoid_reference;
 } Reference_State;
+
+int Get_solenoid_reference(void);
+
+void Set_solenoid_reference(int solenoid_reference);
 
 int Get_servo_reference(void);
 

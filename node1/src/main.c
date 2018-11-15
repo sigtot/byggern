@@ -22,7 +22,7 @@
 #include "led.h"
 #include "uart.h"
 #include "sram.h"
-#include "gal_test.h"
+//#include "gal_test.h"
 #include "adc.h"
 #include <limits.h>
 #include "oled.h"
@@ -36,7 +36,7 @@
 
 #include "../../common/src/SPI.h"
 #include "../../common/src/MCP2515.h"
-#include "../../common/src/CAN_driver.h"
+#include "../../common/src/can.h"
 
 int main(){
 	UART_Init(MYUBRR);
@@ -56,7 +56,7 @@ int main(){
 	MCUCR &= ~(1 << ISC01);
 	DDRD &= ~(1 << PD2);
 */
-	SRAM_test();
+	//SRAM_test();
 	oled_init();
 	OLED_clear();
     CAN_Normal_Init();

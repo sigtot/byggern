@@ -34,3 +34,11 @@ void Set_ir_value(int ir_value) {
 int Ir_is_blocked() {
     return reference_state.ir_value <= IR_BLOCK_THRESH;
 }
+
+int Get_solenoid_reference(void) {
+    return reference_state.solenoid_reference;
+}
+
+void Set_solenoid_reference(int solenoid_reference) {
+    reference_state.solenoid_reference = solenoid_reference;
+}

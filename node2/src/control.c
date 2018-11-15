@@ -54,14 +54,12 @@ void control_init() {
 
     // Set counter to 0
     PORTH &= ~(1 << RST);
-    printf("PORTH after: %02x", PORTH);
 
     // Enable motor
     PORTH |= (1 << EN);
 
     // Enable encoder output
     PORTH &= ~(1 << OE);
-
     calibrate_motor();
     control_init_timer();
 }
@@ -100,18 +98,18 @@ int16_t get_control_input(int16_t reference, int16_t position, int16_t prev_posi
     return abs(mul) * control_input;
 }
 
+//int16_t p_controller()
+
 void calibrate_motor() {
     control_set_motor_direction(LEFT);
     MOTOR_Send_Voltage(120);
     _delay_ms(500);
-    control_set_motor_direction(RIGHT);
-    MOTOR_Send_Voltage(120);
-    _delay_ms(200);
     MOTOR_Send_Voltage(0);
     _delay_ms(500);
 }
 
 void actuate_motor(int16_t input) {
+    //printf("input: %d\n\r", input);
     if (input < 0) {
         control_set_motor_direction(LEFT);
         MOTOR_Send_Voltage(input);
@@ -162,6 +160,8 @@ ISR(TIMER3_COMPA_vect)
         int16_t prev_position = Get_motor_pos();
         int16_t motor_val = read_encoder_value();
         Set_motor_pos(prev_position + motor_val);
+        //actuate_motor(Get_motor_reference());
+        //printf("motor reference: %d\n\r", ref);
         actuate_motor(get_control_input(Get_motor_reference(), Get_motor_pos(), prev_position));
         if (!(counter % 200)) {
         }

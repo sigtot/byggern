@@ -40,35 +40,20 @@
     (byte & 0x01 ? '1' : '0')
 
 int main() {
+
+    sei();
 	UART_Init(MYUBRR);
 	uart_api_enable();
 	fdevopen(*UART_Transmit,NULL); // Transmit handled sequentially, receive with interrupt
 	printf("Node 2 loves being ready -------------------\n\r");
 
-	CAN_Normal_Init();
-
-	cli();
-	EICRA &= ~(1 << ISC30); // Interrupt on falling edge
-	EICRA |= (1 << ISC31); // Interrupt on falling edge
-	EIMSK |= (1 << INT3); // Enable interrupt on INT3
-	sei();
-	set_sleep_mode(SLEEP_MODE_PWR_SAVE);
-
-	PWM_init();
-	servo_set_pos(Get_servo_reference());
-
+    can_api_init();
 	MOTOR_Init();
-	sei();
 	control_init();
-	while(1) {
-    _delay_ms(40);
-		servo_set_pos(Get_servo_reference());
-		Set_motor_reference((Get_servo_reference() - 50) * 6);
-	}
-	ir_init();
-	game_play_round();
 
-	while(1); // Don't reset
+	while(1) {
+        
+	}
 
 	return 0;
 }
