@@ -28,12 +28,12 @@ sh runtest.sh TEST
 
 So, to run for example `integration/ir_test.c` on node2, run the following command (requires sudo)
 ```bash
-sh runtest.sh integration/ir_test.c
+./runtest.sh integration/ir_test.c
 ```
 
 To run all the tests, instead do
 ```bash
-sh runall.sh
+./runall.sh
 ```
 
 ### Writing new tests

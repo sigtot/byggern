@@ -1,83 +1,51 @@
-#define ACK 0x7E
-
-#define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c%c%c%c%c"
-#define BYTE_TO_BINARY(byte)  \
-    (byte & 0x800 ? '1' : '0'), \
-    (byte & 0x400 ? '1' : '0'), \
-    (byte & 0x200 ? '1' : '0'), \
-    (byte & 0x100 ? '1' : '0'), \
-    (byte & 0x80 ? '1' : '0'), \
-    (byte & 0x40 ? '1' : '0'), \
-    (byte & 0x20 ? '1' : '0'), \
-    (byte & 0x10 ? '1' : '0'), \
-    (byte & 0x08 ? '1' : '0'), \
-    (byte & 0x04 ? '1' : '0'), \
-    (byte & 0x02 ? '1' : '0'), \
-    (byte & 0x01 ? '1' : '0')
-
 #include "parameters.h"
-#include <util/delay.h>
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include "led.h"
-#include "uart.h"
-#include "sram.h"
-#include "gal_test.h"
-#include "adc.h"
-#include <limits.h>
-#include "oled.h"
-#include "menu.h"
-#include <stdio.h>
 #include <stdlib.h>
-#include "multifunction.h"
-#include "Joy_state.h"
-#include "motorbox.h"
-#include "../../common/src/can_ids.h"
+#include <stdint.h>
+#include <avr/io.h>
+#include <util/delay.h>
+#include "uart.h"
 
-#include "../../common/src/SPI.h"
-#include "../../common/src/MCP2515.h"
-#include "../../common/src/CAN_driver.h"
-
-int main(){
+int main() {
 	UART_Init(MYUBRR);
-	fdevopen(*UART_Transmit, *UART_Receive);
-	printf("Starting up...\n\r");
+	fdevopen(*UART_Transmit,NULL);
 
-	DDRA |= (1 << PA0);
-	PORTA |= (1 << PA0);
+    MCUCR |= (1 << SRE); // Enable external memory interface
+    volatile char *memory = (char *) 0; // Start address for the SRAM
+    uint16_t SRAM = 0x1800;
+    uint16_t memory_size = 0x800;
+    uint16_t write_errors = 0;
+    uint16_t retrieval_errors = 0;
+    printf("Starting SRAM test...\n\r");
+    // rand() stores some internal state, so calling this function in a loop will
+    // yield different seeds each time (unless srand() is called before this function)
+    uint16_t seed = rand();
+    // Write phase: Immediately check that the correct value was stored
+    srand(seed);
+    for (uint16_t i = SRAM; i < SRAM + memory_size; i++) {
+        uint8_t some_value = rand();
+        memory[i] = some_value;
+        uint8_t retreived_value = memory[i];
+        if (retreived_value != some_value) {
+            write_errors++;
+        }
+    }
+    // Retrieval phase: Check that no values were changed during or after the write phase
+    srand(seed); // reset the PRNG to the state it had before the write phase
+    for (uint16_t i = SRAM; i < SRAM + memory_size; i++) {
+        uint8_t some_value = rand();
+        uint8_t retreived_value = memory[i];
 
-	//GAL_test();
-	//MCUCR |= (1 << SRE);// Enable external memory interface
-/*
-	//Interrupt Enable
-	GICR |= (1 << INT0);
-	sei();
-	MCUCR |= (1 << ISC00);
-	MCUCR &= ~(1 << ISC01);
-	DDRD &= ~(1 << PD2);
-*/
-	SRAM_test();
-	oled_init();
-	OLED_clear();
-    CAN_Normal_Init();
-
-    joy_print_state();
-
-
-
-
-
-
-	//char c = SPI_SlaveReceive();
-    //printf("Recieved: %c ("BYTE_TO_BINARY_PATTERN")\n\r", c, BYTE_TO_BINARY(c));
-
-
-	while(1){
-        run_menu();
-	}
-
-
-
-
-	return 0;
+        if (retreived_value != some_value) {
+            printf("Retrieval phase error: memory[%4d] = %02X (should be %02X)\n\r",
+                i, retreived_value, some_value);
+            retrieval_errors++;
+        }
+    }
+    printf("SRAM test completed with \n\r(%4d/%4d) errors in write phase and \n\r(%4d/%4d) errors in retrieval phase\n\r\n\r",
+        write_errors,
+        memory_size,
+        retrieval_errors,
+        memory_size);
+    while(1);
+    return 0;
 }
