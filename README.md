@@ -18,24 +18,29 @@ over UART to node2.
 Both parameters `servo` and `motor` are optional, so `{servo=35}` and {`motor=78}` are just as valid.
 
 ## Writing and running tests
-Integration and unit tests are found in `tests/integration` and `tests/unit`.
+Integration tests are found in `nodeN/tests/integration`
 
 ### Running tests
-Tests are run with the follwing command:
+Tests are run with the following command:
 ```bash
-sh runtest.sh TEST_TYPE NODE TEST_NAME
+sh runtest.sh TEST
 ```
 
 So, to run for example `integration/ir_test.c` on node2, run the following command (requires sudo)
 ```bash
-sh runtest.sh integration node2 ir_test.c
+sh runtest.sh integration/ir_test.c
+```
+
+To run all the tests, instead do
+```bash
+sh runall.sh
 ```
 
 ### Writing new tests
-Tests should be .c files placed in `tests/integration` or `tests/unit`.
+Tests should be .c files placed in `nodeN/tests/integration` or similar.
 When executing the test, the actual `main.c` file in `nodeN/src` will be replaced with
-the test, and flashed to the correct node. Therefore, you should write your tests as
-you would write a mainfile. As an example, look at the very simple `ir_test.c`:
+the test, and flashed to the node. Therefore, you should write your tests as
+you would write a main file. As an example, look at the very simple `ir_test.c`:
 ```C
 #include "parameters.h"
 #include <avr/io.h>
@@ -51,7 +56,7 @@ int main() {
 	UART_Init(MYUBRR);
 	fdevopen(*UART_Transmit,NULL);
 
-	printf("Test instruction: Hold the IR emmitter up to the photo diode. The test will alert you when the state changes.\n\r");
+	printf("Test instruction: Hold the IR emitter up to the photo diode. The test will alert you when the state changes.\n\r");
 	ir_init();
 	sei();
 

@@ -1,20 +1,17 @@
 #!/bin/bash
 
-# Usage  : sh runtest.sh TEST_TYPE NODE TEST_NAME
-# Example: sh runtest.sh integration node2 ir_test.c
-
-# Enter correct test dir
-cd $1
+# Usage  : sh TYPE/TEST
+# Example: sh integration/ir_test.c
 
 # Move old main.c out of the way
 mkdir /tmp/byggerntest
-mv ../../$2/src/main.c /tmp/byggerntest
+mv ../src/main.c /tmp/byggerntest
 
 # Replace main.c with test file
-cp $3 ../../$2/src/main.c
+cp $1 ../src/main.c
 
-# Enter node dir
-cd ../../$2
+# Change dir to node root
+cd ..
 
 # Make (requires sudo, test will prompt for password)
 sudo make flash
