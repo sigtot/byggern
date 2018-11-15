@@ -7,16 +7,16 @@
 #include <avr/sleep.h>
 #include <avr/delay.h>
 
-#include "../common/CAN_driver.h"
-#include "../common/MCP2515.h"
-#include "../common/SPI.h"
+#include "../../common/src/CAN_driver.h"
+#include "../../common/src/MCP2515.h"
+#include "../../common/src/SPI.h"
 
 #include "uart_api.h"
 #include "can_api.h"
 #include "reference_state.h"
 #include "ir.h"
 #include "game.h"
-#include "../../lib/TWI_Master.h"
+#include "../lib/TWI_Master.h"
 #include "motor.h"
 #include "control.h"
 

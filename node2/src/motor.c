@@ -1,8 +1,9 @@
 #include "motor.h"
-#include "../../lib/TWI_Master.h"
+#include "parameters.h"
+#include "../lib/TWI_Master.h"
 #include <stdlib.h>
 #include <avr/io.h>
-#include <avr/delay.h>
+#include <util/delay.h>
 #include <avr/interrupt.h>
 
 void MOTOR_Send_Voltage(unsigned char voltage) {

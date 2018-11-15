@@ -1,9 +1,9 @@
 #include "can_api.h"
 #include "reference_state.h"
 #include <avr/interrupt.h>
-#include "../common/CAN_driver.h"
+#include "../../common/src/CAN_driver.h"
 #include <avr/io.h>
-#include "../common/can_ids.h"
+#include "../../common/src/can_ids.h"
 #include "servo.h"
 
 volatile int CAN_MSG_RECEIVED = 0;

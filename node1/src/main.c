@@ -32,11 +32,11 @@
 #include "multifunction.h"
 #include "Joy_state.h"
 #include "motorbox.h"
-#include "../common/can_ids.h"
+#include "../../common/src/can_ids.h"
 
-#include "../common/SPI.h"
-#include "../common/MCP2515.h"
-#include "../common/CAN_driver.h"
+#include "../../common/src/SPI.h"
+#include "../../common/src/MCP2515.h"
+#include "../../common/src/CAN_driver.h"
 
 int main(){
 	UART_Init(MYUBRR);

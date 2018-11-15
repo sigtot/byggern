@@ -2,8 +2,8 @@
 #include <avr/io.h>
 #include <avr/sfr_defs.h>
 #include <avr/interrupt.h>
-#include "../common/filter.h"
-#include "../../lib/Queue.h"
+#include "../../common/src/filter.h"
+#include "../../common/lib/Queue.h"
 #include "reference_state.h"
 #include "parameters.h"
 
@@ -11,14 +11,15 @@
 static struct Queue* measurements;
 
 ISR(ADC_vect) {
-    // Truncate value to 8 least significant bits
+    // Read the lower register
     int ir_val = ADCL;
 
-    // ADCH register needs to be read after ADCL for next conversion to be written
+    /* ADCH register needs to be read after ADCL for next conversion to be written
+     * However, this value is not needed, as the maximum expected IR value is
+     * quite low */
     int discard = ADCH;
 
     Set_ir_value(get_average(measurements));
-//    printf("filtered ir val: %d\n\r", get_filtered_value());
     discard = dequeue(measurements); // Discard oldest measurement
     enqueue(measurements, ir_val);
 
@@ -26,6 +27,7 @@ ISR(ADC_vect) {
     ADCSRA |= 1 << ADSC;
 }
 
+// Rename to ADC_init (and move?)
 void ir_init() {
     measurements = createQueue(IR_FILTER_QUALITY);
     // Define ADC0 (PF0) as analog input pin
