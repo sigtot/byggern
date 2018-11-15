@@ -1,6 +1,6 @@
 #include "motorbox.h"
-#include "../../common/src/CAN_driver.h"
 #include <avr/io.h>
+#include "../../common/src/can.h"
 #include "../../common/src/can_ids.h"
 
 void motorbox_send_servo_if_updated(int servo_val) {

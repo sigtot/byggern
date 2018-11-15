@@ -7,7 +7,7 @@
 #include <avr/sleep.h>
 #include <avr/delay.h>
 
-#include "../../common/src/CAN_driver.h"
+#include "../../common/src/can.h"
 #include "../../common/src/MCP2515.h"
 #include "../../common/src/SPI.h"
 

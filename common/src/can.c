@@ -1,11 +1,10 @@
 #include "parameters.h"
-#include "CAN_driver.h"
+#include "can.h"
 #include "MCP2515.h"
 #include <avr/io.h>
 #include <util/delay.h>
 #include "SPI.h"
 #include "MCP2515.h"
-
 
 void CAN_init(char mode) {
     SPI_Init();
@@ -74,5 +73,3 @@ void CAN_INT_Enable() {
     MCP2515_Bit_Modify(MCP_CANINTE, (1 << 0), 0xff);
     MCP2515_Bit_Modify(MCP_CANINTE, (1 << 1), 0xff);
 }
-
-void CAN_Int_Vect();
