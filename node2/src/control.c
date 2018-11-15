@@ -164,7 +164,6 @@ ISR(TIMER3_COMPA_vect)
         Set_motor_pos(prev_position + motor_val);
         actuate_motor(get_control_input(Get_motor_reference(), Get_motor_pos(), prev_position));
         if (!(counter % 200)) {
-            printf("input=%d, sumerror=%d\n\r", get_control_input(Get_motor_reference(), Get_motor_pos(), prev_position), error_sum);
         }
     }
 }
