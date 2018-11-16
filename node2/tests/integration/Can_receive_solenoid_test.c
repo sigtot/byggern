@@ -20,8 +20,9 @@ int main() {
 	can_api_init();
 	MOTOR_Init();
 	control_init();
+  solenoid_init();  
 
-	while(1) {
+  while(1) {
         _delay_ms(10);
     }
 	return 0;

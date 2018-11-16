@@ -8,15 +8,14 @@
 #include <avr/io.h>
 #include <stdio.h>
 
-//TODO Må finne en pinne på node2 som kan trekke lavt med kretsen tilkoblet
-
 void solenoid_init() {
     DDRE |= (1 << PE4);
     PORTE |= (1 << PE4);
 }
 
 void solenoid_send_kick(void) {
+    printf("Sending kick\n\r");
     PORTE &= ~(1 << PE4);
-    _delay_ms(1);
+    _delay_ms(10);
     PORTE |= (1 << PE4);
 }
