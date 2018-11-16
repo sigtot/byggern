@@ -59,17 +59,10 @@ int main(){
 	//SRAM_test();
 	oled_init();
 	OLED_clear();
-    CAN_Normal_Init();
+  CAN_Normal_Init();
 
-    joy_print_state();
+  
 
-
-
-
-
-
-	//char c = SPI_SlaveReceive();
-    //printf("Recieved: %c ("BYTE_TO_BINARY_PATTERN")\n\r", c, BYTE_TO_BINARY(c));
 
 
 	while(1){

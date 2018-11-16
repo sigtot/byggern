@@ -140,6 +140,8 @@ void run_menu() {
         motorbox_send_servo_if_updated(Joy_state_get_servo_value(joy_state));
         Slider slider = slider_get_state();
         motorbox_send_motor_if_updated(slider.right);
+        Button buttons = buttons_get_state();
+        motorbox_send_solenoid_if_kick(buttons.right);
         switch(joy_state.dir) {
         case DOWN:
             if (selectedptr->next != NULL) {

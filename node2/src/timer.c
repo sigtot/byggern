@@ -1,42 +1,32 @@
-#define PERIOD_10ms 0x01
-#define PERIOD_14ms 0x02
-#define PERIOD_19ms 0x03
+#include "timer.h"
+#include "control.h"
+#include "motor.h"
+#include "reference_state.h"
+#include <avr/interrupt.h>
+#include <avr/io.h>
 
-void Timer_ISR(void)
-{
-   static char State = PERIOD_10ms;
+#define FREQ 400
+static volatile uint16_t counter = 0;
+static double time_step = (1 / (double) FREQ);
 
-   switch(State)
-   {
-      case PERIOD_10ms:
-      {
-         // Toggle pin;
-         // Timer Stop;
-         // Change period to 14ms;
-         // Timer Start;
-         break;
-      }
-      case PERIOD_14ms:
-      {
-         // Toggle pin;
-         // Timer Stop;
-         // Change period to 19ms;
-         // Timer Start;
-         break;
-      }
-      case PERIOD_19ms:
-      {
-         // Toggle pin;
-         // Timer Stop;
-         // Change period to 10ms;
-         // Timer Start;
-         break;
-      }
-      default:
-      {
-         /* Timer_ISR entered undefined state */
-         // Make default period 10ms
-         break;
-      }
-   }
+void timer_init() {
+    printf("Timer initiated\n\r");
+    TCNT3 = 0; // Reset timer high register
+    OCR3A = 0x2400; // About 808Hz
+    // Enable CTC mode
+    TCCR3A |= (1 << COM3A1);
+    TCCR3A &= ~(1 << COM3A0);
+
+    TCCR3B |= (1 << CS31) | (1 << WGM32);
+    TIMSK3 |= (1 << OCIE3A); // Enable interrupts for TIMER3A}
+}
+
+ISR(TIMER3_COMPA_vect) {
+    counter++;
+    if (!(counter % 2)) {
+        int16_t prev_position = Get_motor_pos();
+        int16_t motor_val = motor_read_encoder();
+        Set_motor_pos(prev_position + motor_val);
+        motor_actuate(control_get_input(Get_motor_reference(), Get_motor_pos(), prev_position));
+    }
 }

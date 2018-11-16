@@ -1,10 +1,7 @@
 #ifndef CONTROL_H
 #define CONTROL_H
-#include <avr/interrupt.h>
-#include <avr/io.h>
+#include <stdint.h>
 
-typedef enum MotorDir {LEFT, RIGHT} MotorDir;
-void control_init_timer();
-void control_init();
-void calibrate_motor();
+int16_t control_get_input(int16_t reference, int16_t position, int16_t prev_position);
+
 #endif

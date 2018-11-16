@@ -16,6 +16,6 @@ void solenoid_init() {
 void solenoid_send_kick(void) {
     printf("Sending kick\n\r");
     PORTE &= ~(1 << PE4);
-    _delay_ms(10);
+    _delay_ms(40);
     PORTE |= (1 << PE4);
 }
