@@ -1,5 +1,7 @@
-#ifndef MENU_H
-#define MENU_H
+
+
+#ifndef CREATE_MENUS_H
+#define CREATE_MENUS_H
 
 typedef void (*function_pointer)();
 
@@ -23,17 +25,11 @@ typedef struct player {
     Playerptr prev;
 } Player;
 
+Nodeptr init_test();
 Nodeptr init_menu();
 Nodeptr init_node(Nodeptr prev, Nodeptr parent, char* text);
 
 Playerptr init_player(Playerptr prev, Playerptr next, char* name);
 Playerptr init_players();
-
-void print_menu();
-void init_game();
-void print_players(Playerptr headptr, Playerptr selectedptr);
-void show_highscores();
-
-void run_menu();
 
 #endif
