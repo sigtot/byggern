@@ -13,10 +13,8 @@
 #include <util/delay.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include "led.h"
 #include "uart.h"
 #include "sram.h"
-//#include "gal_test.h"
 #include "adc.h"
 #include <limits.h>
 #include "oled.h"

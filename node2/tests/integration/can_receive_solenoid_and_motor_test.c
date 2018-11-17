@@ -7,6 +7,7 @@
 #include "reference_state.h"
 #include "motor.h"
 #include "control.h"
+#include "timer.h"
 
 int main() {
     sei();
@@ -21,9 +22,9 @@ int main() {
     int counter = 0;
     int counter2 = 0;
     while (1) {
-        if (timer_flag_should_calculate_input()) {
+        if (_timer_flag_SHOULD_CALC_INPUT) {
             controller_calculate_and_actuate();
-            timer_flag_finished_calculating_input();
+            _timer_flag_SHOULD_CALC_INPUT=0;
             counter2++;
         }
         counter++;

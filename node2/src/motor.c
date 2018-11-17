@@ -18,9 +18,8 @@
 #define RST PH6  // Active low
 
 void MOTOR_Send_Voltage(unsigned char voltage) {
-    unsigned char* msg = malloc(3 * sizeof(char));
-    unsigned char addr = 0x50;
-    msg[0] = addr;
+    unsigned char msg[3];
+    msg[0] = 0x50;
     msg[1] = 0;
     msg[2] = voltage;
 
@@ -82,7 +81,7 @@ int16_t motor_read_encoder() {
     // Select MSB
     PORTH &= ~(1 << SEL);
 
-    _delay_ms(250);
+    _delay_us(250);
 
     // Read MSB
     value |= (PINK << 8);
