@@ -6,7 +6,7 @@
 void game_play_round() {
     int points = 0;
     int in_game = 1;
-    while(in_game) {
+    while (in_game) {
         points++;
         if (Ir_is_blocked()) {
             in_game = 0;

@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-typedef enum MotorDir {LEFT, RIGHT} MotorDir;
+typedef enum MotorDir { LEFT, RIGHT } MotorDir;
 
 void MOTOR_Send_Voltage(unsigned char voltage);
 void MOTOR_Init();

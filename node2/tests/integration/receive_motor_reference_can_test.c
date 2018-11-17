@@ -10,21 +10,20 @@
 #include "motor.h"
 #include "control.h"
 
-
 int main() {
     sei();
-  	UART_Init(MYUBRR);
-  	fdevopen(*UART_Transmit,NULL);
+    UART_Init(MYUBRR);
+    fdevopen(*UART_Transmit, NULL);
     printf("starting receive motor test\n\r");
-  	can_api_init();
-  	MOTOR_Init();
+    can_api_init();
+    MOTOR_Init();
     timer_init();
 
-  	while(1) {
+    while (1) {
         if (timer_flag_should_calculate_input()) {
             controller_calculate_and_actuate();
             timer_flag_finished_calculating_input();
         }
     }
-  	return 0;
+    return 0;
 }

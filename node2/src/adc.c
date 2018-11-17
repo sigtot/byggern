@@ -7,7 +7,8 @@ int adc_read_value() {
     // Read the lower register
     int reading = ADCL;
 
-    /* ADCH register needs to be read after ADCL for next conversion to be written
+    /* ADCH register needs to be read after ADCL for next conversion to be
+     * written
      * However, this value is not needed, as the maximum expected IR value is
      * quite low */
     int discard = ADCH;
@@ -23,10 +24,10 @@ void adc_init() {
     DDRA |= (1 << ADC0);
 
     // Enable ADC with interrupts
-    ADCSRA |= (1 << ADEN)|(1 << ADIE);
+    ADCSRA |= (1 << ADEN) | (1 << ADIE);
 
     // Set ADC prescaler with division factor 128
-    ADCSRA |= (1 << ADPS2)|(1 << ADPS1)|(1 << ADPS0);
+    ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
 
     // Set AVCC as reference
     ADMUX |= (1 << REFS0);

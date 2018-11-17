@@ -4,7 +4,11 @@
 
 void servo_set_pos(int servo_pos) {
     // Map values 0-100 -> 0.001 -> 0.002
-    double duty_cycle = (double) servo_pos * ((double)((double) SERVO_DUTY_MAX - (double) SERVO_DUTY_MIN)) / 100.0 + (double) SERVO_DUTY_MIN;
+    double duty_cycle =
+        (double)servo_pos *
+            ((double)((double)SERVO_DUTY_MAX - (double)SERVO_DUTY_MIN)) /
+            100.0 +
+        (double)SERVO_DUTY_MIN;
 
     // Range guard (min 0.001 max 0.002)
     if (duty_cycle > SERVO_DUTY_MAX) {

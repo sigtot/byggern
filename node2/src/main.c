@@ -10,26 +10,27 @@
 #include "control.h"
 
 int main() {
-	UART_Init(MYUBRR);
-	fdevopen(*UART_Transmit,NULL);
+    UART_Init(MYUBRR);
+    fdevopen(*UART_Transmit, NULL);
 
-	printf("Initiating and calibrating motor\n\r");
-	MOTOR_Init();
-	
-	sei();
-	timer_init();
+    printf("Initiating and calibrating motor\n\r");
+    MOTOR_Init();
 
-	printf("Calibration finished, waiting 1 second\n\r");
-	_delay_ms(1000);
+    sei();
+    timer_init();
+
+    printf("Calibration finished, waiting 1 second\n\r");
+    _delay_ms(1000);
     printf("Testing motor: right of center -> left of center -> center\n\r");
 
-	Set_motor_reference(150);
+    Set_motor_reference(150);
     _delay_ms(1000);
     Set_motor_reference(-150);
     _delay_ms(1000);
     Set_motor_reference(0);
 
-    while(1);
+    while (1)
+        ;
 
-	return 0;
+    return 0;
 }

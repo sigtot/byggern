@@ -28,7 +28,7 @@ void MCP2515_Write(char address, char data) {
 void MCP2515_Requst_To_Send() {
     SPI_chip_select();
 
-    //Denne kan kalles for 3 individuelle registre eller alle
+    // Denne kan kalles for 3 individuelle registre eller alle
     SPI_Transceive(MCP_RTS_TX0);
     SPI_chip_deselect();
 }
@@ -41,7 +41,6 @@ char MCP2515_Read_Status() {
     return status;
 
     SPI_chip_deselect();
-
 }
 
 void MCP2515_Bit_Modify(char address, char mask, char data) {

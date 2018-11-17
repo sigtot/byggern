@@ -6,7 +6,7 @@
 
 int main() {
     UART_Init(MYUBRR);
-	fdevopen(*UART_Transmit, *UART_Receive);
+    fdevopen(*UART_Transmit, *UART_Receive);
 
     printf("======== Gal Test ========\n\r");
     DDRC |= (1 << PC2) | (1 << PC3);
@@ -29,6 +29,7 @@ int main() {
     _delay_ms(2 * WAIT_TIME);
 
     printf("===== Test Completed =====\n\r");
-    while(1);
+    while (1)
+        ;
     return 0;
 }

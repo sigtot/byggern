@@ -12,18 +12,18 @@ void set_servo_and_wait(int servo_val) {
 }
 
 int main() {
-  	UART_Init(MYUBRR);
-  	fdevopen(*UART_Transmit,NULL);
+    UART_Init(MYUBRR);
+    fdevopen(*UART_Transmit, NULL);
 
     PWM_init();
     sei();
 
-    while(1) {
+    while (1) {
         set_servo_and_wait(1);
         set_servo_and_wait(50);
         set_servo_and_wait(99);
         set_servo_and_wait(50);
     }
 
-	return 0;
+    return 0;
 }

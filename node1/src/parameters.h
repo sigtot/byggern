@@ -7,7 +7,7 @@
 #endif
 #define FOSC 4915200
 #define BAUD 9600
-#define MYUBRR FOSC/16/BAUD-1
+#define MYUBRR FOSC / 16 / BAUD - 1
 
 // Ports for SPI
 #define DDR_SPI DDRB

@@ -4,14 +4,14 @@
 #include "Joy_state.h"
 
 typedef struct Sliders {
-  int left;
-  int right;
+    int left;
+    int right;
 } Slider;
 
 typedef struct Buttons {
-  int right;
-  int left;
-  int joy;
+    int right;
+    int left;
+    int joy;
 } Button;
 
 void set_channels(int chan1);

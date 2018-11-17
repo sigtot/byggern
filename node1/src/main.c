@@ -1,19 +1,13 @@
 #define ACK 0x7E
 
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c%c%c%c%c"
-#define BYTE_TO_BINARY(byte)  \
-    (byte & 0x800 ? '1' : '0'), \
-    (byte & 0x400 ? '1' : '0'), \
-    (byte & 0x200 ? '1' : '0'), \
-    (byte & 0x100 ? '1' : '0'), \
-    (byte & 0x80 ? '1' : '0'), \
-    (byte & 0x40 ? '1' : '0'), \
-    (byte & 0x20 ? '1' : '0'), \
-    (byte & 0x10 ? '1' : '0'), \
-    (byte & 0x08 ? '1' : '0'), \
-    (byte & 0x04 ? '1' : '0'), \
-    (byte & 0x02 ? '1' : '0'), \
-    (byte & 0x01 ? '1' : '0')
+#define BYTE_TO_BINARY(byte)                                    \
+    (byte & 0x800 ? '1' : '0'), (byte & 0x400 ? '1' : '0'),     \
+        (byte & 0x200 ? '1' : '0'), (byte & 0x100 ? '1' : '0'), \
+        (byte & 0x80 ? '1' : '0'), (byte & 0x40 ? '1' : '0'),   \
+        (byte & 0x20 ? '1' : '0'), (byte & 0x10 ? '1' : '0'),   \
+        (byte & 0x08 ? '1' : '0'), (byte & 0x04 ? '1' : '0'),   \
+        (byte & 0x02 ? '1' : '0'), (byte & 0x01 ? '1' : '0')
 
 #include "parameters.h"
 #include <util/delay.h>
@@ -38,39 +32,32 @@
 #include "../../common/src/MCP2515.h"
 #include "../../common/src/can.h"
 
-int main(){
-	UART_Init(MYUBRR);
-	fdevopen(*UART_Transmit, *UART_Receive);
-	printf("Starting up...\n\r");
+int main() {
+    UART_Init(MYUBRR);
+    fdevopen(*UART_Transmit, *UART_Receive);
+    printf("Starting up...\n\r");
 
-	DDRA |= (1 << PA0);
-	PORTA |= (1 << PA0);
+    DDRA |= (1 << PA0);
+    PORTA |= (1 << PA0);
 
-	//GAL_test();
-	//MCUCR |= (1 << SRE);// Enable external memory interface
-/*
-	//Interrupt Enable
-	GICR |= (1 << INT0);
-	sei();
-	MCUCR |= (1 << ISC00);
-	MCUCR &= ~(1 << ISC01);
-	DDRD &= ~(1 << PD2);
-*/
-	//SRAM_test();
-	oled_init();
-	OLED_clear();
-  CAN_Normal_Init();
+    // GAL_test();
+    // MCUCR |= (1 << SRE);// Enable external memory interface
+    /*
+        //Interrupt Enable
+        GICR |= (1 << INT0);
+        sei();
+        MCUCR |= (1 << ISC00);
+        MCUCR &= ~(1 << ISC01);
+        DDRD &= ~(1 << PD2);
+    */
+    // SRAM_test();
+    oled_init();
+    OLED_clear();
+    CAN_Normal_Init();
 
-  
-
-
-
-	while(1){
+    while (1) {
         run_menu();
-	}
+    }
 
-
-
-
-	return 0;
+    return 0;
 }

@@ -15,12 +15,12 @@ int main() {
     printf("\n\rStarting CAN receive test with INT\n\r");
 
     can_api_init();
-    EICRA &= ~(1 << ISC30); // Interrupt on falling edge
-  	EICRA |= (1 << ISC31); // Interrupt on falling edge
-  	EIMSK |= (1 << INT3); // Enable interrupt on INT3
+    EICRA &= ~(1 << ISC30);  // Interrupt on falling edge
+    EICRA |= (1 << ISC31);   // Interrupt on falling edge
+    EIMSK |= (1 << INT3);    // Enable interrupt on INT3
 
     sei();
-    while(1) {
+    while (1) {
         printf("Servo position: %d\n\r", Get_servo_reference());
         _delay_ms(200);
     }

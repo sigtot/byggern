@@ -3,11 +3,10 @@
 
 typedef void (*function_pointer)();
 
-typedef struct node *Nodeptr;
+typedef struct node* Nodeptr;
 
 typedef struct node {
-
-    char *text;
+    char* text;
     Nodeptr next;
     Nodeptr prev;
     Nodeptr parent;
@@ -15,20 +14,19 @@ typedef struct node {
     function_pointer func;
 } Node;
 
-typedef struct player *Playerptr;
+typedef struct player* Playerptr;
 
 typedef struct player {
-    char *name;
+    char* name;
     int score;
     Playerptr next;
     Playerptr prev;
 } Player;
 
-
 Nodeptr init_menu();
-Nodeptr init_node(Nodeptr prev, Nodeptr parent, char *text);
+Nodeptr init_node(Nodeptr prev, Nodeptr parent, char* text);
 
-Playerptr init_player(Playerptr prev, Playerptr next, char *name);
+Playerptr init_player(Playerptr prev, Playerptr next, char* name);
 Playerptr init_players();
 
 void print_menu();

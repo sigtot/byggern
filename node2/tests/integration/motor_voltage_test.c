@@ -10,18 +10,18 @@
 #include "control.h"
 
 int main() {
-	UART_Init(MYUBRR);
-	fdevopen(*UART_Transmit,NULL);
+    UART_Init(MYUBRR);
+    fdevopen(*UART_Transmit, NULL);
 
-	printf("Starting motor voltage test...\n\r");
-  printf("Initiating motor\n\r");
-	MOTOR_Init();
+    printf("Starting motor voltage test...\n\r");
+    printf("Initiating motor\n\r");
+    MOTOR_Init();
 
-	printf("Initial calibration finished, waiting 1 second\n\r");
-	_delay_ms(1000);
+    printf("Initial calibration finished, waiting 1 second\n\r");
+    _delay_ms(1000);
 
     int wait = 2;
-    while(1) {
+    while (1) {
         for (int v = 30; v <= 200; v += 10) {
             printf("Moving right with voltage %d\n\r", v);
             motor_set_direction(RIGHT);
@@ -33,8 +33,7 @@ int main() {
         }
     }
 
-
-	return 0;
+    return 0;
 }
 
 int counter = 0;

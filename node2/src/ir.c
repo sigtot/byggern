@@ -11,7 +11,7 @@
 static struct Queue* measurements;
 
 ISR(ADC_vect) {
-    dequeue(measurements); // Discard oldest measurement
+    dequeue(measurements);  // Discard oldest measurement
     enqueue(measurements, adc_read_value());
     Set_ir_value(get_average(measurements));
 }

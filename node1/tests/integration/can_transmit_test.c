@@ -7,7 +7,7 @@
 
 int main() {
     UART_Init(MYUBRR);
-	fdevopen(*UART_Transmit, *UART_Receive);
+    fdevopen(*UART_Transmit, *UART_Receive);
 
     CAN_Normal_Init();
 
@@ -16,9 +16,7 @@ int main() {
         CAN_Message_Send(&message);
 
         printf("Sent servo position %d with id %d and length %d to node2\n\r",
-            message.data[0],
-            message.ID,
-            message.length);
+               message.data[0], message.ID, message.length);
 
         _delay_ms(1000);
     }
