@@ -2,6 +2,7 @@
 #include <avr/io.h>
 #include "../../common/src/can.h"
 #include "../../common/src/can_ids.h"
+#include <stdio.h>
 
 void motorbox_send_servo_if_updated(int servo_val) {
     static int prev_val = 50;

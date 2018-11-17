@@ -3,6 +3,7 @@
 #include "MCP2515.h"
 #include <avr/io.h>
 #include <util/delay.h>
+#include <stdio.h>
 #include "SPI.h"
 #include "MCP2515.h"
 

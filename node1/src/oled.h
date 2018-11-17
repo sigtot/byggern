@@ -6,7 +6,7 @@
 void oled_init();
 void OLED_clear_page(int page);
 void OLED_clear();
-void OLED_write_data();
+void OLED_write_data(char c);
 void OLED_reset();
 void OLED_home();
 void OLED_pos(uint8_t page, uint8_t column);

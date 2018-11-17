@@ -1,20 +1,34 @@
 #include "create_menus.h"
+#include "oled.h"
+#include <stdlib.h>
+#include <string.h>
+#include "run_oled.h"
+#include <stdio.h>
 
-Nodeptr init_test() {
-    
+
+
+Nodeptr init_test_menu() {
+    Nodeptr headptr = init_node(NULL, NULL, "node11");
+    Nodeptr secondptr = init_node(headptr, NULL, "node12");
+    headptr->next = secondptr;
+    Nodeptr child = init_node(NULL, secondptr, "node22");
+    secondptr->child = child;
+    child -> func = test_function;
+
+    return headptr;
 }
 
 Nodeptr init_menu() {
 
     Nodeptr headptr = malloc(sizeof(Node));
     headptr->text = strdup("Play Pinball");
-    headptr->func = init_game;
+    //headptr->func = run_game;
 
     headptr->next = init_node(headptr, NULL, "Highscores");
-    headptr->next->func = show_highscores;
+    //headptr->next->func = run_highscores;
 
     headptr->next->next = init_node(headptr->next, NULL, "Select Player");
-    headptr->next->next->func = print_players;
+    //headptr->next->next->func = run_playerlist;
 
     headptr->next->next->next =
         init_node(headptr->next->next, NULL, "Settings");

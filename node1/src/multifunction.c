@@ -7,6 +7,7 @@
 #include <util/delay.h>
 #include <stdlib.h>
 #include <math.h>
+#include <stdio.h>
 
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte)                                    \
@@ -105,7 +106,7 @@ Slider slider_get_state() {
 }
 
 void buttons_print_state() {
-    Button button = buttons_get_state();
+    //Button button = buttons_get_state(); //UNUSED
     // printf("left button: %d     right button: %d\n\r", button.left,
     // button.right);
 }

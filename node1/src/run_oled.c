@@ -1,39 +1,62 @@
-#include "menu.h"
 #include "multifunction.h"
 #include "oled.h"
+#include "create_menus.h"
+#include "oled_print.h"
 #include <stdlib.h>
 #include <string.h>
 #include <avr/delay.h>
 
-#define down 1
-#define up 2
-#define right 3
-#define left 4
+#define DWN 1
+#define UPP 2
+#define RGT 3
+#define LFT 4
 
 uint8_t check_joystick_state() {
     _delay_ms(10);
+    Joy_state joy_state = joy_get_state();
     switch (joy_state.dir) {
         case DOWN:
-            return down;
+            return DWN;
         case UP:
-            return up;
+            return UPP;
         case RIGHT:
-            return right;
+            return RGT;
         case LEFT:
-            return left;
+            return LFT;
+        default:
+            break;
         }
     return 0;
 }
 
 function_pointer run_test() {
-    int should_update_menu = 1;
-    Nodeptr headptr = init_menu();
+    //int should_update_menu = 1;
+    Nodeptr headptr = init_test();
     Nodeptr selectedptr = headptr;
-    
+    while(1) {
+        print_menu();
+        uint8_t state = check_joystick_state();
+        if (state == UP){
+            if (selectedptr->prev != NULL) {
+
+            }
+        }
+    }
+}
+
+void test_function() {
+    while(1) {
+        _delay_ms(10);
+        print_test();
+        uint8_t state = check_joystick_state();
+        if (state) {
+            break;
+        }
+    }
 }
 
 
-function_pointer run_menu() {
+void run_menu() {
     int should_update_menu = 1;
     Nodeptr headptr = init_menu();
     Nodeptr selectedptr = headptr;
@@ -78,6 +101,8 @@ function_pointer run_menu() {
                     should_update_menu = 1;
                 }
                 break;
+            default:
+                break;
         }
         Button button_state = buttons_get_state();
         if (button_state.joy && (selectedptr->child != NULL)) {
@@ -95,7 +120,11 @@ function_pointer run_menu() {
 }
 
 function_pointer run_game() {
-
+    return NULL;
 }
-function_pointer run_highscores();
-function_pointer run_playerlist();
+function_pointer run_highscores() {
+    return NULL;
+}
+function_pointer run_playerlist() {
+    return NULL;
+}

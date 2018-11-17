@@ -1,4 +1,10 @@
 #include "oled_print.h"
+#include <stdio.h>
+
+void print_test() {
+    OLED_clear();
+    OLED_print(strdup("-TEST FUNCTION-"));
+}
 
 void print_menu(Nodeptr headptr, Nodeptr selectedptr) {
     OLED_clear();
