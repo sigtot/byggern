@@ -8,7 +8,7 @@
 #include "reference_state.h"
 #include "control.h"
 
-#define ENCODER_SCALE 17 
+#define ENCODER_SCALE 17
 
 // Motorbox pins
 #define DIR PH1
@@ -83,7 +83,7 @@ int16_t motor_read_encoder() {
     // Select MSB
     PORTH &= ~(1 << SEL);
 
-    _delay_us(250);
+    _delay_ms(250);
 
     // Read MSB
     value |= (PINK << 8);

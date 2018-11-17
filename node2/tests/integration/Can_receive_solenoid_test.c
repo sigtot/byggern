@@ -14,15 +14,13 @@
 int main() {
 
     sei();
-	UART_Init(MYUBRR);
-	fdevopen(*UART_Transmit,NULL);
+  	UART_Init(MYUBRR);
+  	fdevopen(*UART_Transmit,NULL);
     printf("CAN receive Solenoid signal test\n\r");
-	can_api_init();
-	MOTOR_Init();
-	control_init();
-  solenoid_init();  
+    solenoid_init();
+  	can_api_init();
 
-  while(1) {
+    while(1) {
         _delay_ms(10);
     }
 	return 0;

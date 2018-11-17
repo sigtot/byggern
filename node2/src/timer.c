@@ -5,28 +5,32 @@
 #include <avr/interrupt.h>
 #include <avr/io.h>
 
-#define FREQ 400
 static volatile uint16_t counter = 0;
-static double time_step = (1 / (double) FREQ);
+static int should_calculate_input_flag = 0;
 
 void timer_init() {
     printf("Timer initiated\n\r");
     TCNT3 = 0; // Reset timer high register
-    OCR3A = 0x2400; // About 808Hz
+    OCR3A = 0x28A0; // About 408Hz
     // Enable CTC mode
     TCCR3A |= (1 << COM3A1);
     TCCR3A &= ~(1 << COM3A0);
 
     TCCR3B |= (1 << CS31) | (1 << WGM32);
-    TIMSK3 |= (1 << OCIE3A); // Enable interrupts for TIMER3A}
+    TIMSK3 |= (1 << OCIE3A); // Enable interrupts for TIMER3A
+}
+
+inline int timer_flag_should_calculate_input() {
+    return should_calculate_input_flag;
+}
+
+void timer_flag_finished_calculating_input() {
+    should_calculate_input_flag = 0;
 }
 
 ISR(TIMER3_COMPA_vect) {
     counter++;
     if (!(counter % 2)) {
-        int16_t prev_position = Get_motor_pos();
-        int16_t motor_val = motor_read_encoder();
-        Set_motor_pos(prev_position + motor_val);
-        motor_actuate(control_get_input(Get_motor_reference(), Get_motor_pos(), prev_position));
+        should_calculate_input_flag = 1;
     }
 }

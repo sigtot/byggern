@@ -33,7 +33,7 @@
 #define IR_FILTER_QUALITY 4
 
 // Motor
-#define MOTOR_MIN_VAL 110
+#define MOTOR_MIN_VAL 80
 #define MOTOR_MAX_VAL 255
 #define MOTOR_ZERO_TRESH 0
 

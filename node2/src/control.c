@@ -1,5 +1,7 @@
 #include "parameters.h"
 #include "control.h"
+#include "reference_state.h"
+#include "motor.h"
 
 
 #define DOWNSCALER 100
@@ -20,7 +22,7 @@ int16_t control_get_input(int16_t reference, int16_t position, int16_t prev_posi
 
     error_sum += err / DOWNSCALER;
 
-    // Don't actuate motor in the treshhold -MOTOR_ZERO_TRESH -> +MOTOR_ZERO_TRESH
+    // Don't actuate motor in the threshold -MOTOR_ZERO_TRESH -> +MOTOR_ZERO_TRESH
     if (abs(control_input) < MOTOR_ZERO_TRESH) {
         return 0;
     }
@@ -31,4 +33,11 @@ int16_t control_get_input(int16_t reference, int16_t position, int16_t prev_posi
         mul = (double)MOTOR_MIN_VAL / (double)control_input;
     }
     return abs(mul) * control_input;
+}
+
+void controller_calculate_and_actuate() {
+    int16_t prev_position = Get_motor_pos();
+    int16_t motor_val = motor_read_encoder();
+    Set_motor_pos(prev_position + motor_val);
+    motor_actuate(control_get_input(Get_motor_reference(), Get_motor_pos(), prev_position));
 }
