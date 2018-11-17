@@ -7,6 +7,7 @@
 #include <avr/interrupt.h>
 #include "reference_state.h"
 #include "control.h"
+#include <stdint.h>
 
 #define ENCODER_SCALE 17
 
@@ -17,8 +18,8 @@
 #define OE PH5   // Active low
 #define RST PH6  // Active low
 
-void MOTOR_Send_Voltage(unsigned char voltage) {
-    unsigned char msg[3];
+void MOTOR_Send_Voltage(uint8_t voltage) {
+    uint8_t msg[3];
     msg[0] = 0x50;
     msg[1] = 0;
     msg[2] = voltage;
@@ -66,7 +67,7 @@ void motor_calibrate() {
 void motor_actuate(int16_t input) {
     if (input < 0) {
         motor_set_direction(LEFT);
-        MOTOR_Send_Voltage(input);
+        MOTOR_Send_Voltage(-input);
     } else {
         motor_set_direction(RIGHT);
         MOTOR_Send_Voltage(input);

@@ -15,6 +15,7 @@ cp $1 ../src/main.c
 cd ..
 
 # Make (requires sudo, test will prompt for password)
+sudo make clean
 sudo make flash
 
 # Move main file back and delete tmp dir

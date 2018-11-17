@@ -27,11 +27,7 @@ int main() {
             controller_calculate_and_actuate();
             _timer_flag_SHOULD_CALC_INPUT = 0;
         }
-
-        if (!(counter % 100)) {
-            printf("Ref: %3d, Pos: %3d\n\r", Get_motor_reference(), Get_motor_pos());
-        }
-        counter++;
+        _delay_ms(1);
     }
     return 0;
 }
