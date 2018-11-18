@@ -4,7 +4,7 @@
 #include <avr/io.h>
 #include <stdlib.h>
 #include <avr/interrupt.h>
-#include <avr/delay.h>
+#include <util/delay.h>
 #include "uart.h"
 #include "reference_state.h"
 #include "motor.h"

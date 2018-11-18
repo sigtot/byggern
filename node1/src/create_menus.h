@@ -25,7 +25,6 @@ typedef struct player {
     Playerptr prev;
 } Player;
 
-Nodeptr init_test();
 Nodeptr init_menu();
 Nodeptr init_node(Nodeptr prev, Nodeptr parent, char* text);
 

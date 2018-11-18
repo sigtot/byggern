@@ -106,7 +106,7 @@ Slider slider_get_state() {
 }
 
 void buttons_print_state() {
-    //Button button = buttons_get_state(); //UNUSED
+    // Button button = buttons_get_state(); //UNUSED
     // printf("left button: %d     right button: %d\n\r", button.left,
     // button.right);
 }

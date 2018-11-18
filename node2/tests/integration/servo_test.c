@@ -2,7 +2,7 @@
 #include "uart.h"
 #include <avr/io.h>
 #include <stdlib.h>
-#include <avr/delay.h>
+#include <util/delay.h>
 #include <avr/interrupt.h>
 
 void set_servo_and_wait(int servo_val) {

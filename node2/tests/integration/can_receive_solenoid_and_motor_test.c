@@ -2,7 +2,7 @@
 #include <avr/io.h>
 #include <stdlib.h>
 #include <avr/interrupt.h>
-#include <avr/delay.h>
+#include <util/delay.h>
 #include "uart.h"
 #include "reference_state.h"
 #include "motor.h"
@@ -19,19 +19,11 @@ int main() {
     MOTOR_Init();
     timer_init();
 
-    int counter = 0;
-    int counter2 = 0;
     while (1) {
+        _delay_ms(1);
         if (_timer_flag_SHOULD_CALC_INPUT) {
             controller_calculate_and_actuate();
-            _timer_flag_SHOULD_CALC_INPUT=0;
-            counter2++;
-        }
-        counter++;
-        if (counter % 100) {
-            printf("Counters : %4d:%4d (diff: %3d) reference: %3d\n\r\n\r",
-                   counter, counter2, counter - counter2,
-                   Get_motor_reference());
+            _timer_flag_SHOULD_CALC_INPUT = 0;
         }
     }
     return 0;

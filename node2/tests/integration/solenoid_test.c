@@ -1,7 +1,7 @@
 #include "parameters.h"
 #include <avr/io.h>
 #include <stdlib.h>
-#include <avr/delay.h>
+#include <util/delay.h>
 #include "uart.h"
 #include "solenoid.h"
 

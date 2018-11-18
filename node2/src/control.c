@@ -14,11 +14,10 @@ static double K_i = MOTOR_DEFAULT_KI;
 
 int counter = 0;
 // Returns values between -MOTOR_MIN_VAL and MOTOR_MIN_VAL
-int16_t control_get_input(int16_t reference,
-                          int16_t position) {
+int16_t control_get_input(int16_t reference, int16_t position) {
     static int16_t inp = 0;
     double err = (double)(reference - position);
-    int16_t control_input = (int16_t) (K_p * err + K_i * error_sum);
+    int16_t control_input = (int16_t)(K_p * err + K_i * error_sum);
     error_sum += err;
 
     // Don't actuate motor in the threshold -MOTOR_ZERO_TRESH ->
@@ -46,5 +45,6 @@ void controller_calculate_and_actuate() {
     int16_t prev_position = Get_motor_pos();
     int16_t motor_val = motor_read_encoder();
     Set_motor_pos(prev_position + motor_val);
-    motor_actuate(control_get_input(Get_motor_reference(), prev_position + motor_val));
+    motor_actuate(
+        control_get_input(Get_motor_reference(), prev_position + motor_val));
 }
