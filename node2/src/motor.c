@@ -18,7 +18,7 @@
 #define OE PH5   // Active low
 #define RST PH6  // Active low
 
-void MOTOR_Send_Voltage(uint8_t voltage) {
+void motor_send_voltage(uint8_t voltage) {
     uint8_t msg[3];
     msg[0] = 0x50;
     msg[1] = 0;
@@ -29,7 +29,7 @@ void MOTOR_Send_Voltage(uint8_t voltage) {
     free(msg);
 }
 
-void MOTOR_Init() {
+void motor_init() {
     TWI_Master_Initialise();
     sei();
     // Set K port (MJ2) as input
@@ -58,19 +58,19 @@ void MOTOR_Init() {
 
 void motor_calibrate() {
     motor_set_direction(LEFT);
-    MOTOR_Send_Voltage(120);
+    motor_send_voltage(120);
     _delay_ms(500);
-    MOTOR_Send_Voltage(0);
+    motor_send_voltage(0);
     _delay_ms(500);
 }
 
 void motor_actuate(int16_t input) {
     if (input < 0) {
         motor_set_direction(LEFT);
-        MOTOR_Send_Voltage(-input);
+        motor_send_voltage(-input);
     } else {
         motor_set_direction(RIGHT);
-        MOTOR_Send_Voltage(input);
+        motor_send_voltage(input);
     }
 }
 

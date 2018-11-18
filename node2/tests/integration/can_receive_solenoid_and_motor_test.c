@@ -16,7 +16,7 @@ int main() {
     printf("CAN receive Solenoid signal test\n\r");
     solenoid_init();
     can_api_init();
-    MOTOR_Init();
+    motor_init();
     timer_init();
 
     while (1) {

@@ -7,13 +7,14 @@
 #include "reference_state.h"
 #include "motor.h"
 #include "control.h"
+#include "timer.h"
 
 int main() {
     UART_Init(MYUBRR);
     fdevopen(*UART_Transmit, NULL);
 
     printf("Initiating and calibrating motor\n\r");
-    MOTOR_Init();
+    motor_init();
 
     sei();
     timer_init();
@@ -25,28 +26,28 @@ int main() {
     int counter = 2000;
     int counter2 = 0;
     while (1) {
-        if (timer_flag_should_calculate_input()) {
+        if (_timer_flag_SHOULD_CALC_INPUT) {
             controller_calculate_and_actuate();
-            timer_flag_finished_calculating_input();
+            _timer_flag_SHOULD_CALC_INPUT = 0;
         }
 
         if (!(counter % 2000)) {
             if (counter2 == 0) {
                 printf("Setting reference to 150 (right)\n\r");
+                Set_motor_reference(150);
+            }
+            if (counter2 == 40) {
+                printf("Setting reference to -150 (left)\n\r");
                 Set_motor_reference(50);
             }
-            if (counter2 == 10) {
-                printf("Setting reference to -150 (left)\n\r");
-                Set_motor_reference(-50);
-            }
-            if (counter2 == 20) {
+            if (counter2 == 80) {
                 printf("Setting reference to 0 (middle)\n\r");
-                Set_motor_reference(0);
+                Set_motor_reference(100);
             }
             printf("Motor ref: %3d, pos: %3d\n\r", Get_motor_reference(),
                    Get_motor_pos());
             counter2++;
-            if (counter2 == 30) {
+            if (counter2 == 120) {
                 counter2 = 0;
             }
         }

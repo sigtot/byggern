@@ -17,7 +17,7 @@ int main() {
     fdevopen(*UART_Transmit, NULL);
     printf("starting receive motor test\n\r");
     can_api_init();
-    MOTOR_Init();
+    motor_init();
     timer_init();
 
     int counter = 0;

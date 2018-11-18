@@ -16,7 +16,7 @@ int main() {
     printf(
         "Test instruction: Wait for the motor to calibrate, then move it "
         "around and watch the encoder value change.\n\r");
-    MOTOR_Init();
+    motor_init();
     _delay_ms(20);
     printf("DDRK: %2x, DDRH: %2x, PORTH: %2x", DDRK, DDRH, PORTH);
     _delay_ms(1000);

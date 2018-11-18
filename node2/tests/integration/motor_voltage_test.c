@@ -15,7 +15,7 @@ int main() {
 
     printf("Starting motor voltage test...\n\r");
     printf("Initiating motor\n\r");
-    MOTOR_Init();
+    motor_init();
 
     printf("Initial calibration finished, waiting 1 second\n\r");
     _delay_ms(1000);
@@ -25,7 +25,7 @@ int main() {
         for (int v = 60; v <= 200; v += 10) {
             printf("Moving right with voltage %d\n\r", v);
             motor_set_direction(RIGHT);
-            MOTOR_Send_Voltage(v);
+            motor_send_voltage(v);
             _delay_ms(1500);
             printf("Recalibrating motor and waiting %d seconds...\n\r", wait);
             motor_calibrate();

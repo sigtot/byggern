@@ -17,7 +17,7 @@ int main() {
     solenoid_init();
     can_api_init();
     servo_init();
-    MOTOR_Init();
+    motor_init();
     timer_init();
 
     while (1) {

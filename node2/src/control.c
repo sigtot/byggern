@@ -28,10 +28,6 @@ int16_t control_get_input(int16_t reference, int16_t position) {
 
     // Compensate for motor's deadband of -MOTOR_MIN_VAL -> +MOTOR_MIN_VAL
     if (abs(control_input) < MOTOR_MIN_VAL) {
-        if (inp != control_input) {
-            inp = control_input;
-            printf("inp: %d\n\r", control_input);
-        }
         return (control_input < 0 ? (-1) : 1) * MOTOR_MIN_VAL;
     }
 

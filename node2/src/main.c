@@ -14,7 +14,7 @@ int main() {
     fdevopen(*UART_Transmit, NULL);
 
     printf("Initiating and calibrating motor\n\r");
-    MOTOR_Init();
+    motor_init();
 
     sei();
     timer_init();
