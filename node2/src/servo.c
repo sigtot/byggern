@@ -2,6 +2,10 @@
 #include "PWM.h"
 #include "parameters.h"
 
+void servo_init() {
+    PWM_init();
+}
+
 void servo_set_pos(int servo_pos) {
     // Map values 0-100 -> 0.001 -> 0.002
     double duty_cycle =

@@ -3,3 +3,4 @@ build/
 *.gch
 .idea/
 .DS_Store
+docs/
