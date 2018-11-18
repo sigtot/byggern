@@ -15,7 +15,7 @@ int main() {
     UART_Init(MYUBRR);
     fdevopen(*UART_Transmit, NULL);
 
-    PWM_init();
+    servo_init();
     sei();
 
     while (1) {
