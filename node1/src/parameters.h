@@ -20,4 +20,9 @@
 #define SEND PB5
 #define RECEIVE PB6
 
+// SRAM (parameters must be powers of 2)
+#define SRAM_MEM_SIZE 0x800
+#define SRAM_BLOCK_SIZE 0x10
+#define SRAM_ADDRESS 0x1800
+
 #endif
