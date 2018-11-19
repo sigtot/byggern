@@ -7,8 +7,6 @@
 void motorbox_send_servo_if_updated(int servo_val) {
     static int prev_val = 50;
     if (servo_val == prev_val) {
-        // printf("Not sending servo: %3d matches prev %3d\n\r", servo_val,
-        // prev_val);
         return;
     }
     prev_val = servo_val;

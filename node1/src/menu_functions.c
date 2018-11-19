@@ -25,7 +25,8 @@ void mfnc_play_game() {
         motorbox_send_motor_if_updated(slider.right);
 
         Joy_state joy_state = joy_get_state();
-        motorbox_send_servo_if_updated(joy_state.x);
+        int servo_val = joy_state.x / 2 + 50;
+        motorbox_send_servo_if_updated(servo_val);
 
         _delay_ms(160); // About 10 Hz
     }

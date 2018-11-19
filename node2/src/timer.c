@@ -7,6 +7,7 @@
 
 static volatile uint16_t counter = 0;
 int _timer_flag_SHOULD_CALC_INPUT = 0;
+int _timer_flag_SHOULD_CALC_SERVO = 0;
 
 void timer_init() {
     TCNT3 = 0;       // Reset timer high register
@@ -22,4 +23,7 @@ void timer_init() {
 ISR(TIMER3_COMPA_vect) {
     counter++;
     _timer_flag_SHOULD_CALC_INPUT = 1;
+    if (!(counter%50000)) {
+        _timer_flag_SHOULD_CALC_SERVO = 1;
+    }
 }

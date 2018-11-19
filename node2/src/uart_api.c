@@ -69,18 +69,18 @@ static inline void handle_and_mutate() {
     }
 
     if (K_p_substr != NULL) {
-        control_set_kp(
-            strs_get_value_from_substr(K_p_substr, strlen(K_p_substr)));
+        int K_p_int = strs_get_value_from_substr(K_p_substr, strlen(K_p_substr));
+        control_set_kp((double)K_p_int / 1000);
     }
 
     if (K_i_substr != NULL) {
-        control_set_ki(
-            strs_get_value_from_substr(K_i_substr, strlen(K_i_substr)));
+        int K_i_int = strs_get_value_from_substr(K_i_substr, strlen(K_i_substr));
+        control_set_kd((double)K_i_int / 1000);
     }
 
     if (K_d_substr != NULL) {
-        control_set_kd(
-            strs_get_value_from_substr(K_d_substr, strlen(K_d_substr)));
+        int K_d_int = strs_get_value_from_substr(K_d_substr, strlen(K_d_substr));
+        control_set_kd((double)K_d_int / 1000);
     }
 }
 

@@ -15,16 +15,15 @@
 #include "servo.h"
 
 int main() {
-    sei();
     UART_Init(MYUBRR);
     fdevopen(*UART_Transmit, NULL);
     solenoid_init();
     ir_init();
     motor_init();
+    can_api_init();
     servo_init();
     timer_init();
-    can_api_init();
-    timer_init();
+    sei();
     printf("Initiating node2\n\r");
 
     while (1) {

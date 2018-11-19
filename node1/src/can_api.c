@@ -12,8 +12,10 @@ static inline void handle_and_mutate() {
     Message message;
     CAN_Message_Receive(&message);
     switch (message.ID) {
+        case CAN_ID_STOP_GAME:
+
         case CAN_ID_SCORE:
-            printf("received message: %d\n\r", message.data[0]);
+            printf("Score up 1\n\r");
     }
 }
 

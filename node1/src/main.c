@@ -9,6 +9,7 @@
 #include "menu.h"
 #include "sram.h"
 #include "can_api.h"
+#include "timer.h"
 
 
 int main() {
@@ -16,6 +17,7 @@ int main() {
     fdevopen(*UART_Transmit, *UART_Receive);
     printf("Node 2 main\n\r");
 
+    timer_init();
     can_api_init();
     menu_init();
     sram_init();
