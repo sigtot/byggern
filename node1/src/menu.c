@@ -1,15 +1,28 @@
-#include "create_menus.h"
+#include "menu.h"
 #include "oled.h"
 #include <stdlib.h>
 #include <string.h>
 #include "run_oled.h"
 #include <stdio.h>
+#include "sram.h"
+
+#define PAGE_LENGTH 14
+#define PAGE_BUFFER_SIZE (PAGE_LENGTH + 1)
 
 Nodeptr init_node(Nodeptr prev, Nodeptr parent, char* text) {
-    Nodeptr nodeptr = malloc(sizeof(Node));
-    nodeptr->text = strdup(text);
+    Nodeptr nodeptr = (Nodeptr) sram_malloc(sizeof(Node));
+    if (strlen(text) > PAGE_LENGTH) {
+        text[PAGE_LENGTH] = '\0';
+    }
+    nodeptr->text = (char*) sram_malloc(PAGE_BUFFER_SIZE);
+    strcpy(nodeptr->text, text);
+
     nodeptr->prev = prev;
     nodeptr->parent = parent;
+    nodeptr->next = NULL;
+    nodeptr->child = NULL;
+    nodeptr->func = NULL;
+
     return nodeptr;
 }
 

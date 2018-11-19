@@ -10,12 +10,6 @@
         (byte & 0x08 ? '1' : '0'), (byte & 0x04 ? '1' : '0'), \
         (byte & 0x02 ? '1' : '0'), (byte & 0x01 ? '1' : '0')
 
-/**
- * @brief Initialize sram
- * The first NUM_BLOCKS bits in the SRAM correspond to the block indexes that
- * have already been allocated. A 1 signifies an occupied block and 0 a free
- * one.
- */
 void sram_init() {
     MCUCR |= (1 << SRE);  // Enable external memory interface
 

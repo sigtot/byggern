@@ -1,4 +1,3 @@
-
 #include "parameters.h"
 #include <stdlib.h>
 #include <stdint.h>
@@ -15,6 +14,7 @@ int main() {
     sram_init();
     printf("SRAM successfully initialized. Testing sram_malloc \n\r");
 
+
     volatile char* sram = (char*)SRAM_ADDRESS;
 
     for (int i = 0; i < 128; i++) {
@@ -30,8 +30,10 @@ int main() {
     char* secondtest = sram_malloc(34);
     printf("block 5 before: %02x\n\r", *secondtest);
     strcpy(secondtest, "foo");
-    //*secondtest = "heihei";
     printf("block 5 after: %s\n\r", secondtest);
+
+    uint8_t ***ptr = &secondtest;
+    printf("index of secondtest: %p\n\r", secondtest);
 
     for (int i = 0; i < 128; i++) {
         printf("%02x ", sram[i]);

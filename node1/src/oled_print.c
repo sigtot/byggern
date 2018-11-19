@@ -26,6 +26,7 @@ void print_menu(Nodeptr selectedptr) {
         printptr = printptr->next;
         i++;
     }
+
     _delay_ms(300);
 }
 

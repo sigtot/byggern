@@ -1,10 +1,10 @@
-#include "create_menus.h"
+#ifndef OLED_PRINT_H
+#define OLED_PRINT_H
+
+#include "menu.h"
 
 #include <stdint.h>
 #include <stdlib.h>
-
-#ifndef OLED_PRINT_H
-#define OLED_PRINT_H
 
 void print_menu();
 void print_game(uint8_t score);

@@ -1,7 +1,5 @@
-
-
-#ifndef CREATE_MENUS_H
-#define CREATE_MENUS_H
+#ifndef MENU_H
+#define MENU_H
 
 typedef void (*function_pointer)();
 
@@ -26,6 +24,14 @@ typedef struct player {
 } Player;
 
 Nodeptr init_menu();
+
+/**
+ * Initializes a menu node
+ * @param  prev Previous menu node
+ * @param  parent Parent node
+ * @param  text   Text
+ * @return        Pointer to the new node
+ */
 Nodeptr init_node(Nodeptr prev, Nodeptr parent, char* text);
 
 Playerptr init_player(Playerptr prev, Playerptr next, char* name);
