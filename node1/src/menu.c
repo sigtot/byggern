@@ -5,9 +5,15 @@
 #include "run_oled.h"
 #include <stdio.h>
 #include "sram.h"
+#include "Joy_state.h"
+
 
 #define PAGE_LENGTH 14
 #define PAGE_BUFFER_SIZE (PAGE_LENGTH + 1)
+
+void menu_init() {
+    oled_init();
+}
 
 Nodeptr init_node(Nodeptr prev, Nodeptr parent, char* text) {
     Nodeptr nodeptr = (Nodeptr) sram_malloc(sizeof(Node));
@@ -24,6 +30,40 @@ Nodeptr init_node(Nodeptr prev, Nodeptr parent, char* text) {
     nodeptr->func = NULL;
 
     return nodeptr;
+}
+
+Nodeptr update_menu(Nodeptr selectedptr, Dir joy_dir) {
+    switch (joy_dir) {
+        case DOWN:
+            if (selectedptr->next != NULL) {
+                return selectedptr->next;
+            }
+        case UP:
+            if (selectedptr->prev != NULL) {
+                return selectedptr->prev;
+            }
+        case RIGHT:
+            if (selectedptr->child != NULL) {
+                return selectedptr->child;
+            }
+        case LEFT:
+            if (selectedptr->parent != NULL) {
+                return selectedptr->parent;
+            }
+        case NEUTRAL:
+            return selectedptr;
+    }
+    return selectedptr;
+}
+
+Nodeptr init_create_main_menu() {
+    Nodeptr headptr = init_node(NULL, NULL, "Quickplay");
+    headptr->func =
+
+    Nodeptr secondptr = init_node(headptr, NULL, "Tournament");
+    headptr->next = secondptr;
+
+    return headptr;
 }
 
 Playerptr init_player(Playerptr prev, Playerptr next, char* name) {

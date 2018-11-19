@@ -8,30 +8,6 @@
 #include <util/delay.h>
 #include "Joy_state.h"
 #include "motorbox.h"
-
-Nodeptr update_menu(Nodeptr selectedptr, Joy_state joy_state) {
-    switch (joy_state.dir) {
-        case DOWN:
-            if (selectedptr->next != NULL) {
-                return selectedptr->next;
-            }
-        case UP:
-            if (selectedptr->prev != NULL) {
-                return selectedptr->prev;
-            }
-        case RIGHT:
-            if (selectedptr->child != NULL) {
-                return selectedptr->child;
-            }
-        case LEFT:
-            if (selectedptr->parent != NULL) {
-                return selectedptr->parent;
-            }
-        case NEUTRAL:
-            return selectedptr;
-    }
-}
-
 /*void run_menu() {
     int should_update_menu = 1;
     Nodeptr headptr = init_menu();

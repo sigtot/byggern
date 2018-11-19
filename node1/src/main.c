@@ -1,23 +1,38 @@
-
 #include "parameters.h"
-#include <util/delay.h>
+#include <stdlib.h>
+#include <stdint.h>
 #include <avr/io.h>
+#include <util/delay.h>
 #include "uart.h"
-#include "can.h"
-#include "can_ids.h"
+#include "Joy_state.h"
 #include "multifunction.h"
-#include "motorbox.h"
+#include "menu.h"
+#include "sram.h"
+
 
 int main() {
     UART_Init(MYUBRR);
     fdevopen(*UART_Transmit, *UART_Receive);
+    printf("Game starting\n\r");
 
-    CAN_Normal_Init();
-    printf("Right slider CAN send test\n\r");
+    menu_init();
+    sram_init();
+
+    Nodeptr menu_selectedptr = init_create_main_menu();
+    print_menu(menu_selectedptr);
     while (1) {
-        Slider slider = slider_get_state();
-        motorbox_send_motor_if_updated(slider.right);
-        _delay_ms(100);
+        Joy_state joy_state = joy_get_state();
+        if ((joy_state.dir == RIGHT) && (menu_selectedptr->func != NULL)) {
+            menu_selectedptr->func();
+        }
+        if (joy_state.dir != NEUTRAL) {
+            Nodeptr prevptr = menu_selectedptr;
+            menu_selectedptr = update_menu(menu_selectedptr, joy_state.dir);
+            int menu_updated = menu_selectedptr != prevptr;
+            if (menu_updated) {
+                print_menu(menu_selectedptr);
+                _delay_ms(200);
+            }
+        }
     }
-    return 0;
 }
