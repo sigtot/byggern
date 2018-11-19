@@ -1,6 +1,7 @@
 #include "uart_api.h"
 #include "uart.h"
 #include "reference_state.h"
+#include "../../common/utils/strs.h"
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <string.h>
@@ -35,12 +36,12 @@ static inline void handle_and_mutate() {
 
     if (servo_substr != NULL) {
         Set_servo_reference(
-            get_value_from_substr(servo_substr, strlen(servo_str)));
+            strs_get_value_from_substr(servo_substr, strlen(servo_str)));
     }
 
     if (motor_substr != NULL) {
         Set_motor_reference(
-            get_value_from_substr(motor_substr, strlen(motor_str)));
+            strs_get_value_from_substr(motor_substr, strlen(motor_str)));
     }
 
     if (get_substr != NULL) {
@@ -78,13 +79,4 @@ ISR(USART0_RX_vect) {
         }
     }
     RECEIVING_BYTE = 0;
-}
-
-int get_value_from_substr(char* substr, int key_length) {
-    char valid_chars[15] = "0123456789";
-    char* number_substr_start = substr + key_length + 1;
-    char number_substr[10] = "";
-    strncpy(number_substr, number_substr_start,
-            strspn(number_substr_start, valid_chars));
-    return atoi(number_substr);
 }

@@ -20,6 +20,7 @@ int main() {
     }
 
     printf("\n\rSRAM init test finished.\n\r");
-    while(1);
+    while (1)
+        ;
     return 0;
 }

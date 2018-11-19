@@ -34,15 +34,15 @@ int main() {
         if (!(counter % 2000)) {
             if (counter2 == 0) {
                 printf("Setting reference to 150 (right)\n\r");
-                Set_motor_reference(150);
+                Set_motor_reference(200);
             }
             if (counter2 == 40) {
                 printf("Setting reference to -150 (left)\n\r");
-                Set_motor_reference(50);
+                Set_motor_reference(100);
             }
             if (counter2 == 80) {
                 printf("Setting reference to 0 (middle)\n\r");
-                Set_motor_reference(100);
+                Set_motor_reference(150);
             }
             printf("Motor ref: %3d, pos: %3d\n\r", Get_motor_reference(),
                    Get_motor_pos());

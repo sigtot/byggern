@@ -37,7 +37,7 @@
 #define MOTOR_MAX_VAL 255
 #define MOTOR_ZERO_TRESH 10
 
-#define MOTOR_DEFAULT_KP 4
-#define MOTOR_DEFAULT_KI 0.00
+#define MOTOR_DEFAULT_KP 1
+#define MOTOR_DEFAULT_KI 0.02
 
 #endif

@@ -11,7 +11,8 @@ typedef enum MotorDir { LEFT, RIGHT } MotorDir;
 
 /**
  * Send voltage to the motor.
- * @param voltage unsigned motor value proportional to the real life voltage input.
+ * @param voltage unsigned motor value proportional to the real life voltage
+ * input.
  */
 void motor_send_voltage(unsigned char voltage);
 
