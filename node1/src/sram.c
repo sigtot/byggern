@@ -54,8 +54,6 @@ uint8_t* sram_malloc(size_t size) {
     if (fcbc < 2 * size) {
         return NULL;
     }
-    printf("returning pointer to sram[%d]\n\r",
-           (i - fcbc) / 2 * SRAM_BLOCK_SIZE);
     return &sram[(i - fcbc) / 2 * SRAM_BLOCK_SIZE];
 }
 

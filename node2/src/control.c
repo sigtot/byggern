@@ -11,6 +11,7 @@
 static int16_t error_sum = 0;
 static double K_p = MOTOR_DEFAULT_KP;
 static double K_i = MOTOR_DEFAULT_KI;
+static double K_d = 0;
 
 int counter = 0;
 // Returns values between -MOTOR_MIN_VAL and MOTOR_MIN_VAL
@@ -40,7 +41,32 @@ int16_t control_get_input(int16_t reference, int16_t position) {
 void controller_calculate_and_actuate() {
     int16_t prev_position = Get_motor_pos();
     int16_t motor_val = motor_read_encoder();
-    Set_motor_pos(prev_position + motor_val);
+    int16_t motor_pos = prev_position + motor_val;
+    Set_motor_pos(motor_pos);
     motor_actuate(
-        control_get_input(Get_motor_reference(), prev_position + motor_val));
+        control_get_input(Get_motor_reference(), motor_pos));
+}
+
+void control_set_kp(double val) {
+    K_p = val;
+}
+
+void control_set_ki(double val) {
+    K_i = val;
+}
+
+void control_set_kd(double val) {
+    K_d = val;
+}
+
+double control_get_kp() {
+    return K_p;
+}
+
+double control_get_ki() {
+    return K_i;
+}
+
+double control_get_kd() {
+    return K_d;
 }

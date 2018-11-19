@@ -8,6 +8,7 @@ typedef struct Reference_State {
     int motor_pos;
     int ir_value;
     int solenoid_reference;
+    int play_game_reference;
 } Reference_State;
 
 int Get_solenoid_reference(void);

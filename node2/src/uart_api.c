@@ -6,6 +6,8 @@
 #include <avr/io.h>
 #include <string.h>
 #include <stdlib.h>
+#include "solenoid.h"
+#include "control.h"
 
 #define BUF_SIZE 100
 
@@ -21,8 +23,14 @@ void uart_api_enable() {
 }
 
 void respond_with_state() {
-    printf("{\"servoPos\": %d, \"motorReference\": %d}\n\r",
+    printf("{");
+    printf("\"servoPos\": %d, \"motorReference\": %d, ",
            Get_servo_reference(), Get_motor_reference());
+    printf("\"KP\": %d, \"KI\": %d, \"KD\": %d",
+           (int)(control_get_kp() * 1000),
+           (int)(control_get_ki() * 1000),
+           (int)(control_get_kd() * 1000));
+    printf("}\n\r");
 }
 
 // TODO: Make not inline
@@ -30,9 +38,17 @@ static inline void handle_and_mutate() {
     char servo_str[10] = "servo";
     char motor_str[10] = "motor";
     char get_str[10] = "GET";
+    char kick_str[10] = "kick";
+    char K_p_str[10] = "K_p";
+    char K_i_str[10] = "K_i";
+    char K_d_str[10] = "K_d";
     char* servo_substr = strstr(buf, servo_str);
     char* motor_substr = strstr(buf, motor_str);
     char* get_substr = strstr(buf, get_str);
+    char* kick_substr = strstr(buf, kick_str);
+    char* K_p_substr = strstr(buf, K_p_str);
+    char* K_i_substr = strstr(buf, K_i_str);
+    char* K_d_substr = strstr(buf, K_d_str);
 
     if (servo_substr != NULL) {
         Set_servo_reference(
@@ -46,6 +62,25 @@ static inline void handle_and_mutate() {
 
     if (get_substr != NULL) {
         respond_with_state();
+    }
+
+    if (kick_substr != NULL) {
+	    solenoid_send_kick();
+    }
+
+    if (K_p_substr != NULL) {
+        control_set_kp(
+            strs_get_value_from_substr(K_p_substr, strlen(K_p_substr)));
+    }
+
+    if (K_i_substr != NULL) {
+        control_set_ki(
+            strs_get_value_from_substr(K_i_substr, strlen(K_i_substr)));
+    }
+
+    if (K_d_substr != NULL) {
+        control_set_kd(
+            strs_get_value_from_substr(K_d_substr, strlen(K_d_substr)));
     }
 }
 

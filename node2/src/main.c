@@ -1,36 +1,37 @@
 
+#include "reference_state.h"
 #include "parameters.h"
+#include <stdio.h>
 #include <avr/io.h>
 #include <stdlib.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "uart.h"
-#include "reference_state.h"
 #include "motor.h"
 #include "control.h"
+#include "solenoid.h"
+#include "timer.h"
+#include "can_api.h"
+#include "servo.h"
 
 int main() {
+    sei();
     UART_Init(MYUBRR);
     fdevopen(*UART_Transmit, NULL);
-
-    printf("Initiating and calibrating motor\n\r");
+    solenoid_init();
+    ir_init();
     motor_init();
-
-    sei();
+    servo_init();
     timer_init();
+    can_api_init();
+    timer_init();
+    printf("Initiating node2\n\r");
 
-    printf("Calibration finished, waiting 1 second\n\r");
-    _delay_ms(1000);
-    printf("Testing motor: right of center -> left of center -> center\n\r");
-
-    Set_motor_reference(150);
-    _delay_ms(1000);
-    Set_motor_reference(-150);
-    _delay_ms(1000);
-    Set_motor_reference(0);
-
-    while (1)
-        ;
+    while (1) {
+        if (Get_play_game_reference()) {
+            game_play_round();
+        }
+    }
 
     return 0;
 }

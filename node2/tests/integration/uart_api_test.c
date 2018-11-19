@@ -17,7 +17,6 @@ int main() {
     UART_Init(MYUBRR);
     fdevopen(*UART_Transmit, *UART_Receive);
 
-    printf("\n\rStarting UART API test\n\r");
     uart_api_enable();
     motor_init();
     timer_init();
@@ -31,7 +30,7 @@ int main() {
             _timer_flag_SHOULD_CALC_INPUT = 0;
         }
         if (!(counter % 10)) {
-            solenoid_send_kick();
+            //solenoid_send_kick();
         } else if (!(counter % 16)) {
             servo_set_pos(Get_servo_reference());
         } else {

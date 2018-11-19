@@ -42,3 +42,11 @@ int Get_solenoid_reference(void) {
 void Set_solenoid_reference(int solenoid_reference) {
     reference_state.solenoid_reference = solenoid_reference;
 }
+
+int Get_play_game_reference() {
+    return reference_state.play_game_reference;
+}
+
+void Set_play_game_reference(int boolean_value) {
+    reference_state.play_game_reference = boolean_value;
+}

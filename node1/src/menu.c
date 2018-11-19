@@ -2,7 +2,7 @@
 #include "oled.h"
 #include <stdlib.h>
 #include <string.h>
-#include "run_oled.h"
+#include "menu_functions.h"
 #include <stdio.h>
 #include "sram.h"
 #include "Joy_state.h"
@@ -58,7 +58,7 @@ Nodeptr update_menu(Nodeptr selectedptr, Dir joy_dir) {
 
 Nodeptr init_create_main_menu() {
     Nodeptr headptr = init_node(NULL, NULL, "Quickplay");
-    headptr->func =
+    headptr->func = mfnc_play_game;
 
     Nodeptr secondptr = init_node(headptr, NULL, "Tournament");
     headptr->next = secondptr;

@@ -7,10 +7,11 @@
 #include "servo.h"
 #include <stdio.h>
 #include <stdint.h>
+#include "game.h"
 
 static volatile int CAN_MSG_RECEIVED = 0;
 
-static inline void handle_and_mutate() {
+static void handle_and_mutate() {
     Message message;
     CAN_Message_Receive(&message);
     switch (message.ID) {
@@ -30,7 +31,22 @@ static inline void handle_and_mutate() {
                 solenoid_send_kick();
             }
             break;
+        case CAN_ID_START_GAME:
+            printf("Starting game\n\r");
+            Set_play_game_reference(message.data[0]);
+            break;
+        case CAN_ID_STOP_GAME:
+            printf("Stopping game\n\r");
+            Set_play_game_reference(0);
     }
+}
+
+void can_api_value_send(char ID, int value, int length) {
+    Message message;
+    message.ID = ID;
+    message.data[0] = value;
+    message.length = length;
+    CAN_Message_Send(&message);
 }
 
 void can_api_init() {

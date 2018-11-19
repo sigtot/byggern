@@ -9,7 +9,6 @@ static volatile uint16_t counter = 0;
 int _timer_flag_SHOULD_CALC_INPUT = 0;
 
 void timer_init() {
-    printf("Timer initiated\n\r");
     TCNT3 = 0;       // Reset timer high register
     OCR3A = 0x2400;  // About 408Hz
     // Enable CTC mode

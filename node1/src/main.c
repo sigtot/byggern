@@ -8,13 +8,15 @@
 #include "multifunction.h"
 #include "menu.h"
 #include "sram.h"
+#include "can_api.h"
 
 
 int main() {
     UART_Init(MYUBRR);
     fdevopen(*UART_Transmit, *UART_Receive);
-    printf("Game starting\n\r");
+    printf("Node 2 main\n\r");
 
+    can_api_init();
     menu_init();
     sram_init();
 

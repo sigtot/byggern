@@ -1,4 +1,3 @@
-#include "parameters.h"
 #include <avr/io.h>
 #include <stdlib.h>
 #include <avr/interrupt.h>
@@ -8,6 +7,7 @@
 #include "motor.h"
 #include "control.h"
 #include "timer.h"
+#include "parameters.h"
 
 int main() {
     sei();

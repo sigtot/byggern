@@ -26,7 +26,7 @@ int main() {
         Joy_state joy_state = joy_get_state();
         motorbox_send_servo_if_updated(joy_state.x);
 
-        _delay_ms(200);
+        _delay_ms(160); // About 10 Hz
     }
     return 0;
 }
