@@ -24,5 +24,4 @@ void init_current_game();
 void set_fails(uint8_t score);
 uint8_t get_fails();
 
-
 #endif

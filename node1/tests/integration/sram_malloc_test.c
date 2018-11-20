@@ -14,7 +14,6 @@ int main() {
     sram_init();
     printf("SRAM successfully initialized. Testing sram_malloc \n\r");
 
-
     volatile char* sram = (char*)SRAM_ADDRESS;
 
     for (int i = 0; i < 128; i++) {
@@ -32,7 +31,7 @@ int main() {
     strcpy(secondtest, "foo");
     printf("block 5 after: %s\n\r", secondtest);
 
-    uint8_t ***ptr = &secondtest;
+    uint8_t*** ptr = &secondtest;
     printf("index of secondtest: %p\n\r", secondtest);
 
     for (int i = 0; i < 128; i++) {

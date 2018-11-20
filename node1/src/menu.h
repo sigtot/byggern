@@ -27,7 +27,6 @@ typedef struct player {
     Playerptr prev;
 } Player;
 
-
 void menu_init();
 Nodeptr update_menu(Nodeptr selectedptr, Dir joy_dir);
 Nodeptr init_create_main_menu();

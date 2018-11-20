@@ -30,11 +30,10 @@ void print_menu(Nodeptr selectedptr) {
             break;
         }
     }
-    _delay_ms(300);
+    _delay_ms(200);
 }
 
 void print_game(Playerptr playerptr) {
-    printf("Name: %s", playerptr->name);
     OLED_clear();
     OLED_print_page(strdup("-GAME IS ACTIVE-"), 0);
     OLED_print_page(strdup("|              |"), 1);
@@ -70,16 +69,18 @@ void print_players(Playerptr playerptr) {
 }
 
 void print_highscores(Playerptr playerptr) {
-    oled_init();
     OLED_clear();
 
-
-    OLED_print(strdup("---HIGHSCORES---"));
-    OLED_print(strdup("|              |"));
-    OLED_print(strdup("|              |"));
-    OLED_print(strdup("|              |"));
-    OLED_print(strdup("|              |"));
-    OLED_print(strdup("|              |"));
-    OLED_print(strdup("|              |"));
-    OLED_print(strdup("|______________|"));
+    OLED_print_page(strdup("---HIGHSCORES-- "), 0);
+    uint8_t i = 1;
+    Playerptr selectedplayer = playerptr;
+    while ((playerptr != NULL) && (i < 8)) {
+        OLED_print_page(playerptr->name, i);
+        char buf[10];
+        itoa(playerptr->score, buf, 10);
+        OLED_pos(i, 128 - strlen(buf) * 8);
+        OLED_print(buf);
+        i++;
+        playerptr = playerptr->next;
+    }
 }

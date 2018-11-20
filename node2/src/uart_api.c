@@ -24,12 +24,10 @@ void uart_api_enable() {
 
 void respond_with_state() {
     printf("{");
-    printf("\"servoPos\": %d, \"motorReference\": %d, ",
-           Get_servo_reference(), Get_motor_reference());
-    printf("\"KP\": %d, \"KI\": %d, \"KD\": %d",
-           (int)(control_get_kp() * 1000),
-           (int)(control_get_ki() * 1000),
-           (int)(control_get_kd() * 1000));
+    printf("\"servoPos\": %d, \"motorReference\": %d, ", Get_servo_reference(),
+           Get_motor_reference());
+    printf("\"KP\": %d, \"KI\": %d, \"KD\": %d", (int)(control_get_kp() * 1000),
+           (int)(control_get_ki() * 1000), (int)(control_get_kd() * 1000));
     printf("}\n\r");
 }
 
@@ -65,7 +63,7 @@ static inline void handle_and_mutate() {
     }
 
     if (kick_substr != NULL) {
-	    solenoid_send_kick();
+        solenoid_send_kick();
     }
 
     if (K_p_substr != NULL) {

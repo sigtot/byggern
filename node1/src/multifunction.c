@@ -105,12 +105,6 @@ Slider slider_get_state() {
     return slider;
 }
 
-void buttons_print_state() {
-    // Button button = buttons_get_state(); //UNUSED
-    // printf("left button: %d     right button: %d\n\r", button.left,
-    // button.right);
-}
-
 Button buttons_get_state() {
     MCUCR &= ~(1 << SRE);  // disable external memory interface
     DDRB &= ~(1 << PB1);
@@ -133,5 +127,6 @@ Button buttons_get_state() {
     Button button = {right, left, joy};
     // printf("left button: %d     right button: %d\n\r", left, right);
 
+    MCUCR |= (1 << SRE);  // enable external memory interface
     return button;
 }

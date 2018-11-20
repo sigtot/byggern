@@ -11,7 +11,6 @@
 #include "can_api.h"
 #include "timer.h"
 
-
 int main() {
     UART_Init(MYUBRR);
     fdevopen(*UART_Transmit, *UART_Receive);

@@ -16,11 +16,11 @@ static Playerptr selectedplayer = NULL;
 
 void mfnc_play_game(Nodeptr selectedptr) {
     print_game(selectedplayer);
-    printf("pointer is %02x", selectedptr); //important printf...
+    printf("pointer is %02x", selectedptr);  // important printf...
     can_api_value_send(CAN_ID_START_GAME, 1, 1);
-    printf("pointer is %02x", selectedptr); //important printf........
+    printf("pointer is %02x", selectedptr);  // important printf........
     Button buttons = buttons_get_state();
-    while(!buttons.left) {
+    while (!buttons.left) {
         buttons = buttons_get_state();
         motorbox_send_solenoid_if_kick(buttons.right);
 
@@ -31,17 +31,17 @@ void mfnc_play_game(Nodeptr selectedptr) {
         int servo_val = joy_state.x / 2 + 50;
         motorbox_send_servo_if_updated(servo_val);
 
-        _delay_ms(160); // About 10 Hz
+        _delay_ms(160);  // About 10 Hz
     }
-    printf("Stopping game\n\r");
     can_api_value_send(CAN_ID_STOP_GAME, 0, 1);
 }
 
 void mfnc_show_highscores(Nodeptr selectedptr) {
     print_highscores(selectedplayer);
-    Joy_state joy_state = joy_get_state();
-    _delay_ms(1000);
-    while(joy_state.dir == NEUTRAL);
+    Button buttons = buttons_get_state();
+    while (!buttons.left) {
+        buttons = buttons_get_state();
+    }
 }
 
 void init_current_game(Playerptr selected_player) {

@@ -1,3 +1,8 @@
+/**
+ * @file oled_print.h
+ * @brief This file contains printer functions that contain the graphical print
+ * logic
+ */
 #ifndef OLED_PRINT_H
 #define OLED_PRINT_H
 

@@ -26,7 +26,7 @@ int main() {
            ir_light_received ? "RECEIVING IR LIGHT" : "NOT RECEIVING IR LIGHT");
     while (1) {
         if (Ir_is_blocked()) {
-            can_api_value_send(CAN_ID_SCORE , 1, 1);
+            can_api_value_send(CAN_ID_SCORE, 1, 1);
         }
 
         int new = !Ir_is_blocked();

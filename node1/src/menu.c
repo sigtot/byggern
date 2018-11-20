@@ -7,7 +7,6 @@
 #include "sram.h"
 #include "Joy_state.h"
 
-
 #define PAGE_LENGTH 14
 #define PAGE_BUFFER_SIZE (PAGE_LENGTH + 1)
 
@@ -55,11 +54,11 @@ Nodeptr init_create_main_menu() {
 }
 
 Nodeptr init_node(Nodeptr prev, Nodeptr parent, char* text, Nodeptr head) {
-    Nodeptr nodeptr = (Nodeptr) sram_malloc(sizeof(Nodeptr));
+    Nodeptr nodeptr = (Nodeptr)sram_malloc(sizeof(Nodeptr));
     if (strlen(text) > PAGE_LENGTH) {
         text[PAGE_LENGTH] = '\0';
     }
-    nodeptr->text = (char*) sram_malloc(PAGE_BUFFER_SIZE);
+    nodeptr->text = (char*)sram_malloc(PAGE_BUFFER_SIZE);
     strcpy(nodeptr->text, text);
 
     nodeptr->head = head;
@@ -71,7 +70,7 @@ Nodeptr init_node(Nodeptr prev, Nodeptr parent, char* text, Nodeptr head) {
     nodeptr->child = NULL;
     nodeptr->func = NULL;
 
-    //nodeptr->prev->next = nodeptr;
+    // nodeptr->prev->next = nodeptr;
 
     return nodeptr;
 }
@@ -81,7 +80,7 @@ Playerptr init_player(Playerptr prev, Playerptr next, char* name) {
     if (strlen(name) > PAGE_LENGTH) {
         name[PAGE_LENGTH] = '\0';
     }
-    playerptr->name = (char*) sram_malloc(PAGE_BUFFER_SIZE);
+    playerptr->name = (char*)sram_malloc(PAGE_BUFFER_SIZE);
     strcpy(playerptr->name, name);
     playerptr->prev = prev;
     playerptr->next = next;
@@ -102,12 +101,12 @@ Playerptr init_players() {
     playerThree->next = playerFour;
 
     Playerptr playerFive = init_player(playerFour, NULL, "Jo Arve");
-    playerFour->next = playerFour;
+    playerFour->next = playerFive;
 
     Playerptr playerSix = init_player(playerFive, NULL, "Waseem");
     playerFive->next = playerSix;
 
-    Playerptr playerSeven = init_player(playerSix, NULL, "Kolbjørn");
-
+    Playerptr playerSeven = init_player(playerSix, NULL, "Kolbjorn");
+    playerSix->next = playerSeven;
     return playerOne;
 }

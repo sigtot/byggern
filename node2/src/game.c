@@ -33,6 +33,6 @@ void game_play_round() {
     }
 }
 
-void set_time_is_up(){
+void set_time_is_up() {
     time_is_up = 1;
 }

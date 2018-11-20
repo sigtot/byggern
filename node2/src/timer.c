@@ -24,8 +24,8 @@ void timer_init() {
 ISR(TIMER3_COMPA_vect) {
     counterL++;
     _timer_flag_SHOULD_CALC_INPUT = 1;
-    if (!(counterL%270)) {
-        if (counterL >= 100*60) { //Set this to adjust gametime
+    if (!(counterL % 270)) {
+        if (counterL >= 100 * 60) {  // Set this to adjust gametime
             counterL = 0;
             set_time_is_up();
         }

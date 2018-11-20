@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-
 /**
  * @brief Initialize sram
  * The first NUM_BLOCKS bits in the SRAM correspond to the block indexes that
