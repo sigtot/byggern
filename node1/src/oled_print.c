@@ -30,11 +30,13 @@ void print_menu(Nodeptr selectedptr) {
     _delay_ms(300);
 }
 
-void print_game(uint8_t score) {
+void print_game(Playerptr playerptr) {
+    uint8_t score = playerptr->score;
+    char *temp;
     OLED_clear();
     OLED_print(strdup("-GAME IS ACTIVE-"));
     OLED_print(strdup("|              |"));
-    char* temp;
+    OLED_print(sprintf(temp, "|   %-3d   |", score));
     // the following ifs print according to numbers in score
     // TODO: Use printf("|%-10s|", "Hello");
     // https://stackoverflow.com/questions/276827/string-padding-in-c
@@ -56,23 +58,27 @@ void print_game(uint8_t score) {
     printf("Init game\n\r");
 }
 
-void print_players(Playerptr headptr, Playerptr selectedptr) {
+void print_players(Playerptr playerptr) {
     OLED_clear();
     int i = 0;
-    while (headptr != NULL) {
+    Playerptr selected_player = playerptr;
+    while (selected_player->prev != NULL) {
+        selected_player = selected_player->prev;
+    }
+    while (selected_player->next != NULL) {
         OLED_pos(i, 0);
-        if (headptr == selectedptr) {
+        if (selected_player == playerptr) {
             OLED_print_char('>');
         } else {
             OLED_print_char(' ');
         }
-        OLED_print(headptr->name);
-        headptr = headptr->next;
+        OLED_print(selected_player->name);
+        selected_player = selected_player->next;
         i++;
     }
 }
 
-void print_highscores() {
+void print_highscores(Playerptr playerptr) {
     // needs a playerlist as input
     OLED_print(strdup("---HIGHSCORES---"));
     OLED_print(strdup("|              |"));

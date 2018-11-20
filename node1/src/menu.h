@@ -1,6 +1,8 @@
 #ifndef MENU_H
 #define MENU_H
 
+#include "Joy_state.h"
+
 typedef void (*function_pointer)();
 
 typedef struct node* Nodeptr;
@@ -23,8 +25,10 @@ typedef struct player {
     Playerptr prev;
 } Player;
 
-Nodeptr init_menu();
 
+void menu_init();
+Nodeptr update_menu(Nodeptr selectedptr, Dir joy_dir);
+Nodeptr init_create_main_menu();
 /**
  * Initializes a menu node
  * @param  prev Previous menu node

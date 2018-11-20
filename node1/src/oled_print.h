@@ -7,8 +7,8 @@
 #include <stdlib.h>
 
 void print_menu();
-void print_game(uint8_t score);
-void print_players(Playerptr headptr, Playerptr selectedptr);
-void print_highscores();
+void print_game(Playerptr playerptr);
+void print_players(Playerptr playerptr);
+void print_highscores(Playerptr playerptr);
 
 #endif

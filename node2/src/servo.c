@@ -7,7 +7,6 @@ void servo_init() {
 }
 
 void servo_set_pos(int servo_pos) {
-    printf("setting servo pos %d\n\r", servo_pos);
     // Map values 0-100 -> 0.001 -> 0.002
     double duty_min = 0.001;
     double duty_max = 0.002;

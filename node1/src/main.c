@@ -22,6 +22,8 @@ int main() {
     menu_init();
     sram_init();
 
+    Playerptr selectedplayer = init_players();
+    init_current_game(selectedplayer);
     Nodeptr menu_selectedptr = init_create_main_menu();
     print_menu(menu_selectedptr);
     while (1) {

@@ -6,15 +6,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <util/delay.h>
+#include <stdio.h>
 #include "Joy_state.h"
 #include "motorbox.h"
 #include "can_api.h"
 #include "../../common/src/can_ids.h"
 
+static Playerptr selectedplayer = NULL;
+
 void mfnc_play_game() {
     //TODO run a wait loop and reset + calibrate node 2
     //TODO update score
-
+    print_game(selectedplayer);
     can_api_value_send(CAN_ID_START_GAME, 1, 1);
     Button buttons = buttons_get_state();
     while(!buttons.left) {
@@ -32,4 +35,15 @@ void mfnc_play_game() {
     }
     printf("Stopping game\n\r");
     can_api_value_send(CAN_ID_STOP_GAME, 0, 1);
+}
+
+void mfnc_show_highscores() {
+
+}
+
+void init_current_game(Playerptr selected_player) {
+    /*Current_game current_game = sram_malloc(sizeof(Current_game));
+    current_game->selected_player = selected_player;
+    return current_game;*/
+    selectedplayer = selected_player;
 }

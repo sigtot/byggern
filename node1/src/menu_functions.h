@@ -6,20 +6,23 @@
 #define MENU_FUNCTIONS_H
 #include "menu.h"
 #include <stdio.h>
+#include <stdint.h>
 
 typedef struct Current_game {
-    char *player;
-    int score;
-    int playing;
+    Playerptr selected_player;
+    uint8_t fails;
 } Current_game;
 
 /**
  * Starts the ping pong game
  */
 void mfnc_play_game();
-
+void mfnc_show_highscores();
+void mfnc_select_player();
 void init_current_game();
 
-void set_score(uint8_t score);
+void set_fails(uint8_t score);
+uint8_t get_fails();
+
 
 #endif
