@@ -102,11 +102,16 @@ void OLED_print_char(char c) {
 
 void OLED_print(char* word) {
     MCUCR |= (1 << SRE);  // Enable external memory interface
-    // volatile char* memory = (char*)0; //UNUSED
 
     int i = 0;
     while (word[i] != '\0') {
         OLED_print_char(word[i]);
         i++;
     }
+}
+
+void OLED_print_page(char* word, int page) {
+    MCUCR |= (1 << SRE);  // Enable external memory interface
+    OLED_pos(page, 0);
+    OLED_print(word);
 }

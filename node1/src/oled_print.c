@@ -34,19 +34,19 @@ void print_menu(Nodeptr selectedptr) {
 }
 
 void print_game(Playerptr playerptr) {
-    uint8_t score = playerptr->score;
-    char *temp;
+    printf("Name: %s", playerptr->name);
     OLED_clear();
-    OLED_print(strdup("-GAME IS ACTIVE-"));
-    OLED_print(strdup("|             |"));
-    OLED_print(sprintf(temp, "|    %-3d    |", score));
-    OLED_print(strdup("|             |"));
-    OLED_print(strdup("|             |"));
-    OLED_print(strdup("|             |"));
-    OLED_print(strdup("|             |"));
-    OLED_print(strdup("|_____________|"));
+    OLED_print_page(strdup("-GAME IS ACTIVE-"), 0);
+    OLED_print_page(strdup("|              |"), 1);
+    OLED_print_page(strdup("|  Good luck,  |"), 2);
+    OLED_print_page(strdup("|              |"), 3);
+    OLED_print_page(strdup("|              |"), 4);
+    OLED_print_page(strdup("|              |"), 5);
+    OLED_print_page(strdup("|              |"), 6);
+    OLED_print_page(strdup("|______________|"), 7);
+    OLED_pos(3, (128 - strlen(playerptr->name) * 8) / 2);
+    OLED_print(playerptr->name);
     // just checking if it appears as should
-    printf("Init game\n\r");
 }
 
 void print_players(Playerptr playerptr) {
@@ -72,7 +72,7 @@ void print_players(Playerptr playerptr) {
 void print_highscores(Playerptr playerptr) {
     oled_init();
     OLED_clear();
-    
+
 
     OLED_print(strdup("---HIGHSCORES---"));
     OLED_print(strdup("|              |"));

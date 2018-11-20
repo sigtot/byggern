@@ -30,9 +30,7 @@ int main() {
         _delay_ms(10);
         Joy_state joy_state = joy_get_state();
         if ((joy_state.dir == RIGHT) && (menu_selectedptr->func != NULL)) {
-            //printf("ptr before: %02x\n\r", menu_selectedptr->prev);
             menu_selectedptr->func(menu_selectedptr);
-            //printf("ptr after: %02x\n\r", menu_selectedptr->prev);
             print_menu(menu_selectedptr);
         }
         if (joy_state.dir != NEUTRAL) {

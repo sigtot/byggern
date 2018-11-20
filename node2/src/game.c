@@ -27,13 +27,10 @@ void game_play_round() {
         }
         if (fail && time_is_up) {
             fail = 0;
-            can_api_value_send(CAN_ID_STOP_GAME, 0, 1);
             break;
         }
-        printf("times up? %d fail? %d\n\r", time_is_up, fail);
         _delay_ms(16);
     }
-    printf("GGWP, you got %d points\n\r", fail);
 }
 
 void set_time_is_up(){

@@ -15,8 +15,6 @@
 static Playerptr selectedplayer = NULL;
 
 void mfnc_play_game(Nodeptr selectedptr) {
-    //TODO run a wait loop and reset + calibrate node 2
-    //TODO update score
     print_game(selectedplayer);
     printf("pointer is %02x", selectedptr); //important printf...
     can_api_value_send(CAN_ID_START_GAME, 1, 1);
