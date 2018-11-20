@@ -1,3 +1,9 @@
+/**
+ * @file parameters.h
+ * File contains necessary parameters
+ * for atmega162 pins, UART parameters and SRAM parameters
+ */
+
 #ifndef PARAMETERS_H
 #define PARAMETERS_H
 #include <avr/io.h>

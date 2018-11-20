@@ -1,3 +1,9 @@
+/**
+ * @file parameters.h
+ * File contains necessary parameters
+ * for atmega2560 pins, motor, servo, IR and PWM
+ */
+
 #ifndef PARAMETERS_H
 #define PARAMETERS_H
 #include <avr/io.h>

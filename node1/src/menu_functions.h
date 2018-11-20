@@ -18,7 +18,11 @@ typedef struct Current_game {
  */
 void mfnc_play_game();
 
+/**
+ * Initiates a game
+ */
 void init_current_game();
+
 
 void set_score(uint8_t score);
 
