@@ -1,5 +1,13 @@
 # TTK4155 Byggern
 Lab in TTK4155 – Embedded and Industrial Computer Systems Design
+## Project
+This repository contains the code for the implementation of a physical ping pong machine. It contains the game logic, as well as drivers for all the different components.
+
+In addition to the actual machine implemented in low level C code, the project was set up with a rest API and a simple web frontend. The game could also be played automatically, through the means of computer vision with the [OpenCV library](https://opencv.org/). For this, a kalman filter was implemented to track and predict the ping pong ball's future movements. The code for this can be found in the following github repos:
+* https://github.com/sigtot/byggern-rest
+* https://github.com/sigtot/byggern-frontend
+* https://github.com/sigtot/circle-detection
+* https://github.com/sigtot/kalman
 
 ### Node 2 UART Api
 The internal state of node2 is simply the reference servo and motor positions for the physical machine.
