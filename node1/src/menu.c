@@ -45,7 +45,8 @@ Nodeptr init_create_main_menu() {
 
     Nodeptr secondptr = init_node(headptr, NULL, "Select player", headptr);
 
-    Nodeptr thirdptr = init_node(secondptr, NULL, "Tournament", headptr);
+    Nodeptr thirdptr = init_node(secondptr, NULL, "Open web api", headptr);
+    thirdptr->func = mfnc_open_web_api;
 
     Nodeptr fourthptr = init_node(thirdptr, NULL, "Highscores", headptr);
     fourthptr->func = mfnc_show_highscores;

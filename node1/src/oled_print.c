@@ -45,7 +45,18 @@ void print_game(Playerptr playerptr) {
     OLED_print_page(strdup("|______________|"), 7);
     OLED_pos(3, (128 - strlen(playerptr->name) * 8) / 2);
     OLED_print(playerptr->name);
-    // just checking if it appears as should
+}
+
+void print_api_enabled() {
+    OLED_clear();
+    OLED_print_page(strdup("----------------"), 0);
+    OLED_print_page(strdup("|              |"), 1);
+    OLED_print_page(strdup("|              |"), 2);
+    OLED_print_page(strdup("| API enabled! |"), 3);
+    OLED_print_page(strdup("|              |"), 4);
+    OLED_print_page(strdup("|              |"), 5);
+    OLED_print_page(strdup("|              |"), 6);
+    OLED_print_page(strdup("|______________|"), 7);
 }
 
 void print_players(Playerptr playerptr) {

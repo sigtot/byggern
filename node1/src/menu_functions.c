@@ -44,9 +44,12 @@ void mfnc_show_highscores(Nodeptr selectedptr) {
     }
 }
 
+void mfnc_open_web_api(Nodeptr selectedptr) {
+    can_api_value_send(CAN_ID_START_GAME, 1, 1);
+    print_api_enabled();
+    _delay_ms(1000);
+}
+
 void init_current_game(Playerptr selected_player) {
-    /*Current_game current_game = sram_malloc(sizeof(Current_game));
-    current_game->selected_player = selected_player;
-    return current_game;*/
     selectedplayer = selected_player;
 }

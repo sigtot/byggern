@@ -17,6 +17,7 @@
 int main() {
     UART_Init(MYUBRR);
     fdevopen(*UART_Transmit, NULL);
+    uart_api_enable();
     solenoid_init();
     ir_init();
     motor_init();
