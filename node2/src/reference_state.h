@@ -28,9 +28,9 @@ int Get_solenoid_reference(void);
 
 /**
  * @brief Set solenoid reference
- * @param solenoid_reference Desired reference for the solenoid
+ * @param val Desired reference for the solenoid
  */
-void Set_solenoid_reference(int solenoid_reference);
+void Set_solenoid_reference(int val);
 
 /**
  * @Get servo reference
@@ -40,9 +40,9 @@ int Get_servo_reference(void);
 
 /**
  * @brief Set servo reference
- * @param servo_pos Desired reference for the servo position
+ * @param val Desired reference for the servo position
  */
-void Set_servo_reference(int servo_pos);
+void Set_servo_reference(int val);
 
 /**
  * @brief Get motor reference
@@ -52,9 +52,9 @@ int16_t Get_motor_reference(void);
 
 /**
  * @brief Set motor reference
- * @param motor_ref Motor reference
+ * @param val Motor reference
  */
-void Set_motor_reference(int16_t servo_pos);
+void Set_motor_reference(int16_t val);
 
 /**
  * @brief Get motor position

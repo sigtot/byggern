@@ -2,8 +2,6 @@
  * @file timer.h
  * @brief Timer module for timer based interrupts
  */
-#ifnd
-
 #ifndef TIMER_H
 #define TIMER_H
 

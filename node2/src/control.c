@@ -19,7 +19,9 @@ int16_t control_get_input(int16_t reference, int16_t position) {
     static int16_t inp = 0;
     double err = (double)(reference - position);
     int16_t control_input = (int16_t)(K_p * err + K_i * error_sum);
-    error_sum += err;
+    if (abs(err) < ERR_INTEGRAL_TRESH) {
+        error_sum += err;
+    }
 
     // Don't actuate motor in the threshold -MOTOR_ZERO_TRESH ->
     // +MOTOR_ZERO_TRESH
