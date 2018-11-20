@@ -13,9 +13,6 @@ typedef struct Current_game {
     uint8_t fails;
 } Current_game;
 
-/**
- * Starts the ping pong game
- */
 void mfnc_play_game(Nodeptr selectedptr);
 void mfnc_show_highscores(Nodeptr selectedptr);
 void mfnc_select_player();
