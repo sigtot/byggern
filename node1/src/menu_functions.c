@@ -6,18 +6,21 @@
 #include <stdlib.h>
 #include <string.h>
 #include <util/delay.h>
+#include <stdio.h>
 #include "Joy_state.h"
 #include "motorbox.h"
 #include "can_api.h"
 #include "../../common/src/can_ids.h"
 
-void mfnc_play_game() {
-    //TODO run a wait loop and reset + calibrate node 2
-    //TODO update score
+static Playerptr selectedplayer = NULL;
 
+void mfnc_play_game(Nodeptr selectedptr) {
+    print_game(selectedplayer);
+    printf("pointer is %02x", selectedptr);  // important printf...
     can_api_value_send(CAN_ID_START_GAME, 1, 1);
+    printf("pointer is %02x", selectedptr);  // important printf........
     Button buttons = buttons_get_state();
-    while(!buttons.left) {
+    while (!buttons.left) {
         buttons = buttons_get_state();
         motorbox_send_solenoid_if_kick(buttons.right);
 
@@ -28,8 +31,25 @@ void mfnc_play_game() {
         int servo_val = joy_state.x / 2 + 50;
         motorbox_send_servo_if_updated(servo_val);
 
-        _delay_ms(160); // About 10 Hz
+        _delay_ms(160);  // About 10 Hz
     }
-    printf("Stopping game\n\r");
     can_api_value_send(CAN_ID_STOP_GAME, 0, 1);
+}
+
+void mfnc_show_highscores(Nodeptr selectedptr) {
+    print_highscores(selectedplayer);
+    Button buttons = buttons_get_state();
+    while (!buttons.left) {
+        buttons = buttons_get_state();
+    }
+}
+
+void mfnc_open_web_api(Nodeptr selectedptr) {
+    can_api_value_send(CAN_ID_START_GAME, 1, 1);
+    print_api_enabled();
+    _delay_ms(1000);
+}
+
+void init_current_game(Playerptr selected_player) {
+    selectedplayer = selected_player;
 }

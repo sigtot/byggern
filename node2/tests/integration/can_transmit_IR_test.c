@@ -7,7 +7,7 @@
 #include "parameters.h"
 #include "ir.h"
 #include "can.h"
-#include "can_ids.h"
+#include "../../common/src/can_ids.h"
 
 int main() {
     UART_Init(MYUBRR);

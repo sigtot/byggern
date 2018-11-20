@@ -6,6 +6,9 @@
 #ifndef MENU_H
 #define MENU_H
 
+#include "stdint.h"
+#include "Joy_state.h"
+
 typedef void (*function_pointer)();
 
 typedef struct node* Nodeptr;
@@ -17,6 +20,7 @@ typedef struct node {
     char* text;
     Nodeptr next;
     Nodeptr prev;
+    Nodeptr head;
     Nodeptr parent;
     Nodeptr child;
     function_pointer func;
@@ -34,10 +38,14 @@ typedef struct player {
     Playerptr prev;
 } Player;
 
+
 /**
- * @brief initialization of the OLED screen
+ * @brief initialization of the OLED menu
  */
-Nodeptr init_menu();
+void menu_init();
+
+Nodeptr update_menu(Nodeptr selectedptr, Dir joy_dir);
+Nodeptr init_create_main_menu();
 
 /**
  * Initializes a menu node
@@ -46,7 +54,7 @@ Nodeptr init_menu();
  * @param  text Text
  * @return Pointer to the new node
  */
-Nodeptr init_node(Nodeptr prev, Nodeptr parent, char* text);
+Nodeptr init_node(Nodeptr prev, Nodeptr parent, char* text, Nodeptr head);
 
 /**
  * Initializes a Player

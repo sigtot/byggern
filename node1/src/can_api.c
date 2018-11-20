@@ -1,3 +1,7 @@
+/**
+ * @file can_api.h
+ * @brief Sends CAN messages from Node 1
+ */
 #include "can_api.h"
 #include <avr/interrupt.h>
 #include "../../common/src/can.h"
@@ -13,12 +17,21 @@ static inline void handle_and_mutate() {
     CAN_Message_Receive(&message);
     switch (message.ID) {
         case CAN_ID_STOP_GAME:
+            printf("Stop game\n\r");
+            break;
 
         case CAN_ID_SCORE:
             printf("Score up 1\n\r");
+            break;
     }
 }
 
+/**
+ * Send message over CAN bus
+ * @param ID one byte message ID
+ * @param servo_val Data to be sendt
+ * @param length Data length
+ */
 void can_api_value_send(char ID, int value, int length) {
     Message message;
     message.ID = ID;
@@ -27,11 +40,11 @@ void can_api_value_send(char ID, int value, int length) {
     CAN_Message_Send(&message);
 }
 
+/**
+ * Initialization of CAN application programming interface
+ * note: interrupts enabled on INT0
+ */
 void can_api_init() {
-    /**
-     * Set interrupt on falling edge for INT0
-     * Enable interrupt on INT0
-     */
     MCUCR &= ~(1 << ISC00);
     MCUCR |= (1 << ISC01);
     GICR |= (1 << INT0);

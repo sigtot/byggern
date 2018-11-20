@@ -1,7 +1,7 @@
-
 /**
  * @file oled_print.h
- * Printing on the OLED
+ * @brief This file contains printer functions that hold the graphical print
+ * logic
  */
 
 #ifndef OLED_PRINT_H
@@ -13,22 +13,32 @@
 #include <stdlib.h>
 
 /**
- * Printing main menu
+ * Print main menu
+ * @param selectedptr Any Nodeptr in the linked list
  */
-void print_menu();
+void print_menu(Nodeptr selectedptr);
 
 /**
- * Printing game screen
- * @param score 
+ * Print game screen
+ * @param playerptr The currently playing user 
  */
-void print_game(uint8_t score);
+void print_game(Playerptr playerptr);
 
 /**
- * Printing players
- * @param headptr Playerptr to the head of the linked list
- * @param selectedptr Playerptr to
+ * Print players and their scores
+ * @param playerptr The topmost player in the linked list
  */
-void print_players(Playerptr headptr, Playerptr selectedptr);
-void print_highscores();
+void print_highscores(Playerptr playerptr);
+
+/**
+ * Print highscores
+ * @param playerptr 
+ */
+void print_players(Playerptr playerptr);
+
+/**
+ * Prints the api enabled message
+ */
+void print_api_enabled();
 
 #endif

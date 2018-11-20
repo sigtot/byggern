@@ -30,7 +30,7 @@ int main() {
             _timer_flag_SHOULD_CALC_INPUT = 0;
         }
         if (!(counter % 10)) {
-            //solenoid_send_kick();
+            // solenoid_send_kick();
         } else if (!(counter % 16)) {
             servo_set_pos(Get_servo_reference());
         } else {

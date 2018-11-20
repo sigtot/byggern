@@ -14,9 +14,9 @@ void can_api_init();
 /**
  * Send message over CAN bus
  * @param ID one byte message ID 
- * @param servo_val Data to be sendt
+ * @param servo_val Data to be sent
  * @param length Data length
  */
-void can_message_send(char ID, int servo_val, int length);
+void can_api_value_send(char ID, int servo_val, int length);
 
 #endif

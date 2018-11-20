@@ -14,7 +14,7 @@ int main() {
     fdevopen(*UART_Transmit, *UART_Receive);
 
     CAN_Normal_Init();
-    printf("Solenoid signal send test\n\r");
+    printf("Send all test\n\r");
 
     while (1) {
         Button buttons = buttons_get_state();
@@ -26,7 +26,7 @@ int main() {
         Joy_state joy_state = joy_get_state();
         motorbox_send_servo_if_updated(joy_state.x);
 
-        _delay_ms(160); // About 10 Hz
+        _delay_ms(160);  // About 10 Hz
     }
     return 0;
 }

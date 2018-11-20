@@ -10,20 +10,19 @@
 #include "multifunction.h"
 #include "oled.h"
 
-
 #define PAGE_LENGTH 14
 #define PAGE_BUFFER_SIZE (PAGE_LENGTH + 1)
 
 typedef void (*function_pointer)();
 typedef struct node* Nodeptr;
 typedef struct node {
-        char* text;
-        Nodeptr next;
-        Nodeptr prev;
-        Nodeptr parent;
-        Nodeptr child;
-        function_pointer func;
-    } Node;
+    char* text;
+    Nodeptr next;
+    Nodeptr prev;
+    Nodeptr parent;
+    Nodeptr child;
+    function_pointer func;
+} Node;
 
 int test_func() {
     print_test();
@@ -61,12 +60,14 @@ int main() {
     oled_init();
     printf("Initializing SRAM...\n\r");
     sram_init();
-    printf("SRAM successfully initialized. Testing sram_sram_malloc nodepointer\n\r");
+    printf(
+        "SRAM successfully initialized. Testing sram_sram_malloc "
+        "nodepointer\n\r");
     volatile char* sram = (char*)SRAM_ADDRESS;
 
     for (int i = 0; i < 164; i++) {
         printf("%2x ", sram[i]);
-        if (!((i+1)%16)){
+        if (!((i + 1) % 16)) {
             printf("\n\r");
         }
     }
@@ -74,17 +75,15 @@ int main() {
     Nodeptr selectedptr = init_test_menu();
     print_menu(selectedptr);
 
-
-
     for (int i = 0; i < 164; i++) {
         printf("%02x ", sram[i]);
-        if (!((i+1)%16)){
+        if (!((i + 1) % 16)) {
             printf("\n\r");
         }
     }
 
-
     printf("\n\rSRAM_sram_sram_malloc nodepointer test finished.\n\r");
-    while(1);
+    while (1)
+        ;
     return 0;
 }

@@ -33,7 +33,8 @@ Nodeptr init_test_menu() {
     Nodeptr thirdptr = init_node(secondptr, NULL, "123456789123456");
     secondptr->next = thirdptr;
 
-    Nodeptr fourthptr = init_node(thirdptr, NULL, "Long string which will be truncated");
+    Nodeptr fourthptr =
+        init_node(thirdptr, NULL, "Long string which will be truncated");
     thirdptr->next = fourthptr;
 
     return headptr;

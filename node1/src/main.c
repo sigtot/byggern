@@ -11,23 +11,26 @@
 #include "can_api.h"
 #include "timer.h"
 
-
 int main() {
     UART_Init(MYUBRR);
     fdevopen(*UART_Transmit, *UART_Receive);
-    printf("Node 2 main\n\r");
+    printf("Node 1 main\n\r");
 
     timer_init();
     can_api_init();
     menu_init();
     sram_init();
 
+    Playerptr selectedplayer = init_players();
+    init_current_game(selectedplayer);
     Nodeptr menu_selectedptr = init_create_main_menu();
     print_menu(menu_selectedptr);
     while (1) {
+        _delay_ms(10);
         Joy_state joy_state = joy_get_state();
         if ((joy_state.dir == RIGHT) && (menu_selectedptr->func != NULL)) {
-            menu_selectedptr->func();
+            menu_selectedptr->func(menu_selectedptr);
+            print_menu(menu_selectedptr);
         }
         if (joy_state.dir != NEUTRAL) {
             Nodeptr prevptr = menu_selectedptr;

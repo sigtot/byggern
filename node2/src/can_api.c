@@ -32,21 +32,11 @@ static void handle_and_mutate() {
             }
             break;
         case CAN_ID_START_GAME:
-            printf("Starting game\n\r");
             Set_play_game_reference(message.data[0]);
             break;
         case CAN_ID_STOP_GAME:
-            printf("Stopping game\n\r");
             Set_play_game_reference(0);
     }
-}
-
-void can_api_value_send(char ID, int value, int length) {
-    Message message;
-    message.ID = ID;
-    message.data[0] = value;
-    message.length = length;
-    CAN_Message_Send(&message);
 }
 
 void can_api_init() {

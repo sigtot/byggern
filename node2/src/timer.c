@@ -4,8 +4,9 @@
 #include "reference_state.h"
 #include <avr/interrupt.h>
 #include <avr/io.h>
+#include "game.h"
 
-static volatile uint16_t counter = 0;
+static volatile uint16_t counterL = 0;
 int _timer_flag_SHOULD_CALC_INPUT = 0;
 int _timer_flag_SHOULD_CALC_SERVO = 0;
 
@@ -21,9 +22,12 @@ void timer_init() {
 }
 
 ISR(TIMER3_COMPA_vect) {
-    counter++;
+    counterL++;
     _timer_flag_SHOULD_CALC_INPUT = 1;
-    if (!(counter%50000)) {
-        _timer_flag_SHOULD_CALC_SERVO = 1;
+    if (!(counterL % 270)) {
+        if (counterL >= 100 * 60) {  // Set this to adjust gametime
+            counterL = 0;
+            set_time_is_up();
+        }
     }
 }

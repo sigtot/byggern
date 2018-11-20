@@ -7,8 +7,10 @@
 #include "../../common/src/can_ids.h"
 #include "control.h"
 
+static uint8_t time_is_up = 0;
+
 void game_play_round() {
-    int points = 0;
+    int fail = 0;
     int in_game = 1;
     int ir_off = 1;
     while (Get_play_game_reference()) {
@@ -21,10 +23,16 @@ void game_play_round() {
         }
         if (Ir_is_blocked() && (ir_off == 1)) {
             ir_off = 0;
-            points++;
-            can_api_value_send(CAN_ID_STOP_GAME, 0, 1);
+            fail++;
+        }
+        if (fail && time_is_up) {
+            fail = 0;
+            break;
         }
         _delay_ms(16);
     }
-    printf("GGWP, you got %d points\n\r", points);
+}
+
+void set_time_is_up() {
+    time_is_up = 1;
 }

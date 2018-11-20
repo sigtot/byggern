@@ -43,8 +43,7 @@ void controller_calculate_and_actuate() {
     int16_t motor_val = motor_read_encoder();
     int16_t motor_pos = prev_position + motor_val;
     Set_motor_pos(motor_pos);
-    motor_actuate(
-        control_get_input(Get_motor_reference(), motor_pos));
+    motor_actuate(control_get_input(Get_motor_reference(), motor_pos));
 }
 
 void control_set_kp(double val) {
