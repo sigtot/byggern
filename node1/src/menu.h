@@ -1,6 +1,7 @@
 #ifndef MENU_H
 #define MENU_H
 
+#include "stdint.h"
 #include "Joy_state.h"
 
 typedef void (*function_pointer)();
@@ -11,6 +12,7 @@ typedef struct node {
     char* text;
     Nodeptr next;
     Nodeptr prev;
+    Nodeptr head;
     Nodeptr parent;
     Nodeptr child;
     function_pointer func;
@@ -36,7 +38,7 @@ Nodeptr init_create_main_menu();
  * @param  text   Text
  * @return        Pointer to the new node
  */
-Nodeptr init_node(Nodeptr prev, Nodeptr parent, char* text);
+Nodeptr init_node(Nodeptr prev, Nodeptr parent, char* text, Nodeptr head);
 
 Playerptr init_player(Playerptr prev, Playerptr next, char* name);
 Playerptr init_players();

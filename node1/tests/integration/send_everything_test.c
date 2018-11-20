@@ -14,7 +14,7 @@ int main() {
     fdevopen(*UART_Transmit, *UART_Receive);
 
     CAN_Normal_Init();
-    printf("Solenoid signal send test\n\r");
+    printf("Send all test\n\r");
 
     while (1) {
         Button buttons = buttons_get_state();

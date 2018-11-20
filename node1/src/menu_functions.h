@@ -16,8 +16,8 @@ typedef struct Current_game {
 /**
  * Starts the ping pong game
  */
-void mfnc_play_game();
-void mfnc_show_highscores();
+void mfnc_play_game(Nodeptr selectedptr);
+void mfnc_show_highscores(Nodeptr selectedptr);
 void mfnc_select_player();
 void init_current_game();
 

@@ -20,7 +20,8 @@ int main() {
     solenoid_init();
     ir_init();
     motor_init();
-    can_api_init();
+    //can_api_init();
+    CAN_Normal_Init();
     servo_init();
     timer_init();
     sei();

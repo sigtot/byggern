@@ -15,7 +15,7 @@
 int main() {
     UART_Init(MYUBRR);
     fdevopen(*UART_Transmit, *UART_Receive);
-    printf("Node 2 main\n\r");
+    printf("Node 1 main\n\r");
 
     timer_init();
     can_api_init();
@@ -27,9 +27,13 @@ int main() {
     Nodeptr menu_selectedptr = init_create_main_menu();
     print_menu(menu_selectedptr);
     while (1) {
+        _delay_ms(10);
         Joy_state joy_state = joy_get_state();
         if ((joy_state.dir == RIGHT) && (menu_selectedptr->func != NULL)) {
-            menu_selectedptr->func();
+            //printf("ptr before: %02x\n\r", menu_selectedptr->prev);
+            menu_selectedptr->func(menu_selectedptr);
+            //printf("ptr after: %02x\n\r", menu_selectedptr->prev);
+            print_menu(menu_selectedptr);
         }
         if (joy_state.dir != NEUTRAL) {
             Nodeptr prevptr = menu_selectedptr;

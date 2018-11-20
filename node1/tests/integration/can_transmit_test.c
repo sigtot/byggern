@@ -10,6 +10,7 @@ int main() {
     fdevopen(*UART_Transmit, *UART_Receive);
 
     CAN_Normal_Init();
+    sei();
 
     for (int i = 0; i < 100; i++) {
         Message message = {CAN_ID_SERVO, 1, {i}};

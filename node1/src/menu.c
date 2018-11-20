@@ -40,16 +40,21 @@ Nodeptr update_menu(Nodeptr selectedptr, Dir joy_dir) {
 }
 
 Nodeptr init_create_main_menu() {
-    Nodeptr headptr = init_node(NULL, NULL, "Quickplay");
+    Nodeptr headptr = init_node(NULL, NULL, "Quickplay", NULL);
     headptr->func = mfnc_play_game;
+    headptr->head = headptr;
 
-    Nodeptr secondptr = init_node(headptr, NULL, "Tournament");
-    headptr->next = secondptr;
+    Nodeptr secondptr = init_node(headptr, NULL, "Select player", headptr);
+
+    Nodeptr thirdptr = init_node(secondptr, NULL, "Tournament", headptr);
+
+    Nodeptr fourthptr = init_node(thirdptr, NULL, "Highscores", headptr);
+    fourthptr->func = mfnc_show_highscores;
 
     return headptr;
 }
 
-Nodeptr init_node(Nodeptr prev, Nodeptr parent, char* text) {
+Nodeptr init_node(Nodeptr prev, Nodeptr parent, char* text, Nodeptr head) {
     Nodeptr nodeptr = (Nodeptr) sram_malloc(sizeof(Nodeptr));
     if (strlen(text) > PAGE_LENGTH) {
         text[PAGE_LENGTH] = '\0';
@@ -57,11 +62,16 @@ Nodeptr init_node(Nodeptr prev, Nodeptr parent, char* text) {
     nodeptr->text = (char*) sram_malloc(PAGE_BUFFER_SIZE);
     strcpy(nodeptr->text, text);
 
+    nodeptr->head = head;
     nodeptr->prev = prev;
     nodeptr->parent = parent;
-    nodeptr->next = NULL;
+    nodeptr->next = head;
+    nodeptr->prev->next = nodeptr;
+    head->prev = nodeptr;
     nodeptr->child = NULL;
     nodeptr->func = NULL;
+
+    //nodeptr->prev->next = nodeptr;
 
     return nodeptr;
 }

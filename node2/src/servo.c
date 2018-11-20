@@ -4,6 +4,8 @@
 
 void servo_init() {
     PWM_init();
+
+    servo_set_pos(50);
 }
 
 void servo_set_pos(int servo_pos) {

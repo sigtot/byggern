@@ -8,11 +8,11 @@
 #include "can_api.h"
 
 int main() {
-    sei();
     UART_Init(MYUBRR);
     fdevopen(*UART_Transmit, NULL);
     printf("CAN receive score signal test\n\r");
     can_api_init();
+    sei();
 
     while (1) {
         _delay_ms(10);

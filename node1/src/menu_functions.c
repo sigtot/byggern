@@ -14,11 +14,13 @@
 
 static Playerptr selectedplayer = NULL;
 
-void mfnc_play_game() {
+void mfnc_play_game(Nodeptr selectedptr) {
     //TODO run a wait loop and reset + calibrate node 2
     //TODO update score
     print_game(selectedplayer);
+    printf("pointer is %02x", selectedptr); //important printf...
     can_api_value_send(CAN_ID_START_GAME, 1, 1);
+    printf("pointer is %02x", selectedptr); //important printf........
     Button buttons = buttons_get_state();
     while(!buttons.left) {
         buttons = buttons_get_state();
@@ -37,8 +39,11 @@ void mfnc_play_game() {
     can_api_value_send(CAN_ID_STOP_GAME, 0, 1);
 }
 
-void mfnc_show_highscores() {
-
+void mfnc_show_highscores(Nodeptr selectedptr) {
+    print_highscores(selectedplayer);
+    Joy_state joy_state = joy_get_state();
+    _delay_ms(1000);
+    while(joy_state.dir == NEUTRAL);
 }
 
 void init_current_game(Playerptr selected_player) {
